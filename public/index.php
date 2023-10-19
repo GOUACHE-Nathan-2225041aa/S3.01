@@ -11,6 +11,9 @@ try {
             case '/':
                 (new IntroController())->execute();
                 break;
+            case '/young':
+                (new YoungController())->execute();
+                break;
             default:
                 error_log('404 Not Found. Not implemented yet');
                 break;

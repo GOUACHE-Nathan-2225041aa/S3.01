@@ -1,0 +1,18 @@
+#DeepFakeGUI{
+    justify-content: center;
+    display: flex;
+    align-content: center;
+}
+
+#BoutonsChoix{
+    margin-left: 100px;
+    display: inline-block;
+}
+
+#BoutonFake{
+    background-color: #a80b0a;
+}
+
+#BoutonReel{
+    background-color: #329d0c;
+}
