@@ -1,0 +1,19 @@
+:root {
+    font-size: 100%;
+}
+
+*, *::before, *::after{
+    box-sizing: border-box;
+    margin: 0;
+}
+
+* {
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 0;
+}
+
+img, picture, svg, video {
+    display: block;
+    max-width: 100%;
+}
