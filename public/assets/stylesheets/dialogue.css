@@ -1,0 +1,45 @@
+#bas{
+    display: flex;
+    justify-content: space-around;
+    align-items: end;
+    position: absolute;
+    width: 100%;
+    padding-bottom: 75px;
+    bottom: 0;
+}
+
+/* --- Les bulles --- */
+#bulle_texte{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 30px;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 35px;
+    margin: 20px;
+    padding: 16px;
+    width: 85%;
+    height: 175px;
+}
+#bulle_nom{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    background-color: white;
+    border: 3px solid;
+    border-radius: 35px;
+    text-align: center;
+    margin: 20px;
+    padding: 10px;
+    height: 50px;
+    width: 225px;
+}
+#bulle_image{
+    background-color: white;
+    border: 3px solid;
+    border-radius: 35px;
+    margin-left: 20px;
+    height: 225px;
+    width: 225px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* --- fin des bulles --- */
