@@ -1,7 +1,8 @@
 <?php
 
 use app\controllers\IntroController;
-use app\controllers\YoungController;
+use app\controllers\YoungController;;
+use app\controllers\HomeController;
 
 session_start();
 
@@ -17,6 +18,9 @@ try {
                 break;
             case '/young':
                 (new YoungController())->execute();
+                break;
+            case '/home':
+                (new HomeController())->execute();
                 break;
             default:
                 error_log('404 Not Found. Not implemented yet');
