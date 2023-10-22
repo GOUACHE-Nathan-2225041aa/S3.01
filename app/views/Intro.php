@@ -1,4 +1,7 @@
 <?php
+
+namespace app\views;
+
 class IntroView
 {
     public function show($dataSpeaker, $dataListener = []): void

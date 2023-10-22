@@ -1,10 +1,14 @@
 <?php
-// Autoloader WIP <temporary solution>
-include_once '../app/views/Intro.php';
-include_once '../app/views/Young.php';
-include_once '../app/views/Layout.php';
 
-include_once '../app/controllers/Intro.php';
-include_once '../app/controllers/Young.php';
+function autoloader($class): void
+{
+    $classPath = str_replace('\\', '/', $class);
+    $classPath = str_replace(['Controller', 'Model', 'View'], '', $classPath);
+    $file = '../' . $classPath . '.php';
 
-include_once '../config/DataBase.php';
+    if (file_exists($file)) {
+        require $file;
+    }
+}
+
+spl_autoload_register('autoloader');

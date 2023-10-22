@@ -1,4 +1,9 @@
 <?php
+
+namespace app\controllers;
+
+use app\views\YoungView;
+
 class YoungController
 {
     public function execute(): void

@@ -1,4 +1,7 @@
 <?php
+
+namespace app\views;
+
 class Layout
 {
     public function __construct(private string $title, private string $content, private string $stylesheet = '') {}

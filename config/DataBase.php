@@ -1,4 +1,9 @@
 <?php
+
+namespace config;
+
+use PDO;
+
 class DataBase
 {
     private static ?PDO $connection = null;

@@ -1,7 +1,8 @@
 <?php
 
+namespace app\models;
 
-class Deepfake
+class DeepfakeModel
 {
     private $nom;
     private $image;

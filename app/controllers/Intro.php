@@ -1,4 +1,9 @@
 <?php
+
+namespace app\controllers;
+
+use app\views\IntroView;
+
 class IntroController
 {
     public function execute(): void

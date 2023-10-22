@@ -1,7 +1,11 @@
 <?php
+
+use app\controllers\IntroController;
+use app\controllers\YoungController;
+
 session_start();
 
-include_once '../config/autoloader.php';
+require_once '../config/autoloader.php';
 
 try {
     if (isset($_SERVER['REQUEST_URI'])) {

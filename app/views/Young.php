@@ -1,4 +1,7 @@
 <?php
+
+namespace app\views;
+
 class YoungView
 {
     public function show($imgUrl): void
