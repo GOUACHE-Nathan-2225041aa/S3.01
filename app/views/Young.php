@@ -13,7 +13,7 @@ class YoungView
 </div>
 <?php
 include('DeepFakeGUI.php');
-        (new Layout('FakeGame - YoungView', ob_get_clean(), 'DeepFakeGUI'))->show();
+        (new Layout('FakeGame - Young', ob_get_clean(), 'youngGame'))->show();
     }
 }
 ?>
