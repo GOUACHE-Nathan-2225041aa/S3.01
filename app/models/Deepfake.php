@@ -5,12 +5,12 @@ namespace app\models;
 class DeepfakeModel
 {
     private $nom;
-    private $image;
+    private $imageUrl;
     private $isVraiImage;
 
-    function __construct($nom, $image, $isVraiImage){
+    function __construct($nom, $imageUrl, $isVraiImage){
         $this->nom = $nom;
-        $this->image = $image;
+        $this->imageUrl = $imageUrl;
         $this->isVraiImage = $isVraiImage;
     }
 
@@ -25,9 +25,9 @@ class DeepfakeModel
     /**
      * @return mixed
      */
-    public function getImage()
+    public function getImageUrl()
     {
-        return $this->image;
+        return $this->imageUrl;
     }
 
     /**
