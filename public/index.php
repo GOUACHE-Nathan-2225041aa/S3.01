@@ -10,10 +10,7 @@ session_start();
 require_once '../config/autoloader.php';
 
 try {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reponse'])) {
-        (new VerifDeepFakeController())->verifierDeepFake($_POST);
-    }
-    elseif (isset($_SERVER['REQUEST_URI'])) {
+    if (isset($_SERVER['REQUEST_URI'])) {
         $route = $_SERVER['REQUEST_URI'];
 
         switch ($route) {
@@ -30,6 +27,10 @@ try {
                 error_log('404 Not Found. Not implemented yet');
                 break;
         }
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reponse'])) {
+        (new VerifDeepFakeController())->verifierDeepFake($_POST);
     }
 } catch (Exception) {
 
