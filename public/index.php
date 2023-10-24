@@ -3,6 +3,7 @@
 use app\controllers\IntroController;
 use app\controllers\YoungController;
 use app\controllers\HomeController;
+use app\controllers\DialogueController;
 use app\controllers\VerifDeepFakeController;
 
 session_start();
@@ -22,6 +23,9 @@ try {
                 break;
             case '/home':
                 (new HomeController())->execute();
+                break;
+            case '/dialogue':
+                (new DialogueController())->execute('young', 'Titouan', 'Salut moi c\'est Titouan', 'young');
                 break;
             default:
                 error_log('404 Not Found. Not implemented yet');
