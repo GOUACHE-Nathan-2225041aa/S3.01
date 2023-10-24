@@ -11,9 +11,12 @@ class VerifDeepFakeController
         if(isset($post['reponse']))
         {
             $currentDeepFake = $_SESSION['DeepFakeTab'][0];
-            // test
-            if ($currentDeepFake->getIsVraiImage()) error_log('true');
-            if (!$currentDeepFake->getIsVraiImage()) error_log('false');
+            if ($post['reponse']==='true'){
+                $reponse = true;
+            }
+            else $reponse = false;
+            if ($currentDeepFake->getIsVraiImage()===$reponse) error_log('bonne réponse');
+            else error_log('mauvaise réponse');
         }
     }
 }
