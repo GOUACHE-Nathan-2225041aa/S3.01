@@ -15,8 +15,15 @@ class VerifDeepFakeController
                 $reponse = true;
             }
             else $reponse = false;
-            if ($currentDeepFake->getIsVraiImage()===$reponse) error_log('bonne réponse');
-            else error_log('mauvaise réponse');
+            unset($_SESSION['DeepFakeTab'][0]);
+            $_SESSION['DeepFakeTab'] = array_values($_SESSION['DeepFakeTab']);
+            var_dump($_SESSION['DeepFakeTab']);
+            if ($currentDeepFake->getIsVraiImage()===$reponse){
+                error_log('bonne réponse');
+            }
+            else{
+                error_log('mauvaise réponse');
+            }
         }
     }
 }
