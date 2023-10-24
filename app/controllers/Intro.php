@@ -17,11 +17,6 @@ class IntroController
             'character_name' => 'Moi',
             'text' => $text_intro
         ];
-        // example of $dataListener, remove sooner
-        $dataListener = [
-            'character_type' => '',
-            'character_full' => '',
-        ];
         (new IntroView())->show($dataSpeaker);
     }
 

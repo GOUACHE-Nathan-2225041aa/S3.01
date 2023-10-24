@@ -6,6 +6,7 @@
     width: 100%;
     padding-bottom: 20px;
     bottom: 0;
+    z-index: 1;
 }
 
 /* --- Les bulles --- */
@@ -19,6 +20,7 @@
     padding: 16px;
     width: 85%;
     height: 175px;
+    z-index: 1;
 }
 #bulle_nom{
     font-family: 'Helvetica', 'Arial', sans-serif;
@@ -30,6 +32,7 @@
     padding: 10px;
     height: 50px;
     width: 225px;
+    z-index: 1;
 }
 #bulle_image{
     background-color: white;
@@ -41,5 +44,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 /* --- fin des bulles --- */
+
+#listener {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    height: 300%;
+}

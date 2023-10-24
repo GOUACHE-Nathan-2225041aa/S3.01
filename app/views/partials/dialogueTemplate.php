@@ -11,7 +11,7 @@
 
     <?php if ($dataListener !== []) { ?>
     <div id="character-full-body">
-        <img id="head" src="/assets/images/characters/<?= $dataListener['character_type'] ?>/<?= $dataListener['character_full'] ?>.png" alt="Character we talking to">
+        <img id="listener" src="/assets/images/characters/<?= $dataListener['character_type'] ?>/<?= $dataListener['character_type'] ?>.png" alt="Character we talking to">
     </div>
     <?php } ?>
 
