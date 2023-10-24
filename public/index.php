@@ -25,7 +25,7 @@ try {
                 (new HomeController())->execute();
                 break;
             case '/dialogue':
-                (new DialogueController())->execute('young', 'Titouan', 'Salut moi c\'est Titouan', 'young');
+                (new DialogueController())->execute('old', 'Grand-mère', 'Bonjour jeune homme, aurais tu vu mon chien par hasard ?', 'young');
                 break;
             default:
                 error_log('404 Not Found. Not implemented yet');
