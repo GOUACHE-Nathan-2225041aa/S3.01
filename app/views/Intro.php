@@ -4,7 +4,7 @@ namespace app\views;
 
 class Intro
 {
-    public function show($dataSpeaker, $dataListener = []): void
+    public function show($dataSpeaker, $dataListener = [], $next_page = '/home'): void
     {
         ob_start();
 ?>

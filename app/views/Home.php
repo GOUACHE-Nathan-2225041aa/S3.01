@@ -13,11 +13,11 @@ class Home
 
     <img id='bg' src="/assets/images/background/park.png">
 
-    <img id='old' src="/assets/images/characters/old/<?= $characterState['old']?>">
+    <img id='old' onclick="window.location.href='./dialogue-Qo'" src="/assets/images/characters/old/<?= $characterState['old']?>">
 
-    <img id='young' src="/assets/images/characters/young/<?= $characterState['young']?>">
+    <img id='young' onclick="window.location.href='./dialogue-Qy'" src="/assets/images/characters/young/<?= $characterState['young']?>">
 
-    <img id='adult' src="/assets/images/characters/adult/<?= $characterState['adult']?>">
+    <img id='adult' onclick="window.location.href='./dialogue-Qa'" src="/assets/images/characters/adult/<?= $characterState['adult']?>">
     
 </section>
 

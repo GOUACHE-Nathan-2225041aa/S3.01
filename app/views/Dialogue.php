@@ -4,7 +4,7 @@ namespace app\views;
 
 class Dialogue
 {
-    public function show($dataSpeaker, $dataListener): void
+    public function show($dataSpeaker, $dataListener, $next_page): void
     {
         ob_start();
 ?>

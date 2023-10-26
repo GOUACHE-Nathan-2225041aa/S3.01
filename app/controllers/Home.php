@@ -10,7 +10,8 @@ class Home
     {
         $characterState = [
             'young' => 'young.png',
-            'adult' => 'adult_completed.png', //Exemple personnage complété
+            'adult' => 'adult.png',
+            // 'adult' => 'adult_completed.png', //Exemple personnage complété
             'old' => 'old.png',
         ];
         (new HomeView())->show($characterState);
