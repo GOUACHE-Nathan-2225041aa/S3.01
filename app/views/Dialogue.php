@@ -2,7 +2,7 @@
 
 namespace app\views;
 
-class DialogueView
+class Dialogue
 {
     public function show($dataSpeaker, $dataListener): void
     {

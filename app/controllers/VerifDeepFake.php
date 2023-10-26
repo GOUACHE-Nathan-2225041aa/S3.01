@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\models\DeepfakeModel;
+use app\models\Deepfake as DeepfakeModel;
 
-class VerifDeepFakeController
+class VerifDeepFake
 {
     public function verifierDeepFake($post): void
     {

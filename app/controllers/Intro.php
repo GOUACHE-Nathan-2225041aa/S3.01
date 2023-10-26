@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\views\IntroView;
+use app\views\Intro as IntroController;
 
-class IntroController
+class Intro
 {
     public function execute(): void
     {
@@ -17,7 +17,7 @@ class IntroController
             'character_name' => 'Moi',
             'text' => $text_intro
         ];
-        (new IntroView())->show($dataSpeaker);
+        (new IntroController())->show($dataSpeaker);
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace app\views;
 
-class YoungView
+class Young
 {
     public function show($image): void
     {

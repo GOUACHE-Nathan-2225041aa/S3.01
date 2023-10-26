@@ -1,0 +1,19 @@
+{
+  "name": "fake/s3.01",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "edouard"
+    }
+  ],
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "app\\": "app/",
+      "config\\": "config/"
+    }
+  }
+}

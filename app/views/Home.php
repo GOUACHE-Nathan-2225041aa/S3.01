@@ -2,7 +2,7 @@
 
 namespace app\views;
 
-class HomeView
+class Home
 {
     public function show($characterState): void
     {

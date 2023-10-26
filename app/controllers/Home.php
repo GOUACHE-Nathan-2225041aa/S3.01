@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\views\HomeView;
+use app\views\Home as HomeView;
 
-class HomeController
+class Home
 {
     public function execute(): void
     {

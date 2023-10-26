@@ -2,9 +2,9 @@
 
 namespace app\controllers;
 
-use app\views\DialogueView;
+use app\views\Dialogue as DialogueView;
 
-class DialogueController
+class Dialogue
 {
     public function execute($speaker, $speaker_name, $speaker_text, $listener): void
     {

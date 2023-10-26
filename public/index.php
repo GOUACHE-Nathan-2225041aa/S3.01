@@ -1,14 +1,14 @@
 <?php
 
-use app\controllers\IntroController;
-use app\controllers\YoungController;
-use app\controllers\HomeController;
-use app\controllers\DialogueController;
-use app\controllers\VerifDeepFakeController;
+use app\controllers\Intro as IntroController;
+use app\controllers\Young as YoungController;
+use app\controllers\Home as HomeController;
+use app\controllers\Dialogue as DialogueController;
+use app\controllers\VerifDeepFake as VerifDeepFakeController;
+
+require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
-
-require_once '../config/autoloader.php';
 
 try {
     if (isset($_SERVER['REQUEST_URI'])) {

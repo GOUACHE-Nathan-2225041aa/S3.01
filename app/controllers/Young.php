@@ -2,11 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\DeepfakeModel;
-use app\views\YoungView;
-use app\controllers\VerifDeepFakeController;
+use app\models\Deepfake as DeepfakeModel;
+use app\views\Young as YoungView;
 
-class YoungController
+class Young
 {
     public function execute(): void
     {

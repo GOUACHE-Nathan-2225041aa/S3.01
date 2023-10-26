@@ -2,7 +2,7 @@
 
 namespace app\models;
 
-class DeepfakeModel
+class Deepfake
 {
     private string $nom;
     private string $imageUrl;

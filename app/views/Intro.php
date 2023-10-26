@@ -2,7 +2,7 @@
 
 namespace app\views;
 
-class IntroView
+class Intro
 {
     public function show($dataSpeaker, $dataListener = []): void
     {
