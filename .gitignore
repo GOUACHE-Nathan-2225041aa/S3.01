@@ -1,3 +1,4 @@
 .idea
 config/db.ini
+config/email.ini
 vendor
