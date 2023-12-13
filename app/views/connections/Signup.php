@@ -37,7 +37,7 @@ class Signup
 
         <a href="/login">Already have an account</a>
 
-        <button type="submit" name="signup">Signup</button>
+        <button type="submit" name="<?= $isEmailVerified ? 'signup' : 'email_verification'; ?>">Signup</button>
     </form>
 </main>
 <?php
