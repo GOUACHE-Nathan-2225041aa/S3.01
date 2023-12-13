@@ -16,9 +16,9 @@ class Layout
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $this->title ?></title>
-    <link rel="stylesheet" href="assets/stylesheets/main.css">
+    <link rel="stylesheet" href="/assets/stylesheets/main.css">
     <?php if ($this->stylesheet !== '') { ?>
-        <link rel="stylesheet" href="assets/stylesheets/<?= $this->stylesheet ?>.css">
+        <link rel="stylesheet" href="/assets/stylesheets/<?= $this->stylesheet ?>.css">
     <?php } ?>
 </head>
 <body>

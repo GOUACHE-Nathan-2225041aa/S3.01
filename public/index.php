@@ -5,6 +5,10 @@ use app\controllers\Young as YoungController;
 use app\controllers\Home as HomeController;
 use app\controllers\Dialogue as DialogueController;
 use app\controllers\VerifDeepFake as VerifDeepFakeController;
+use app\controllers\connections\Login as LoginController;
+use app\controllers\connections\Signup as SignupController;
+use app\controllers\connections\Recovery as RecoveryController;
+use app\controllers\connections\Logout as LogoutController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -71,6 +75,19 @@ try {
                 break;
             case '/dialogue-Eo' :
                 (new DialogueController())->execute('old', 'Grand-mère', $E_old, 'old','/home');
+                break;
+
+            case '/login':
+                (new LoginController())->execute();
+                break;
+            case '/signup':
+                (new SignupController())->execute();
+                break;
+            case '/recovery':
+                (new RecoveryController())->execute();
+                break;
+            case '/logout':
+                (new LogoutController())->execute();
                 break;
 
             default:
