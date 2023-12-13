@@ -7,12 +7,22 @@ use PHPMailer\PHPMailer\Exception;
 
 class EmailService
 {
-private PHPMailer $mailer;
+    private static ?EmailService $instance = null;
+    private PHPMailer $mailer;
 
     public function __construct()
     {
         $this->mailer = new PHPMailer(true);
         $this->init();
+    }
+
+    public static function getInstance(): EmailService
+    {
+        if (self::$instance === null) {
+            self::$instance = new EmailService();
+        }
+
+        return self::$instance;
     }
 
     private function init(): void
