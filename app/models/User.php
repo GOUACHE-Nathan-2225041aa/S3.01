@@ -8,7 +8,7 @@ class User
 {
     public function __construct(private PDO $connection) {}
 
-    public function getUser(string $username): ?array
+    public function getUserByUsername(string $username): ?array
     {
         $query = 'SELECT * FROM account WHERE username = ?';
         $statement = $this->connection->prepare($query);
@@ -26,5 +26,37 @@ class User
         $user = $statement->fetch(PDO::FETCH_ASSOC);
 
         return $user ?: null;
+    }
+
+    public function createUser(array $data): void
+    {
+        $query = 'INSERT INTO account (admin, email, ip, password, username) VALUES (0, ?, ?, ?, ?)';
+        $statement = $this->connection->prepare($query);
+
+        if (!$statement) {
+            error_log('Failed to prepare statement');
+            return;
+        }
+
+        if (!$statement->execute([
+            $data['email'],
+            $data['ip'],
+            $data['password'],
+            $data['username']
+        ])) {
+            error_log('Failed to execute statement');
+        }
+    }
+
+    public function isUserEmailExist(string $email): bool
+    {
+        // TODO - Implement isUserEmailExist() method
+        return false;
+    }
+
+    public function isUsernameExist(string $username): bool
+    {
+        // TODO - Implement isUsernameExist() method
+        return false;
     }
 }
