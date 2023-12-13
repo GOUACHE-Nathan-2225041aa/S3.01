@@ -9,7 +9,8 @@
     }
   ],
   "require": {
-    "phpmailer/phpmailer": "v6.9.1"
+    "phpmailer/phpmailer": "v6.9.1",
+    "ext-pdo": "*"
   },
   "autoload": {
     "psr-4": {

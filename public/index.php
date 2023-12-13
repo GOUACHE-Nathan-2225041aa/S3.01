@@ -29,64 +29,83 @@ $E_old = "Merci ! <br> ...";
 // ----------------------------------------------------------------
 
 try {
-    if (isset($_SERVER['REQUEST_URI'])) {
-        $route = $_SERVER['REQUEST_URI'];
+    if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['reponse'])) {
+            (new VerifDeepFakeController())->verifierDeepFake($_POST);
+        }
 
-        switch ($route) {
-            case '/dialogue':
+        if (isset($_POST['email_verification'])) {
+            (new SignupController())->sendVerificationURL($_POST);
+        }
+
+        if (isset($_POST['signup'])) {
+            (new SignupController())->signup($_POST);
+        }
+    }
+
+    if (isset($_SERVER['REQUEST_URI']) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+        $route = ($_SERVER['REQUEST_URI'] === '/') ? '/' : explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+
+        switch ($route[0]) {
+            case 'dialogue':
+                break;
             case '/':
                 (new IntroController())->execute();
                 break;
-            case '/young':
+            case 'young':
                 (new YoungController())->execute();
                 break;
-            case '/home':
+            case 'home':
                 (new HomeController())->execute();
                 break;
 
             // Les dialogues avec le Jeune :
-            case '/dialogue-Qy' :
+            case 'dialogue-Qy' :
                 (new DialogueController())->execute('young', 'Titouan', $Q_young, 'young', '/dialogue-Ay');
                 break;
-            case '/dialogue-Ay' :
+            case 'dialogue-Ay' :
                 (new DialogueController())->execute('me', 'Moi', $A_young, 'young','/young');
                 break;
-            case '/dialogue-Ey' :
+            case 'dialogue-Ey' :
                 (new DialogueController())->execute('young', 'Titouan', $E_young, 'young','/home');
                 break;
 
             // Les dialogues avec l'Adulte :
-            case '/dialogue-Qa' :
+            case 'dialogue-Qa' :
                 (new DialogueController())->execute('adult', 'Thomas', $Q_adult, 'adult','/dialogue-Aa');
                 break;
-            case '/dialogue-Aa' :
+            case 'dialogue-Aa' :
                 (new DialogueController())->execute('me', 'Moi', $A_adult, 'adult','/adult');
                 break;
-            case '/dialogue-Ea' :
+            case 'dialogue-Ea' :
                 (new DialogueController())->execute('adult', 'Thomas', $E_adult, 'adult','/home');
                 break;
 
             // Les dialogues avec la Grand-Mère :
-            case '/dialogue-Qo' :
+            case 'dialogue-Qo' :
                 (new DialogueController())->execute('old', 'Grand-mère', $Q_old, 'old','/dialogue-Ao');
                 break;
-            case '/dialogue-Ao' :
+            case 'dialogue-Ao' :
                 (new DialogueController())->execute('me', 'Moi', $A_old, 'old','/old');
                 break;
-            case '/dialogue-Eo' :
+            case 'dialogue-Eo' :
                 (new DialogueController())->execute('old', 'Grand-mère', $E_old, 'old','/home');
                 break;
 
-            case '/login':
+            case 'login':
                 (new LoginController())->execute();
                 break;
-            case '/signup':
+            case 'signup':
+                if (isset($route[1])) {
+                    (new SignupController())->verificationURL($route);
+                    break;
+                }
                 (new SignupController())->execute();
                 break;
-            case '/recovery':
+            case 'recovery':
                 (new RecoveryController())->execute();
                 break;
-            case '/logout':
+            case 'logout':
                 (new LogoutController())->execute();
                 break;
 
@@ -94,10 +113,6 @@ try {
                 error_log('404 Not Found. Not implemented yet');
                 break;
         }
-    }
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reponse'])) {
-        (new VerifDeepFakeController())->verifierDeepFake($_POST);
     }
 } catch (Exception) {
 
