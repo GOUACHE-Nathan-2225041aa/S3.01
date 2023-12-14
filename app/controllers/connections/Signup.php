@@ -73,6 +73,7 @@ class Signup
                 'email' => htmlspecialchars($postData['email']),
                 'url' => $this->generateVerificationURL(),
                 'expiration_date' => date('Y-m-d H:i:s', strtotime('+1 hour')),
+                'ip' => $_SERVER['REMOTE_ADDR']
             ];
 
             $subject = 'Verify your email';
@@ -85,9 +86,14 @@ class Signup
                 return;
             }
 
+            $user->createUnverifiedUser($data);
             (new EmailVerification($this->PDO))->setEmail($data['email'], $data['url'], $data['expiration_date']);
 
             header('Location: /signup');
+            exit();
+        } else {
+            $_SESSION['errorMessage'] = 'Account with this email already exist!';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit();
         }
     }
@@ -101,11 +107,9 @@ class Signup
     public function signup($postData): void
     {
         $user = new UserModel($this->PDO);
-        $isAccountExist = null;
         $isUsernameTaken = null;
 
         if (isset($postData['username'])) {
-            $isAccountExist = $user->isUserEmailExist(htmlspecialchars($postData['email']));
             $isUsernameTaken = $user->isUsernameExist(strtolower(htmlspecialchars($postData['username'])));
         }
 
@@ -115,8 +119,14 @@ class Signup
             exit();
         }
 
-        if ($isAccountExist) {
-            $_SESSION['errorMessage'] = 'Account with this email already exist!';
+        if (!isset($postData['passwordConfirmation'])) {
+            $_SESSION['errorMessage'] = 'Password confirmation is required!';
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit();
+        }
+
+        if ($postData['password'] !== $postData['passwordConfirmation']) {
+            $_SESSION['errorMessage'] = 'Passwords do not match!';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit();
         }
@@ -146,7 +156,7 @@ class Signup
             'ip' => $_SERVER['REMOTE_ADDR'],
         ];
 
-        $user->createUser($data);
+        $user->finalizeUserAccountCreation($data);
         (new EmailVerification($this->PDO))->deleteEmail(htmlspecialchars($postData['email']));
         header('Location: /login');
         exit();

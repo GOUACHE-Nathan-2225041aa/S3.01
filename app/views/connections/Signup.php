@@ -20,7 +20,7 @@ class Signup
         <?php endif; ?>
 
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" <?php if ($email !== '') { echo 'value="' . $email . '"'; echo 'readonly'; } ?>>
+        <input type="email" name="email" id="email" <?php if ($email !== '') { echo 'value="' . $email . '"'; echo ' readonly'; } ?>>
 
         <?php if ($isEmailVerified): ?>
 
@@ -30,8 +30,8 @@ class Signup
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
 
-        <label for="passwordConfirm">Confirm Password</label>
-        <input type="password" name="passwordConfirm" id="passwordConfirm">
+        <label for="passwordConfirmation">Confirm Password</label>
+        <input type="password" name="passwordConfirmation" id="passwordConfirmation">
 
         <?php endif; ?>
 

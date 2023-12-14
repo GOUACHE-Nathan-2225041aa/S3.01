@@ -99,7 +99,7 @@ try {
                 break;
             case 'signup':
                 if (isset($route[1])) {
-                    (new SignupController())->verificationURL($route);
+                    (new SignupController())->verificationURL($route[1]);
                     break;
                 }
                 (new SignupController())->execute();
