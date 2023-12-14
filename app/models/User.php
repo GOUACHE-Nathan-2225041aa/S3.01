@@ -3,6 +3,7 @@
 namespace app\models;
 
 use PDO;
+use PDOException;
 
 class User
 {
@@ -11,15 +12,12 @@ class User
     public function getUserByUsername(string $username): ?array
     {
         $query = 'SELECT * FROM account WHERE username = ?';
-        $statement = $this->connection->prepare($query);
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return null;
-        }
-
-        if (!$statement->execute([$username])) {
-            error_log('Failed to execute statement');
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$username]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
             return null;
         }
 
@@ -28,35 +26,69 @@ class User
         return $user ?: null;
     }
 
-    public function createUser(array $data): void
+    public function finalizeUserAccountCreation(array $data): void
     {
-        $query = 'INSERT INTO account (admin, email, ip, password, username) VALUES (0, ?, ?, ?, ?)';
-        $statement = $this->connection->prepare($query);
+        $query = 'UPDATE account SET ip = ?, password = ?, username = ? WHERE email = ?';
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return;
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([
+                $data['ip'],
+                $data['password'],
+                $data['username'],
+                $data['email']
+            ]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
         }
+    }
 
-        if (!$statement->execute([
-            $data['email'],
-            $data['ip'],
-            $data['password'],
-            $data['username']
-        ])) {
-            error_log('Failed to execute statement');
+    public function createUnverifiedUser(array $data): void
+    {
+        $query = 'INSERT INTO account (admin, email, ip) VALUES (0, ?, ?)';
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([
+                $data['email'],
+                $data['ip']
+            ]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
         }
     }
 
     public function isUserEmailExist(string $email): bool
     {
-        // TODO - Implement isUserEmailExist() method
-        return false;
+        $query = 'SELECT COUNT(*) FROM account WHERE email = ?';
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$email]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return true;
+        }
+
+        $count = $statement->fetchColumn();
+
+        return $count > 0;
     }
 
     public function isUsernameExist(string $username): bool
     {
-        // TODO - Implement isUsernameExist() method
-        return false;
+        $query = 'SELECT COUNT(*) FROM account WHERE username = ?';
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$username]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return true;
+        }
+
+        $count = $statement->fetchColumn();
+
+        return $count > 0;
     }
 }

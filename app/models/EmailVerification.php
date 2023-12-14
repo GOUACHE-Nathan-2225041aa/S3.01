@@ -3,6 +3,7 @@
 namespace app\models;
 
 use PDO;
+use PDOException;
 
 class EmailVerification
 {
@@ -10,33 +11,25 @@ class EmailVerification
 
     public function setEmail(string $email, string $url, string $expiration_date): void
     {
-        // TODO - implement setEmail() query
-        $query = '';
-        $statement = $this->connection->prepare($query);
+        $query = 'INSERT INTO email_check (email, url, expiration_date) VALUES (?, ?, ?)';
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return;
-        }
-
-        if (!$statement->execute([$email, $url, $expiration_date])) {
-            error_log('Failed to execute statement');
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$email, $url, $expiration_date]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
         }
     }
 
     public function getEmailByURL($url): ?array
     {
-        // TODO - implement getEmailByURL() query
-        $query = '';
-        $statement = $this->connection->prepare($query);
+        $query = 'SELECT * FROM email_check WHERE url = ?';
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return null;
-        }
-
-        if (!$statement->execute([$url])) {
-            error_log('Failed to execute statement');
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$url]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
             return null;
         }
 
@@ -47,17 +40,13 @@ class EmailVerification
 
     public function getEmail($email): ?array
     {
-        // TODO - implement getEmail() query
-        $query = '';
-        $statement = $this->connection->prepare($query);
+        $query = 'SELECT * FROM email_check WHERE email = ?';
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return null;
-        }
-
-        if (!$statement->execute([$email])) {
-            error_log('Failed to execute statement');
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$email]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
             return null;
         }
 
@@ -68,17 +57,13 @@ class EmailVerification
 
     public function deleteEmail($email): void
     {
-        // TODO - implement deleteEmail() query
-        $query = '';
-        $statement = $this->connection->prepare($query);
+        $query = 'DELETE FROM email_check WHERE email = ?';
 
-        if (!$statement) {
-            error_log('Failed to prepare statement');
-            return;
-        }
-
-        if (!$statement->execute([$email])) {
-            error_log('Failed to execute statement');
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$email]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
         }
     }
 }
