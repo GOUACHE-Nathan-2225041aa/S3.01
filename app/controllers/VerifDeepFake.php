@@ -17,13 +17,15 @@ class VerifDeepFake
             else $reponse = false;
             unset($_SESSION['DeepFakeTab'][0]);
             $_SESSION['DeepFakeTab'] = array_values($_SESSION['DeepFakeTab']);
-            var_dump($_SESSION['DeepFakeTab']);
             if ($currentDeepFake->getIsVraiImage()===$reponse){
                 error_log('bonne réponse');
+                // TODO Page de bonne réponse
             }
             else{
                 error_log('mauvaise réponse');
+                // TODO page de mauvaise réponse
             }
+            $_SESSION['verificationDeepfake'] = false;
         }
     }
 }
