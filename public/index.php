@@ -42,6 +42,10 @@ try {
         if (isset($_POST['signup'])) {
             (new SignupController())->signup($_POST);
         }
+
+        if (isset($_POST['login'])) {
+            (new LoginController())->login($_POST);
+        }
     }
 
     if (isset($_SERVER['REQUEST_URI']) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {

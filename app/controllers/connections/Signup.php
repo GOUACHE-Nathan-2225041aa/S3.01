@@ -22,7 +22,7 @@ class Signup
 
     public function execute(): void
     {
-        if (isset($_SESSION['password'])) {
+        if (isset($_SESSION['username'])) {
             header('Location: /home');
             exit();
         }
