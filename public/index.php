@@ -65,6 +65,7 @@ try {
                 (new DialogueController())->execute('young', 'Titouan', $Q_young, 'young', '/dialogue-Ay');
                 break;
             case 'dialogue-Ay' :
+                $_SESSION['picturesDone'] = 0;
                 (new DialogueController())->execute('me', 'Moi', $A_young, 'young','/young');
                 break;
             case 'dialogue-Ey' :

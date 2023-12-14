@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Deepfake as DeepfakeModel;
+use app\views\YoungAnswer;
 
 class VerifDeepFake
 {
@@ -20,12 +21,15 @@ class VerifDeepFake
             if ($currentDeepFake->getIsVraiImage()===$reponse){
                 error_log('bonne réponse');
                 // TODO Page de bonne réponse
+                (new YoungAnswer())->show($currentDeepFake->getImageUrl(), true);
             }
             else{
                 error_log('mauvaise réponse');
                 // TODO page de mauvaise réponse
+                (new YoungAnswer())->show($currentDeepFake->getImageUrl(), false);
             }
             $_SESSION['verificationDeepfake'] = false;
+            $_SESSION['picturesDone'] += 1;
         }
     }
 }
