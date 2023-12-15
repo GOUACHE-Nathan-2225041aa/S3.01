@@ -12,7 +12,7 @@ ___
 Français :
 
   Le but de ce projet est de créer un jeu ludique sur la désinformation qui sera mis en place et diffusé via le site du journal Marsactu.
-  Il vous apprendras en moins de 10 minutes à comprendre et à détecter, quelque soit cotre âge, tout types de fakes news circulant sur internet.
+  Il vous apprendras en moins de 10 minutes à comprendre et à détecter, quelque soit votre âge, tout types de fakes news circulant sur internet.
 <a href="https://github.com/GOUACHE-Nathan-2225041aa/S3.01"> Jouer à la version française </a>
 
 ___
