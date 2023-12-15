@@ -45,13 +45,14 @@ class User
 
     public function createUnverifiedUser(array $data): void
     {
-        $query = 'INSERT INTO account (admin, email, ip) VALUES (0, ?, ?)';
+        $query = 'INSERT INTO account (admin, email, ip, id) VALUES (0, ?, ?, ?)';
 
         try {
             $statement = $this->connection->prepare($query);
             $statement->execute([
                 $data['email'],
-                $data['ip']
+                $data['ip'],
+                $data['uuid']
             ]);
         } catch (PDOException $e) {
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());

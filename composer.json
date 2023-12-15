@@ -10,7 +10,8 @@
   ],
   "require": {
     "phpmailer/phpmailer": "v6.9.1",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ramsey/uuid": "^4.7"
   },
   "autoload": {
     "psr-4": {

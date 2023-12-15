@@ -66,4 +66,16 @@ class EmailVerification
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());
         }
     }
+
+    public function updateURL($email, $url, $expiration_date): void
+    {
+        $query = 'UPDATE email_check SET url = ?, expiration_date = ? WHERE email = ?';
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([$url, $expiration_date, $email]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+        }
+    }
 }

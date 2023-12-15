@@ -10,6 +10,7 @@ use config\EmailService;
 use app\models\EmailVerification as EmailVerificationModel;
 use PDO;
 use PHPMailer\PHPMailer\Exception;
+use Ramsey\Uuid\Uuid;
 
 class Signup
 {
@@ -59,13 +60,24 @@ class Signup
     public function sendVerificationURL($postData): void
     {
         $user = new UserModel($this->PDO);
+        $emailVerification = new EmailVerificationModel($this->PDO);
         $isAccountExist = null;
+        $isLinkExpired = null;
+        $email = null;
 
         if (isset($postData['email'])) {
             $isAccountExist = $user->isUserEmailExist(htmlspecialchars($postData['email']));
+            $email = $emailVerification->getEmail(htmlspecialchars($postData['email']));
+
+            if ($email !== null) {
+                $isLinkExpired = $email['expiration_date'] < date('Y-m-d H:i:s');
+            }
+            if ($isLinkExpired) {
+                $emailVerification->deleteEmail(htmlspecialchars($postData['email']));
+            }
         }
 
-        if (!$isAccountExist) {
+        if (!$isAccountExist || $isLinkExpired) {
             $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
             $host = $_SERVER['HTTP_HOST'];
 
@@ -86,12 +98,28 @@ class Signup
                 return;
             }
 
-            $user->createUnverifiedUser($data);
-            (new EmailVerification($this->PDO))->setEmail($data['email'], $data['url'], $data['expiration_date']);
+            if (!$isAccountExist) {
+                $uuid = Uuid::uuid4();
+                $data['uuid'] = $uuid->toString();
+                $user->createUnverifiedUser($data);
+            }
 
+            if ($isLinkExpired) {
+                $emailVerification->updateURL($data['email'], $data['url'], $data['expiration_date']);
+            } else {
+                $emailVerification->setEmail($data['email'], $data['url'], $data['expiration_date']);
+            }
+
+            $_SESSION['errorMessage'] = 'Verification email has been sent!';
             header('Location: /signup');
             exit();
         } else {
+            if ($email !== null) {
+                $_SESSION['errorMessage'] = 'Verification email has already been sent!';
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit();
+            }
+
             $_SESSION['errorMessage'] = 'Account with this email already exist!';
             header('Location: ' . $_SERVER['HTTP_REFERER']);
             exit();
