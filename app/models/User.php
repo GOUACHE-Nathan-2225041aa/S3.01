@@ -92,4 +92,20 @@ class User
 
         return $count > 0;
     }
+
+    public function updatePassword(string $email, string $password, string $ip): void
+    {
+        $query = 'UPDATE account SET password = ?, ip = ? WHERE email = ?';
+
+        try {
+            $statement = $this->connection->prepare($query);
+            $statement->execute([
+                $password,
+                $ip,
+                $email
+            ]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+        }
+    }
 }

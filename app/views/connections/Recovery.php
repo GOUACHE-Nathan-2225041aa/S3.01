@@ -27,15 +27,15 @@ class Recovery
         <label for="password">New Password</label>
         <input type="password" name="password" id="password">
 
-        <label for="passwordConfirm">Confirm New Password</label>
-        <input type="password" name="passwordConfirm" id="passwordConfirm">
+        <label for="passwordConfirmation">Confirm New Password</label>
+        <input type="password" name="passwordConfirmation" id="passwordConfirmation">
 
         <?php endif; ?>
 
         <a href="/login">Already have an account</a>
         <a href="/signup">Create Account</a>
 
-        <button type="submit" name="recovery">Reset Password</button>
+        <button type="submit" name="<?= $isEmailVerified ? 'recovery' : 'recovery_email_verification'; ?>">Reset Password</button>
     </form>
 </main>
 <?php

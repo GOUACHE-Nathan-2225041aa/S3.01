@@ -40,11 +40,25 @@ try {
         }
 
         if (isset($_POST['signup'])) {
-            (new SignupController())->signup($_POST);
+            $path = $_SERVER['REQUEST_URI'];
+            $parts = explode('/', $path);
+            $code = end($parts);
+            (new SignupController())->signup($_POST, $code);
         }
 
         if (isset($_POST['login'])) {
             (new LoginController())->login($_POST);
+        }
+
+        if (isset($_POST['recovery'])) {
+            $path = $_SERVER['REQUEST_URI'];
+            $parts = explode('/', $path);
+            $code = end($parts);
+            (new RecoveryController())->recovery($_POST, $code);
+        }
+
+        if (isset($_POST['recovery_email_verification'])) {
+            (new RecoveryController())->sendVerificationURL($_POST);
         }
     }
 
@@ -109,6 +123,10 @@ try {
                 (new SignupController())->execute();
                 break;
             case 'recovery':
+                if (isset($route[1])) {
+                    (new RecoveryController())->verificationURL($route[1]);
+                    break;
+                }
                 (new RecoveryController())->execute();
                 break;
             case 'logout':
