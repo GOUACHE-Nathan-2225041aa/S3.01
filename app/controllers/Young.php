@@ -18,9 +18,9 @@ class Young
 
             // Je créé ici les DeepFake
             // @todo remplacer les liens des images lorsque la BDD contenant les DeepFake sera opérationnelle
-            $D1 = new DeepfakeModel('trumpQuiCourt', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/582D/production/_129137522_faketrump1.png', false);
-            $D2 = new DeepfakeModel('dojaEtTomHolland', 'https://www.virginiebonnet.com/wp-content/plugins/widgetkit/cache/gallery/528/image2-dc3d866a26.jpg', false);
-            $D3 = new DeepfakeModel('pigeonAvecFeuille', 'https://soreca-bordeaux.com/images/yootheme/widgetkit/gallery/image3.jpg', true);
+            $D1 = new DeepfakeModel('Trump qui court...', 'https://ichef.bbci.co.uk/news/640/cpsprodpb/582D/production/_129137522_faketrump1.png', false);
+            $D2 = new DeepfakeModel('Image numéro 2 (faux)', 'https://www.virginiebonnet.com/wp-content/plugins/widgetkit/cache/gallery/528/image2-dc3d866a26.jpg', false);
+            $D3 = new DeepfakeModel('Image numéro 3 (vrai)', 'https://soreca-bordeaux.com/images/yootheme/widgetkit/gallery/image3.jpg', true);
 
             // On ajoute les DeepFake dans le tableau
             array_push($DeepFakeTab, $D1, $D2, $D3);
@@ -35,6 +35,6 @@ class Young
         if(isset($_SESSION['VerifDeepfake']) && $_SESSION['VerifDeepfake']){
             array_shift($_SESSION['DeepFakeTab']);
         }
-        (new YoungView())->show($currentD->getImageUrl());
+        (new YoungView())->show($currentD->getImageUrl(),$currentD->getNom());
     }
 }

@@ -1,18 +1,60 @@
-#DeepFakeGUI{
-    justify-content: center;
+body,html{
+    background-color: #faefde;
+    height: 100%;
+}
+
+#game_screen{
+    height: 100%;
     display: flex;
-    align-content: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#DeepFakeGUI{
+    background-color: white;
+    height: 95%;
+    border: 3px solid;
+    border-radius: 35px;
+    padding: 50px;
+}
+
+#Contenu{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#Titre{
+    font-size: xx-large;
+    margin: 15px 15px 50px;
+    display: flex;
+    justify-content: center;
 }
 
 #BoutonsChoix{
-    margin-left: 101px;
+    margin-left: 100px;
     display: inline-block;
+    text-align: center;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: x-large;
 }
 
 #BoutonFake{
     background-color: #a80b0a;
+    color: white;
+    font-size: x-large;
+    border: 2px solid;
+    border-radius: 35px;
+    padding: 25px 50px;
+    margin-top: 10px;
 }
 
 #BoutonReel{
     background-color: #329d0c;
+    color: white;
+    font-size: x-large;
+    border: 2px solid;
+    border-radius: 35px;
+    padding: 25px 50px;
+    margin-bottom: 10px;
 }
