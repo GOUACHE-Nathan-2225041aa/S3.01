@@ -2,7 +2,6 @@
 
 namespace app\controllers\connections;
 
-use app\models\EmailVerification;
 use app\models\User as UserModel;
 use app\views\connections\Signup as SignupView;
 use config\DataBase;
@@ -72,9 +71,6 @@ class Signup
             if ($email !== null) {
                 $isLinkExpired = $email['expiration_date'] < date('Y-m-d H:i:s');
             }
-            if ($isLinkExpired) {
-                $emailVerification->deleteEmail(htmlspecialchars($postData['email']));
-            }
         }
 
         if (!$isAccountExist || $isLinkExpired) {
@@ -132,10 +128,11 @@ class Signup
     }
 
     // TODO - refactor this method
-    public function signup($postData): void
+    public function signup($postData, $url): void
     {
         $user = new UserModel($this->PDO);
         $isUsernameTaken = null;
+        $emailVerification = new EmailVerificationModel($this->PDO);
 
         if (isset($postData['username'])) {
             $isUsernameTaken = $user->isUsernameExist(strtolower(htmlspecialchars($postData['username'])));
@@ -177,15 +174,23 @@ class Signup
             exit();
         }
 
+        $email = $emailVerification->getEmailByURL(htmlspecialchars($url));
+
+        if ($email === null) {
+            $_SESSION['errorMessage'] = 'The verification link is invalid!';
+            header('Location: /signup');
+            exit();
+        }
+
         $data = [
             'username' => strtolower(htmlspecialchars($postData['username'])),
             'password' => password_hash(htmlspecialchars($postData['password']), PASSWORD_DEFAULT),
-            'email' => htmlspecialchars($postData['email']),
+            'email' => $email['email'],
             'ip' => $_SERVER['REMOTE_ADDR'],
         ];
 
         $user->finalizeUserAccountCreation($data);
-        (new EmailVerification($this->PDO))->deleteEmail(htmlspecialchars($postData['email']));
+        $emailVerification->deleteEmail(htmlspecialchars($postData['email']));
         header('Location: /login');
         exit();
     }
