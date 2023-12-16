@@ -21,6 +21,10 @@
             </div>
         </section>
 
+        <div id="Hint">
+            <button id="Understood" onclick=""> J'ai besoin d'un indice... </button>
+        </div>
+
     </div>
 
 </section>
