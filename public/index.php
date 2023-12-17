@@ -9,23 +9,25 @@ use app\controllers\connections\Login as LoginController;
 use app\controllers\connections\Signup as SignupController;
 use app\controllers\connections\Recovery as RecoveryController;
 use app\controllers\connections\Logout as LogoutController;
+use app\services\Localization;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
 // Tout les dialogues du jeu en FR (à mettre dans un fichier à part)
-$Q_young = "Salut, <br> je reste beaucoup sur Instagram et TikTok en ce moment. J’aime bien republier des photos et des faits rigolos mais mes parents m’ont dit de ne pas toujours faire confiance à ce que je peux voir ou lire sur les réseaux sociaux :( <br> Tu pourrais m’aider à démêler le vrai du faux s’il te plaît ? :’)";
-$A_young = "Pas de problèmes ! Montre moi ces photos et laisse moi t’expliquer pourquoi certaines d’entre elles sonnent faussent. <br> Si tu as un doute sur une photo, tu peux essayer de regarder des petits détails : <br> si tout le monde à bien 5 doigts, si le nombre de dents est cohérent etc...";
-$E_young = "Merci beaucoup ! Maintenant grâce à toi je sais reconnaître les vraies photos des fausses.";
+// TODO - refactor this
+$Q_young = (new Localization())->getText('dialogues', ['young', 'question']);
+$A_young = (new Localization())->getText('dialogues', ['young', 'answer']);
+$E_young = (new Localization())->getText('dialogues', ['young', 'end']);
 // ---
-$Q_adult = "Hey, <br> j’ai pris l’habitude de lire le journal dans le parc après mon boulot. <br> Cependant, j’ai récemment remarqué que de plus en plus d’articles sonnaient “faux” ou peu fiables. <br> Pourrais tu m’aider à les trouver ?";
-$A_adult = "Laisse moi voir ces articles, je vais t’expliquer lesquels sont faux et pourquoi !";
-$E_adult = "Merci ! Désormais je penserais à aller vérifier les sources.";
+$Q_adult = (new Localization())->getText('dialogues', ['adult', 'question']);
+$A_adult = (new Localization())->getText('dialogues', ['adult', 'answer']);
+$E_adult = (new Localization())->getText('dialogues', ['adult', 'end']);
 // ---
-$Q_old = "Bonjour, <br> ...";
-$A_old = "...";
-$E_old = "Merci ! <br> ...";
+$Q_old = (new Localization())->getText('dialogues', ['old', 'question']);
+$A_old = (new Localization())->getText('dialogues', ['old', 'answer']);
+$E_old = (new Localization())->getText('dialogues', ['old', 'end']);
 // ----------------------------------------------------------------
 
 try {
