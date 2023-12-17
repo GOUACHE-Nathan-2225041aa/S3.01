@@ -2,11 +2,11 @@
 
 namespace app\controllers\connections;
 
-use app\views\connections\Recovery as RecoveryView;
-use app\models\User as UserModel;
 use app\models\EmailVerification as EmailVerificationModel;
+use app\models\User as UserModel;
+use app\services\EmailService;
+use app\views\connections\Recovery as RecoveryView;
 use config\DataBase;
-use config\EmailService;
 use PDO;
 use PHPMailer\PHPMailer\Exception;
 

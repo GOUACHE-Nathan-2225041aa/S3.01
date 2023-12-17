@@ -2,11 +2,11 @@
 
 namespace app\controllers\connections;
 
+use app\models\EmailVerification as EmailVerificationModel;
 use app\models\User as UserModel;
+use app\services\EmailService;
 use app\views\connections\Signup as SignupView;
 use config\DataBase;
-use config\EmailService;
-use app\models\EmailVerification as EmailVerificationModel;
 use PDO;
 use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid;
