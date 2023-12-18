@@ -1,18 +1,25 @@
 body{
     background-color: var(--BG-Color);
+}
+
+main{
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+}
+
+h1{
+    margin: 5%;
 }
 
 #Login-Form{
     background-color: white;
     height: 95%;
-    width: 90%;
+    width: 20%;
     border: 3px solid;
-    border-radius: 35px;
-    margin-top: 45%;
+    border-radius: 20px;
     padding: 50px;
     display: flex;
     flex-direction: column;
@@ -30,3 +37,23 @@ body{
     font-size: 25px;
 }
 
+#Login-Form button{
+    margin-bottom: 25px;
+    height: 30px;
+    width: 50%;
+    font-size: 20px;
+    background-color: cadetblue;
+    border-radius: 5px;
+    margin-left: 25%;
+}
+
+#div-signup-recovery{
+    display: flex;
+    justify-content: space-between;
+    font-size: 17px;
+}
+
+#div-signup-recovery a{
+    text-decoration: none;
+    color: #184798;
+}
