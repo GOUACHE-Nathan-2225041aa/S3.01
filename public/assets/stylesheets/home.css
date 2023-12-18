@@ -1,7 +1,7 @@
 @import 'dialogue.css';
 
 body,html{
-    background-color: #faefde;
+    background-color: var(--BG-Color);
     height: 100%;
 }
 

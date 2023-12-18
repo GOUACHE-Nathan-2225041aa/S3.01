@@ -16,7 +16,7 @@
         <?php } ?>
 
         <section id="bulle_texte">
-            <p>
+            <p class="text_dialogue">
                 <?= $dataSpeaker['text'] ?>
             </p>
             <img id="nextDialogue" src="/assets/images/divers/next_dialogue.gif">
