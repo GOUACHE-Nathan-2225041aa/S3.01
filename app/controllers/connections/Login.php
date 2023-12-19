@@ -50,6 +50,7 @@ class Login
         }
 
         $_SESSION['username'] = $user['username'];
+        $_SESSION['admin'] = $user['admin'];
 
         header('Location: /home');
         exit();
