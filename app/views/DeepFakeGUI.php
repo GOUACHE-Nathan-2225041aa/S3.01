@@ -24,18 +24,26 @@
         <div id="Hint">
             <button id="Understood" onclick=""> J'ai besoin d'un indice... </button>
         </div>
-        <?php
-            if($_SESSION["picturesDone"] == 0) {
-                $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
-                # (new DialogueController())->execute('me', 'Moi', $explicationsDuJeu, '','/young');
-                # => Adapter dialogueTemplate pour afficher un dialogue par dessus une page
-            }
-            if($_SESSION["hint"]) {
-                $indice = "Si tu regarde bien à gauche de l'image, on voit un bandeau rouge avec écrit FAKE... à par ça l'image est bien faite";
-                # (new DialogueController())->execute('me', 'Moi', $indice, '','/young');
-                # => Adapter dialogueTemplate pour afficher un dialogue par dessus une page
-            }
-        ?>
-    </div>
 
+    </div>
 </section>
+
+<?php
+$_SESSION["hint"] = false;
+
+    if($_SESSION["picturesDone"] == 0 && false) {
+        $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
+        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $explicationsDuJeu];
+        $dataListener = [];
+        $next_page = 'young';
+        include('partials/dialogueTemplate.php');
+    }
+    if($_SESSION["hint"]) {
+        $_SESSION["hint"] = false;
+        $indice = "Si tu regarde bien à gauche de l'image, on voit un bandeau rouge avec écrit FAKE... à par ça l'image est bien faite";
+        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $indice];
+        $dataListener = [];
+        $next_page = 'young';
+        include('partials/dialogueTemplate.php');
+    }
+?>

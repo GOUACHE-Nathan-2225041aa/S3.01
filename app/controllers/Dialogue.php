@@ -8,7 +8,6 @@ class Dialogue
 {
     public function execute($speaker, $speaker_name, $speaker_text, $listener, $next_page): void
     {
-
         $dataSpeaker = [
             'character_type' => $speaker,
             'character_head' => $speaker . '_head',
