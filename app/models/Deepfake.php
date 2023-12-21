@@ -5,12 +5,12 @@ namespace app\models;
 class Deepfake
 {
     private string $nom;
-    private string $ressourceUrl;
+    private string $imageUrl;
     private bool $isVraiImage;
 
-    function __construct($nom, $ressourceUrl, $isVraiImage){
+    function __construct($nom, $imageUrl, $isVraiImage){
         $this->nom = $nom;
-        $this->ressourceUrl = $ressourceUrl;
+        $this->imageUrl = $imageUrl;
         $this->isVraiImage = $isVraiImage;
     }
 
@@ -25,11 +25,10 @@ class Deepfake
     /**
      * @return mixed
      */
-    public function getRessourceUrl(): string
+    public function getImageUrl(): string
     {
-        return $this->ressourceUrl;
+        return $this->imageUrl;
     }
-
     /**
      * @return mixed
      */

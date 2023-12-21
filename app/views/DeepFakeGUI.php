@@ -29,7 +29,7 @@
 </section>
 
 <?php
-$_SESSION["hint"] = false;
+$_SESSION["hint"] = true;
 
     if($_SESSION["picturesDone"] == 0 && false) {
         $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
