@@ -39,6 +39,6 @@ class Recovery
     </form>
 </main>
 <?php
-        (new Layout('FakeGame - Recovery', ob_get_clean()))->show();
+        (new Layout('FakeGame - Recovery', ob_get_clean(), "Recovery.css"))->show();
     }
 }
