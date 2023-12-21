@@ -35,7 +35,7 @@ try {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['reponse'])) {
             $_SESSION['verificationDeepfake'] = true;
-            (new VerifDeepFakeController())->verifierDeepFake($_POST);
+            (new VerifDeepFakeController())->verifyDeepFake($_POST);
         }
 
         if (isset($_POST['email_verification'])) {

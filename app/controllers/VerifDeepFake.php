@@ -7,7 +7,7 @@ use app\views\YoungAnswer;
 
 class VerifDeepFake
 {
-    public function verifierDeepFake($post): void
+    public function verifyDeepFake($post): void
     {
         if(isset($post['reponse']))
         {
