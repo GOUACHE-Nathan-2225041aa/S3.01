@@ -1,5 +1,6 @@
 :root {
     font-size: 100%;
+    --BG-Color: #faefde;
 }
 
 *, *::before, *::after{

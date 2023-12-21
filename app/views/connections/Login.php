@@ -11,7 +11,8 @@ class Login
         ob_start();
 ?>
 <main>
-    <form method="POST" action="">
+    <h1>Login</h1>
+    <form method="POST" action="" id="Login-Form">
         <?php if (isset($_SESSION['errorMessage'])): ?>
             <div class="errorMessage">
                 <?= $_SESSION['errorMessage'] ?>
@@ -25,13 +26,14 @@ class Login
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
 
-        <a href="/signup">Create Account</a>
-        <a href="/recovery">Forgot Password</a>
-
         <button type="submit" name="login">Login</button>
+        <div id="div-signup-recovery">
+            <a href="/signup">Create Account</a>
+            <a href="/recovery">Forgot Password</a>
+        </div>
     </form>
 </main>
 <?php
-        (new Layout('FakeGame - Login', ob_get_clean()))->show();
+        (new Layout('FakeGame - Login', ob_get_clean(), 'Login'))->show();
     }
 }

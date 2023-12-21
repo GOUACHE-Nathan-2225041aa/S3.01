@@ -1,5 +1,5 @@
 @import 'dialogue.css';
 
 body{
-    background-color: #faefde;
+    background-color: var(--BG-Color);
 }

@@ -58,6 +58,20 @@
     height: 300%;
 }
 
+/*.text_dialogue{
+    overflow: hidden;
+    white-space: nowrap;
+    animation:
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+}
+
+/* The typing effect */
+/*@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}*/
+
 #nextDialogue{
     width: 75px;
     height: 75px;

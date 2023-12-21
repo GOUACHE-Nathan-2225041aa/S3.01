@@ -9,6 +9,7 @@ use app\controllers\connections\Login as LoginController;
 use app\controllers\connections\Signup as SignupController;
 use app\controllers\connections\Recovery as RecoveryController;
 use app\controllers\connections\Logout as LogoutController;
+use app\controllers\admin\Admin as AdminController;
 use app\services\Localization;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -34,7 +35,7 @@ try {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_POST['reponse'])) {
             $_SESSION['verificationDeepfake'] = true;
-            (new VerifDeepFakeController())->verifierDeepFake($_POST);
+            (new VerifDeepFakeController())->verifyDeepFake($_POST);
         }
 
         if (isset($_POST['email_verification'])) {
@@ -61,6 +62,10 @@ try {
 
         if (isset($_POST['recovery_email_verification'])) {
             (new RecoveryController())->sendVerificationURL($_POST);
+        }
+
+        if (isset($_POST['create-game'])) {
+            (new AdminController())->createGame($_POST);
         }
     }
 
@@ -133,6 +138,10 @@ try {
                 break;
             case 'logout':
                 (new LogoutController())->execute();
+                break;
+
+            case 'admin':
+                (new AdminController())->execute();
                 break;
 
             default:
