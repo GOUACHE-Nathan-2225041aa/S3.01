@@ -7,11 +7,13 @@ class Deepfake
     private string $nom;
     private string $imageUrl;
     private bool $isVraiImage;
+    private string $hint;
 
-    function __construct($nom, $imageUrl, $isVraiImage){
+    function __construct($nom, $imageUrl, $isVraiImage, $hint){
         $this->nom = $nom;
         $this->imageUrl = $imageUrl;
         $this->isVraiImage = $isVraiImage;
+        $this->hint = $hint;
     }
 
     /**
@@ -35,5 +37,12 @@ class Deepfake
     public function getIsVraiImage(): bool
     {
         return $this->isVraiImage;
+    }
+    /**
+     * @return mixed
+     */
+    public function getHint(): string
+    {
+        return $this->hint;
     }
 }

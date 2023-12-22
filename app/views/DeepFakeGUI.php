@@ -22,15 +22,13 @@
         </section>
 
         <div id="Hint">
-            <button id="Understood" onclick=""> J'ai besoin d'un indice... </button>
+            <button id="Understood" onclick="??">J'ai besoin d'un indice...</button>
         </div>
 
     </div>
 </section>
 
 <?php
-$_SESSION["hint"] = true;
-
     if($_SESSION["picturesDone"] == 0 && false) {
         $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
         $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $explicationsDuJeu];
@@ -38,10 +36,9 @@ $_SESSION["hint"] = true;
         $next_page = 'young';
         include('partials/dialogueTemplate.php');
     }
-    if($_SESSION["hint"]) {
+    if($_SESSION["hint"] || true) {
         $_SESSION["hint"] = false;
-        $indice = "Si tu regarde bien à gauche de l'image, on voit un bandeau rouge avec écrit FAKE... à par ça l'image est bien faite";
-        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $indice];
+        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $hint];
         $dataListener = [];
         $next_page = 'young';
         include('partials/dialogueTemplate.php');
