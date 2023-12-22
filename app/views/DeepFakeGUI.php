@@ -3,12 +3,12 @@
     <div id="DeepFakeGUI">
 
         <section id="Titre">
-            <h1><?= $titre ?></h1>
+            <h1><?= $title ?></h1>
         </section>
 
         <section id="Contenu">
             <div id="DeepFakePicture">
-                <img src="<?= $imgUrl ?>">
+                <img src="<?= $sourceUrl ?>">
             </div>
             <div id="BoutonsChoix">
                 <form method="post" action="">

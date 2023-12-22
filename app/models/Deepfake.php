@@ -4,16 +4,16 @@ namespace app\models;
 
 class Deepfake
 {
-    private string $nom;
-    private string $imageUrl;
-    private bool $isVraiImage;
+    private string $name;
+    private string $sourceUrl;
+    private bool $isReal;
     private string $hint;
     private string $explaination;
 
-    function __construct($nom, $imageUrl, $isVraiImage, $hint, $explaination){
-        $this->nom = $nom;
-        $this->imageUrl = $imageUrl;
-        $this->isVraiImage = $isVraiImage;
+    function __construct($name, $sourceUrl, $isReal, $hint, $explaination){
+        $this->name = $name;
+        $this->sourceUrl = $sourceUrl;
+        $this->isReal = $isReal;
         $this->hint = $hint;
         $this->explaination = $explaination;
     }
@@ -21,24 +21,24 @@ class Deepfake
     /**
      * @return mixed
      */
-    public function getNom(): string
+    public function getName(): string
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
      * @return mixed
      */
-    public function getImageUrl(): string
+    public function getSourceUrl(): string
     {
-        return $this->imageUrl;
+        return $this->sourceUrl;
     }
     /**
      * @return mixed
      */
-    public function getIsVraiImage(): bool
+    public function getIsReal(): bool
     {
-        return $this->isVraiImage;
+        return $this->isReal;
     }
     /**
      * @return mixed

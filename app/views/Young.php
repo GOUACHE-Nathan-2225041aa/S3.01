@@ -4,7 +4,7 @@ namespace app\views;
 
 class Young
 {
-    public function show($imgUrl, $titre, $hint): void
+    public function show($sourceUrl, $title, $hint): void
     {
         ob_start();
         include('DeepFakeGUI.php');

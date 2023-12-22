@@ -19,15 +19,15 @@ class VerifDeepFake
             unset($_SESSION['DeepFakeTab'][0]);
             $_SESSION['DeepFakeTab'] = array_values($_SESSION['DeepFakeTab']);
             $explaination = $currentDeepFake->getExplaination();
-            if ($currentDeepFake->getIsVraiImage()===$reponse){
+            if ($currentDeepFake->getIsReal()===$reponse){
                 error_log('bonne réponse');
                 // TODO Page de bonne réponse
-                (new YoungAnswer())->show($currentDeepFake->getImageUrl(), true, $explaination);
+                (new YoungAnswer())->show($currentDeepFake->getSourceUrl(), true, $explaination);
             }
             else{
                 error_log('mauvaise réponse');
                 // TODO page de mauvaise réponse
-                (new YoungAnswer())->show($currentDeepFake->getImageUrl(), false, $explaination);
+                (new YoungAnswer())->show($currentDeepFake->getSourceUrl(), false, $explaination);
             }
             $_SESSION['verificationDeepfake'] = false;
             $_SESSION['picturesDone'] += 1;

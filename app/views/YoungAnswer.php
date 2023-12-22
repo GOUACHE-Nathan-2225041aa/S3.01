@@ -4,7 +4,7 @@ namespace app\views;
 
 class YoungAnswer
 {
-    public function show($imgUrl, $reponse, $explaination): void
+    public function show($sourceUrl, $answer, $explaination): void
     {
         ob_start();
         include('YoungAnswerTemplate.php');

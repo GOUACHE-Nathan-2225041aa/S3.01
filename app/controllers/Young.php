@@ -35,6 +35,6 @@ class Young
         if(isset($_SESSION['VerifDeepfake']) && $_SESSION['VerifDeepfake']){
             array_shift($_SESSION['DeepFakeTab']);
         }
-        (new YoungView())->show($currentD->getImageUrl(),$currentD->getNom(),$currentD->getHint());
+        (new YoungView())->show($currentD->getSourceUrl(),$currentD->getName(),$currentD->getHint());
     }
 }
