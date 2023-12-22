@@ -9,6 +9,7 @@ class Home
     public function execute(): void
     {
         $_SESSION['hint'] = true;
+        $_SESSION['first-time'] = true;
         $characterState = [
             'young' => 'young.png',
             'adult' => 'adult.png',

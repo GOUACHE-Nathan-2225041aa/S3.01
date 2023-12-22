@@ -29,16 +29,17 @@
 </section>
 
 <?php
-    if($_SESSION["picturesDone"] == 0 && false) {
-        $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
-        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $explicationsDuJeu];
+    if($_SESSION['hint'] && !$_SESSION['first-time']) {
+        $_SESSION['hint'] = false;
+        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $hint];
         $dataListener = [];
         $next_page = 'young';
         include('partials/dialogueTemplate.php');
     }
-    if($_SESSION["hint"]) {
-        $_SESSION["hint"] = false;
-        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $hint];
+    if($_SESSION['first-time']) {
+        $_SESSION['first-time'] = false;
+        $explicationsDuJeu = "Aidons le à dicerner les vraies images des fausses. Dans ce jeu, tu dois déterminer si l'image à l'écran est une vraie photo, où si elle à été généré par une intelligence artificielle.";
+        $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $explicationsDuJeu];
         $dataListener = [];
         $next_page = 'young';
         include('partials/dialogueTemplate.php');
