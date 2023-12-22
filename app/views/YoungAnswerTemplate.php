@@ -4,6 +4,7 @@
 
         <div id="Answer">
             <?php
+            $_SESSION['hint'] = true;
             if($answer) {
                 echo '<h1 style="color: green">Bonne réponse !</h1>';
             } else {

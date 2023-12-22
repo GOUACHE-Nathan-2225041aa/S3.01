@@ -36,7 +36,7 @@
         $next_page = 'young';
         include('partials/dialogueTemplate.php');
     }
-    if($_SESSION["hint"] || true) {
+    if($_SESSION["hint"]) {
         $_SESSION["hint"] = false;
         $dataSpeaker = ['character_type' => "me", 'character_head' => "me" . '_head', 'character_name' => "Moi", 'text' => $hint];
         $dataListener = [];
