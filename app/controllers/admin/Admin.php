@@ -39,9 +39,10 @@ class Admin
         }
     }
 
+    // TODO - complete this (WIP)
     private function gameDeepFake($postData): void
     {
-        $data = [
+        $gameData = [
             'title' => htmlspecialchars($postData['title']),
             'image' => htmlspecialchars($postData['image']),
             'answer' => htmlspecialchars($postData['answer']),
@@ -51,8 +52,31 @@ class Admin
             'game_type' => htmlspecialchars($postData['game_type']),
         ];
 
-        // TODO - complete this
-        error_log(print_r($data, true));
+        // example of localization data
+        $localizationData = [
+            [
+                'field' => 'title',
+                'language' => 'en',
+                'text' => 'some text',
+            ],
+            [
+                'field' => 'title',
+                'language' => 'fr',
+                'text' => 'some text',
+            ],
+            [
+                'field' => 'description',
+                'language' => 'en',
+                'text' => 'some text',
+            ],
+            [
+                'field' => 'description',
+                'language' => 'fr',
+                'text' => 'some text',
+            ],
+        ];
+
+        error_log(print_r($gameData, true));
 //        (new DeepFakeModel($this->PDO))->createGame($data);
         $_SESSION['errorMessage'] = 'Game created successfully';
         header('Location: /admin');
