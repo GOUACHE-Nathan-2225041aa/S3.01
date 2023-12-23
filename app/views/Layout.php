@@ -17,7 +17,7 @@ class Layout
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title><?= $this->title ?></title>
     <link rel="stylesheet" href="/assets/stylesheets/main.css">
-    <link rel="stylesheet" href="/assets/stylesheets/interaction.css">;
+    <link rel="stylesheet" href="/assets/stylesheets/interaction.css">
     <?php if ($this->stylesheet !== '') { ?>
         <link rel="stylesheet" href="/assets/stylesheets/<?= $this->stylesheet ?>.css">
     <?php } ?>
