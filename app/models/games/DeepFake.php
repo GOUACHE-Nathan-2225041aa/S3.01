@@ -23,13 +23,14 @@ class DeepFake
 
             $gameId = $gameData['id'];
 
-            $statement = $this->connection->prepare("INSERT INTO deep_fake_games (game_id, image, source, inserter_id, slug, creation_date) VALUES (:game_id, :image, :source, :inserter_id, :slug)");
+            $statement = $this->connection->prepare("INSERT INTO deep_fake_games (game_id, image, source, inserter_id, slug, answer) VALUES (:game_id, :image, :source, :inserter_id, :slug, :answer)");
             $statement->execute([
                 'game_id' => $gameId,
                 'image' => $gameData['image'],
                 'source' => $gameData['source'],
                 'inserter_id' => $gameData['inserter_id'],
-                'slug' => $gameData['slug']
+                'slug' => $gameData['slug'],
+                'answer' => $gameData['answer'],
             ]);
 
             $statement = $this->connection->prepare("INSERT INTO localization (game_id, field, language, text) VALUES (:game_id, :field, :language, :text)");
@@ -137,6 +138,18 @@ class DeepFake
             $localizationData = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             return array_merge($gameData, ['localization' => $localizationData]);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function getCountOfGamesBySlug(string $slug): ?int
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT COUNT(*) FROM deep_fake_games WHERE slug LIKE :slug");
+            $statement->execute(['slug' => $slug . '%']);
+            return $statement->fetchColumn();
         } catch (PDOException $e) {
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());
             return null;

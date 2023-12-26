@@ -65,7 +65,7 @@ try {
         }
 
         if (isset($_POST['create-game'])) {
-            (new AdminController())->createGame($_POST);
+            (new AdminController())->createGame($_POST, $_FILES);
         }
     }
 

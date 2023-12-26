@@ -29,7 +29,7 @@ class Admin
     </div>
     <div>
         <h1>Game: Deep Fake</h1>
-        <form method="POST" action="">
+        <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="game_type" value="deep-fake">
 
             <label for="title">Title</label>
@@ -53,6 +53,13 @@ class Admin
 
             <label for="source">Source</label>
             <input type="text" name="source" id="source">
+
+            <label for="language">Language</label>
+            <select name="language" id="language" required>
+                <option disabled selected>Select the language</option>
+                <option value="fr">French</option>
+                <option value="en">English</option>
+            </select>
 
             <button type="submit" name="create-game">Create</button>
         </form>

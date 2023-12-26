@@ -7,24 +7,28 @@ use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
 use config\DataBase;
 use PDO;
+use PDOException;
+use Ramsey\Uuid\Uuid;
 
 class Admin
 {
-    private PDO $PDO;
+    private PDO $AccountPDO;
+    private PDO $GamePDO;
 
     public function __construct()
     {
-        $this->PDO = DataBase::getConnection();
+        $this->AccountPDO = DataBase::getConnectionAccount();
+        $this->GamePDO = DataBase::getConnectionGame();
     }
 
     public function execute(): void
     {
         // TODO - refactor this
         $this->userAuth();
-        (new AdminView())->show((new UserModel($this->PDO))->getUserByUsername($_SESSION['username']));
+        (new AdminView())->show((new UserModel($this->AccountPDO))->getUserByUsername($_SESSION['username']));
     }
 
-    public function createGame($postData): void
+    public function createGame($postData, $fileData): void
     {
         $this->userAuth();
 
@@ -35,49 +39,92 @@ class Admin
         }
 
         if ($postData['game_type'] === 'deep-fake') {
-            $this->gameDeepFake($postData);
+            $this->gameDeepFake($postData, $fileData);
         }
     }
 
-    // TODO - complete this (WIP)
-    private function gameDeepFake($postData): void
+    private function gameDeepFake($postData, $fileData): void
     {
+        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
+            $_SESSION['errorMessage'] = 'Missing image';
+            header('Location: /admin');
+            exit();
+        }
+
+        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
+            $_SESSION['errorMessage'] = 'Wrong image type';
+            header('Location: /admin');
+            exit();
+        }
+
+        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
+            $_SESSION['errorMessage'] = 'Image too big';
+            header('Location: /admin');
+            exit();
+        }
+
+        $jpegImage = null;
+
+        if ($fileData['image']['type'] == 'image/png') {
+            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
+            ob_start();
+            imagejpeg($sourceImage, null, 75);
+            $jpegImage = ob_get_clean();
+            imagedestroy($sourceImage);
+        } else {
+            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
+        }
+
+        $uuid = Uuid::uuid4()->toString();
+
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']));
+
+        if ($slug === null) {
+            $_SESSION['errorMessage'] = 'Error while generating game url';
+            header('Location: /admin');
+            exit();
+        }
+
         $gameData = [
-            'title' => htmlspecialchars($postData['title']),
-            'image' => htmlspecialchars($postData['image']),
-            'answer' => htmlspecialchars($postData['answer']),
-            'hint' => htmlspecialchars($postData['hint']),
-            'description' => htmlspecialchars($postData['description']),
-            'source' => htmlspecialchars($postData['source']),
+            'id' => $uuid,
             'game_type' => htmlspecialchars($postData['game_type']),
+            'creation_date' => date('Y-m-d H:i:s'),
+            'image' => $jpegImage,
+            'source' => htmlspecialchars($postData['source']),
+            'inserter_id' => $_SESSION['id'],
+            'slug' => $slug,
+            'answer' => (int)htmlspecialchars($postData['answer']),
         ];
 
-        // example of localization data
+        $language = htmlspecialchars($postData['language']);
+
         $localizationData = [
             [
                 'field' => 'title',
-                'language' => 'en',
-                'text' => 'some text',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['title']),
             ],
             [
-                'field' => 'title',
-                'language' => 'fr',
-                'text' => 'some text',
-            ],
-            [
-                'field' => 'description',
-                'language' => 'en',
-                'text' => 'some text',
+                'field' => 'hint',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['hint']),
             ],
             [
                 'field' => 'description',
-                'language' => 'fr',
-                'text' => 'some text',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['description']),
             ],
         ];
 
-        error_log(print_r($gameData, true));
-//        (new DeepFakeModel($this->PDO))->createGame($data);
+        try {
+            (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $_SESSION['errorMessage'] = 'Error while creating game';
+            header('Location: /admin');
+            exit();
+        }
+
         $_SESSION['errorMessage'] = 'Game created successfully';
         header('Location: /admin');
         exit();
@@ -95,5 +142,20 @@ class Admin
             header('Location: /');
             exit();
         }
+    }
+
+    private function generateSlug($title): ?string
+    {
+        $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+
+        $existingGamesCount = (new DeepFakeModel($this->GamePDO))->getCountOfGamesBySlug($slug);
+
+        if ($existingGamesCount === null) return null;
+
+        if ($existingGamesCount > 0) {
+            $slug .= '-' . $existingGamesCount;
+        }
+
+        return $slug;
     }
 }
