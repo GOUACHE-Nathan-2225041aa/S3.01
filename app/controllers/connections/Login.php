@@ -13,7 +13,7 @@ class Login
 
     public function __construct()
     {
-        $this->PDO = DataBase::getConnection();
+        $this->PDO = DataBase::getConnectionAccount();
     }
 
     public function execute(): void
@@ -51,6 +51,7 @@ class Login
 
         $_SESSION['username'] = $user['username'];
         $_SESSION['admin'] = $user['admin'];
+        $_SESSION['id'] = $user['id'];
 
         header('Location: /home');
         exit();

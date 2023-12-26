@@ -17,7 +17,7 @@ class Signup
 
     public function __construct()
     {
-        $this->PDO = DataBase::getConnection();
+        $this->PDO = DataBase::getConnectionAccount();
     }
 
     public function execute(): void
