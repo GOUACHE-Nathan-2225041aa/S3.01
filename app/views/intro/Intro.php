@@ -1,6 +1,8 @@
 <?php
 
-namespace app\views;
+namespace app\views\intro;
+
+use app\views\layouts\Layout;
 
 class Intro
 {

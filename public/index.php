@@ -1,15 +1,15 @@
 <?php
 
-use app\controllers\Intro as IntroController;
-use app\controllers\Young as YoungController;
-use app\controllers\Home as HomeController;
-use app\controllers\Dialogue as DialogueController;
-use app\controllers\VerifDeepFake as VerifDeepFakeController;
-use app\controllers\connections\Login as LoginController;
-use app\controllers\connections\Signup as SignupController;
-use app\controllers\connections\Recovery as RecoveryController;
-use app\controllers\connections\Logout as LogoutController;
 use app\controllers\admin\Admin as AdminController;
+use app\controllers\connections\Login as LoginController;
+use app\controllers\connections\Logout as LogoutController;
+use app\controllers\connections\Recovery as RecoveryController;
+use app\controllers\connections\Signup as SignupController;
+use app\controllers\Dialogue as DialogueController;
+use app\controllers\home\Home as HomeController;
+use app\controllers\Intro\Intro as IntroController;
+use app\controllers\VerifDeepFake as VerifDeepFakeController;
+use app\controllers\Young as YoungController;
 use app\services\Localization;
 
 require_once __DIR__ . '/../vendor/autoload.php';

@@ -2,6 +2,8 @@
 
 namespace app\views;
 
+use app\views\layouts\Layout;
+
 class YoungAnswer
 {
     public function show($sourceUrl, $answer, $explaination): void

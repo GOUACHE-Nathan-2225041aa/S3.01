@@ -2,7 +2,7 @@
 
 namespace app\views\admin;
 
-use app\views\Layout;
+use app\views\layouts\Layout;
 
 class Admin
 {

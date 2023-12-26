@@ -1,8 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\Intro;
 
-use app\views\Intro as IntroController;
+use app\views\intro\Intro as IntroController;
 
 class Intro
 {

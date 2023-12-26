@@ -2,7 +2,7 @@
 
 namespace app\views\connections;
 
-use app\views\Layout;
+use app\views\layouts\Layout;
 
 class Recovery
 {

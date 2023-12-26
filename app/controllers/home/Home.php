@@ -1,8 +1,8 @@
 <?php
 
-namespace app\controllers;
+namespace app\controllers\home;
 
-use app\views\Home as HomeView;
+use app\views\home\Home as HomeView;
 
 class Home
 {
