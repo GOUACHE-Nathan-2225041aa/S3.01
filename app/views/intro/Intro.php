@@ -10,7 +10,7 @@ class Intro
     {
         ob_start();
 ?>
-<?php include('partials/dialogueTemplate.php') ?>
+<?php include('partials/Dialogue.php') ?>
 <?php
         (new Layout('FakeGame - Intro', ob_get_clean(), 'intro'))->show();
     }

@@ -4,7 +4,7 @@ namespace app\services;
 
 use Exception;
 
-class Localization
+class Localization // TODO - add default language which must be up to date to work properly
 {
     private string $lang;
     private array $config;
@@ -50,6 +50,27 @@ class Localization
     }
 
     public function getText($file, array $keys): ?string
+    {
+        if (!in_array($file, $this->config['allowed_files'])) {
+            error_log("File not found: $file");
+            return null;
+        }
+
+        $translations = require __DIR__ . "/../../locales/$this->lang/$file.php";
+
+        $value = $translations;
+        foreach ($keys as $key) {
+            if (!isset($value[$key])) {
+                error_log("Undefined array key: $key");
+                return null;
+            }
+            $value = $value[$key];
+        }
+
+        return $value;
+    }
+
+    public function getArray($file, array $keys): ?array
     {
         if (!in_array($file, $this->config['allowed_files'])) {
             error_log("File not found: $file");

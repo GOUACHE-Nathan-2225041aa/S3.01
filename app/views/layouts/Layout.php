@@ -2,6 +2,8 @@
 
 namespace app\views\layouts;
 
+use app\views\partials\Header as HeaderView;
+
 class Layout
 {
     public function __construct(private string $title, private string $content, private string $stylesheet = '') {}
@@ -23,6 +25,7 @@ class Layout
     <?php } ?>
 </head>
 <body>
+<?= (new HeaderView())->getHeader(); ?>
 <?= $this->content ?>
 </body>
 </html>

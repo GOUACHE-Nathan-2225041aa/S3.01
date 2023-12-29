@@ -5,12 +5,13 @@ use app\controllers\connections\Login as LoginController;
 use app\controllers\connections\Logout as LogoutController;
 use app\controllers\connections\Recovery as RecoveryController;
 use app\controllers\connections\Signup as SignupController;
-use app\controllers\Dialogue as DialogueController;
+//use app\controllers\Dialogue as DialogueController;
 use app\controllers\home\Home as HomeController;
 use app\controllers\Intro\Intro as IntroController;
 use app\controllers\VerifDeepFake as VerifDeepFakeController;
-use app\controllers\Young as YoungController;
-use app\services\Localization;
+use app\controllers\welcome\Welcome as WelcomeController;
+use app\controllers\young\Young as YoungController;
+use app\controllers\api\Dialogues as DialoguesController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -18,17 +19,17 @@ session_start();
 
 // Tout les dialogues du jeu en FR (à mettre dans un fichier à part)
 // TODO - refactor this
-$Q_young = (new Localization())->getText('dialogues', ['young', 'question']);
-$A_young = (new Localization())->getText('dialogues', ['young', 'answer']);
-$E_young = (new Localization())->getText('dialogues', ['young', 'end']);
-// ---
-$Q_adult = (new Localization())->getText('dialogues', ['adult', 'question']);
-$A_adult = (new Localization())->getText('dialogues', ['adult', 'answer']);
-$E_adult = (new Localization())->getText('dialogues', ['adult', 'end']);
-// ---
-$Q_old = (new Localization())->getText('dialogues', ['old', 'question']);
-$A_old = (new Localization())->getText('dialogues', ['old', 'answer']);
-$E_old = (new Localization())->getText('dialogues', ['old', 'end']);
+//$Q_young = (new Localization())->getText('dialogues', ['young', 'question']);
+//$A_young = (new Localization())->getText('dialogues', ['young', 'answer']);
+//$E_young = (new Localization())->getText('dialogues', ['young', 'end']);
+//// ---
+//$Q_adult = (new Localization())->getText('dialogues', ['adult', 'question']);
+//$A_adult = (new Localization())->getText('dialogues', ['adult', 'answer']);
+//$E_adult = (new Localization())->getText('dialogues', ['adult', 'end']);
+//// ---
+//$Q_old = (new Localization())->getText('dialogues', ['old', 'question']);
+//$A_old = (new Localization())->getText('dialogues', ['old', 'answer']);
+//$E_old = (new Localization())->getText('dialogues', ['old', 'end']);
 // ----------------------------------------------------------------
 
 try {
@@ -67,57 +68,64 @@ try {
         if (isset($_POST['create-game'])) {
             (new AdminController())->createGame($_POST, $_FILES);
         }
+
+        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/dialogues') {
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                (new DialoguesController())->execute();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                echo 'Access denied';
+                exit;
+            }
+        }
     }
 
     if (isset($_SERVER['REQUEST_URI']) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
         $route = ($_SERVER['REQUEST_URI'] === '/') ? '/' : explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
         switch ($route[0]) {
-            case 'dialogue':
-                break;
-            case '/':
-                (new IntroController())->execute();
-                break;
-            case 'young':
-                (new YoungController())->execute();
-                break;
+//            case 'dialogue':
+//                break;
+//            case 'young':
+//                (new YoungController())->execute();
+//                break;
             case 'home':
                 (new HomeController())->execute();
                 break;
 
             // Les dialogues avec le Jeune :
-            case 'dialogue-Qy' :
-                (new DialogueController())->execute('young', 'Titouan', $Q_young, 'young', '/dialogue-Ay');
-                break;
-            case 'dialogue-Ay' :
-                $_SESSION['picturesDone'] = 0;
-                (new DialogueController())->execute('me', 'Moi', $A_young, 'young','/young');
-                break;
-            case 'dialogue-Ey' :
-                (new DialogueController())->execute('young', 'Titouan', $E_young, 'young','/home');
-                break;
-
-            // Les dialogues avec l'Adulte :
-            case 'dialogue-Qa' :
-                (new DialogueController())->execute('adult', 'Thomas', $Q_adult, 'adult','/dialogue-Aa');
-                break;
-            case 'dialogue-Aa' :
-                (new DialogueController())->execute('me', 'Moi', $A_adult, 'adult','/adult');
-                break;
-            case 'dialogue-Ea' :
-                (new DialogueController())->execute('adult', 'Thomas', $E_adult, 'adult','/home');
-                break;
-
-            // Les dialogues avec la Grand-Mère :
-            case 'dialogue-Qo' :
-                (new DialogueController())->execute('old', 'Grand-mère', $Q_old, 'old','/dialogue-Ao');
-                break;
-            case 'dialogue-Ao' :
-                (new DialogueController())->execute('me', 'Moi', $A_old, 'old','/old');
-                break;
-            case 'dialogue-Eo' :
-                (new DialogueController())->execute('old', 'Grand-mère', $E_old, 'old','/home');
-                break;
+//            case 'dialogue-Qy' :
+//                (new DialogueController())->execute('young', 'Titouan', $Q_young, 'young', '/dialogue-Ay');
+//                break;
+//            case 'dialogue-Ay' :
+//                $_SESSION['picturesDone'] = 0;
+//                (new DialogueController())->execute('me', 'Moi', $A_young, 'young','/young');
+//                break;
+//            case 'dialogue-Ey' :
+//                (new DialogueController())->execute('young', 'Titouan', $E_young, 'young','/home');
+//                break;
+//
+//            // Les dialogues avec l'Adulte :
+//            case 'dialogue-Qa' :
+//                (new DialogueController())->execute('adult', 'Thomas', $Q_adult, 'adult','/dialogue-Aa');
+//                break;
+//            case 'dialogue-Aa' :
+//                (new DialogueController())->execute('me', 'Moi', $A_adult, 'adult','/adult');
+//                break;
+//            case 'dialogue-Ea' :
+//                (new DialogueController())->execute('adult', 'Thomas', $E_adult, 'adult','/home');
+//                break;
+//
+//            // Les dialogues avec la Grand-Mère :
+//            case 'dialogue-Qo' :
+//                (new DialogueController())->execute('old', 'Grand-mère', $Q_old, 'old','/dialogue-Ao');
+//                break;
+//            case 'dialogue-Ao' :
+//                (new DialogueController())->execute('me', 'Moi', $A_old, 'old','/old');
+//                break;
+//            case 'dialogue-Eo' :
+//                (new DialogueController())->execute('old', 'Grand-mère', $E_old, 'old','/home');
+//                break;
 
             case 'login':
                 (new LoginController())->execute();
@@ -142,6 +150,18 @@ try {
 
             case 'admin':
                 (new AdminController())->execute();
+                break;
+
+            case 'intro':
+                (new IntroController())->execute();
+                break;
+
+            case '/':
+                (new WelcomeController())->execute();
+                break;
+
+            case 'young':
+                (new YoungController())->execute();
                 break;
 
             default:
