@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\models\games\DeepFake as DeepFakeModel;
+use app\models\games\Games as GamesModel;
 use app\services\Localization;
 use config\DataBase;
 use PDO;
@@ -33,7 +33,7 @@ class Dialogues
                 (new Localization())->getArray('dialogues', [$npc, 'question']),
                 (new Localization())->getArray('dialogues', [$npc, 'answer']),
             ],
-            'game' => (new DeepFakeModel($this->GamePDO))->getFirstGame('deep-fake', $_SESSION['language'])['slug'],
+            'game' => (new GamesModel($this->GamePDO))->getFirstGameSlugByType('deep-fake'),
         ];
 
         echo json_encode($data);

@@ -12,10 +12,15 @@ use app\controllers\VerifDeepFake as VerifDeepFakeController;
 use app\controllers\welcome\Welcome as WelcomeController;
 use app\controllers\young\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
+use app\controllers\games\Games as GamesController;
+
+use app\services\Localization;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
+
+(new Localization());
 
 // Tout les dialogues du jeu en FR (à mettre dans un fichier à part)
 // TODO - refactor this
@@ -162,6 +167,10 @@ try {
 
             case 'young':
                 (new YoungController())->execute();
+                break;
+
+            case 'games':
+                (new GamesController())->execute($route[1]);
                 break;
 
             default:
