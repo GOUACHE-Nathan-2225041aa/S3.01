@@ -13,6 +13,7 @@ use app\controllers\welcome\Welcome as WelcomeController;
 use app\controllers\young\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
 use app\controllers\games\Games as GamesController;
+use app\controllers\api\Hint as HintController;
 
 use app\services\Localization;
 
@@ -74,9 +75,20 @@ try {
             (new AdminController())->createGame($_POST, $_FILES);
         }
 
+        // TODO - refactor this
         if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/dialogues') {
             if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                 (new DialoguesController())->execute();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                echo 'Access denied';
+                exit;
+            }
+        }
+
+        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/hint') {
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                (new HintController())->execute();
             } else {
                 header('HTTP/1.0 403 Forbidden');
                 echo 'Access denied';

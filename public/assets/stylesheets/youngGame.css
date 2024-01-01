@@ -12,6 +12,7 @@ body,html{
 
 #DeepFakePicture{
     padding: 20px;
+    max-width: 25%; /* TODO - change it after tests */
 }
 
 #DeepFakeGUI{
