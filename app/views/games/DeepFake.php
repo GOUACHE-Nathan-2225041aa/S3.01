@@ -11,7 +11,7 @@ class DeepFake
     {
         ob_start();
 ?>
-<script src="/assets/scripts/hint.js"></script>
+<script defer src="/assets/scripts/hint.js"></script>
 <main id="game_screen">
     <div id="DeepFakeGUI">
         <div id="Titre">
@@ -32,10 +32,10 @@ class DeepFake
         </div>
 
         <div id="Hint">
-            <button id="Understood" onclick="showHint()">J'ai besoin d'un indice...</button>
+            <button id="btn-hint">J'ai besoin d'un indice...</button>
         </div>
     </div>
-    <?= (new Dialogue())->getDialogueTemplate('closeHint()') ?>
+    <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
         (new Layout('FakeGame - DeepFake', ob_get_clean(), 'youngGame'))->show();

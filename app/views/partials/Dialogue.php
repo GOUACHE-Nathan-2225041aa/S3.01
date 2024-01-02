@@ -4,7 +4,7 @@ namespace app\views\partials;
 
 class Dialogue // TODO - refactor this class (style, id names, etc.)
 {
-    public function getDialogueTemplate(string $btn = 'nextDialogue()'): string // TODO - delete the parameter and use listener in js instead
+    public function getDialogueTemplate(): string
     {
         ob_start();
 ?>
@@ -24,7 +24,7 @@ class Dialogue // TODO - refactor this class (style, id names, etc.)
 
     <div id="bulle_texte">
         <p id="dialogue-text" class="text_dialogue"></p>
-        <button onclick="<?= $btn ?>"><img id="nextDialogue" src="/assets/images/divers/next_dialogue.gif" alt="Next dialogue"></button>
+        <button id="btn-dialogue"><img id="nextDialogue" src="/assets/images/divers/next_dialogue.gif" alt="Next dialogue"></button>
     </div>
 </div>
 <?php

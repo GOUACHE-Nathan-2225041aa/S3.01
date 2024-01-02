@@ -34,6 +34,8 @@ function showDialogue(dialogue) {
     document.getElementById('listener').src = `/assets/images/characters/${dialogue['display_character']}/${dialogue['display_character']}.png`
 }
 
+document.getElementById('btn-dialogue').addEventListener('click', nextDialogue)
+
 function nextDialogue() {
     currentDialogueIndex++
     if (currentDialogueIndex < dialogues.length) {

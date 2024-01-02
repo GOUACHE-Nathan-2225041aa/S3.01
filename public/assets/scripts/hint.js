@@ -20,6 +20,9 @@ function requestHint() {
         })
 }
 
+document.getElementById('btn-hint').addEventListener('click', showHint)
+document.getElementById('btn-dialogue').addEventListener('click', closeHint)
+
 function showHint() {
     if (hint === '') requestHint()
     let hintElement = document.getElementById('bas')
