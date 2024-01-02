@@ -14,6 +14,7 @@ use app\controllers\young\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
 use app\controllers\games\Games as GamesController;
 use app\controllers\api\Hint as HintController;
+use app\controllers\errors\Errors as ErrorsController;
 
 use app\services\Localization;
 
@@ -101,48 +102,9 @@ try {
         $route = ($_SERVER['REQUEST_URI'] === '/') ? '/' : explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
         switch ($route[0]) {
-//            case 'dialogue':
-//                break;
-//            case 'young':
-//                (new YoungController())->execute();
-//                break;
             case 'home':
                 (new HomeController())->execute();
                 break;
-
-            // Les dialogues avec le Jeune :
-//            case 'dialogue-Qy' :
-//                (new DialogueController())->execute('young', 'Titouan', $Q_young, 'young', '/dialogue-Ay');
-//                break;
-//            case 'dialogue-Ay' :
-//                $_SESSION['picturesDone'] = 0;
-//                (new DialogueController())->execute('me', 'Moi', $A_young, 'young','/young');
-//                break;
-//            case 'dialogue-Ey' :
-//                (new DialogueController())->execute('young', 'Titouan', $E_young, 'young','/home');
-//                break;
-//
-//            // Les dialogues avec l'Adulte :
-//            case 'dialogue-Qa' :
-//                (new DialogueController())->execute('adult', 'Thomas', $Q_adult, 'adult','/dialogue-Aa');
-//                break;
-//            case 'dialogue-Aa' :
-//                (new DialogueController())->execute('me', 'Moi', $A_adult, 'adult','/adult');
-//                break;
-//            case 'dialogue-Ea' :
-//                (new DialogueController())->execute('adult', 'Thomas', $E_adult, 'adult','/home');
-//                break;
-//
-//            // Les dialogues avec la Grand-Mère :
-//            case 'dialogue-Qo' :
-//                (new DialogueController())->execute('old', 'Grand-mère', $Q_old, 'old','/dialogue-Ao');
-//                break;
-//            case 'dialogue-Ao' :
-//                (new DialogueController())->execute('me', 'Moi', $A_old, 'old','/old');
-//                break;
-//            case 'dialogue-Eo' :
-//                (new DialogueController())->execute('old', 'Grand-mère', $E_old, 'old','/home');
-//                break;
 
             case 'login':
                 (new LoginController())->execute();
@@ -182,11 +144,15 @@ try {
                 break;
 
             case 'games':
-                (new GamesController())->execute($route[1]);
+                if (isset($route[1]) && count($route) == 2) {
+                    (new GamesController())->execute($route[1]);
+                    break;
+                }
+                (new ErrorsController())->notFound();
                 break;
 
             default:
-                error_log('404 Not Found. Not implemented yet');
+                (new ErrorsController())->notFound();
                 break;
         }
     }
