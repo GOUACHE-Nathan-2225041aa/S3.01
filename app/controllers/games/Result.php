@@ -2,13 +2,13 @@
 
 namespace app\controllers\games;
 
-use app\views\games\DeepFake as DeepFakeView;
+use app\views\games\Result as ResultView;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
 
-class Games
+class Result
 {
     private PDO $GamePDO;
 
@@ -17,9 +17,12 @@ class Games
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute($slug): void
+    public function execute($postData): void
     {
-        $game = (new GamesModel($this->GamePDO))->getGameBySlug(htmlspecialchars($slug));
+        $referer = htmlspecialchars($_SERVER['HTTP_REFERER']);
+        $refererSlug = explode('/', $referer)[4];
+
+        $game = (new GamesModel($this->GamePDO))->getGameBySlug($refererSlug);
 
         if ($game === null) {
             header('Location: /');
@@ -27,22 +30,28 @@ class Games
         }
 
         if ($game['game_type'] === 'deep-fake') {
-           $this->showDeepFakeGame($game, htmlspecialchars($slug));
+            $this->resultDeepFakeGame($game, $refererSlug);
         }
     }
 
-    private function showDeepFakeGame($game, $slug): void
+    private function resultDeepFakeGame($game, $currentGameSlug): void
     {
         $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
+
+        $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($currentGameSlug, $game['game_type']);
+
         $data = [
             'source' => $gameData['source'],
             'image' => base64_encode($gameData['image']),
-            'slug' => $slug,
+            'userAnswer' => intval(htmlspecialchars($_POST['answer'])),
+            'correctAnswer' => intval($gameData['answer']),
+            'description' => $localizationData['description'],
+            'nextGameSlug' => $nextGameSlug,
         ];
 
-        (new DeepFakeView())->show($data, $localizationData);
+        (new ResultView())->show($data);
     }
 
     private function getTextFromLocalData($localizationData, $language): array

@@ -32,4 +32,20 @@ class Games
             return null;
         }
     }
+
+    public function getNextGameSlug(string $currentGameSlug, string $gameType): ?string
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT creation_date FROM games WHERE slug = :current_game_slug");
+            $statement->execute(['current_game_slug' => $currentGameSlug]);
+            $currentGameDate = $statement->fetchColumn();
+
+            $statement = $this->connection->prepare("SELECT slug FROM games WHERE creation_date > :current_game_date AND game_type = :game_type ORDER BY creation_date ASC LIMIT 1");
+            $statement->execute(['current_game_date' => $currentGameDate, 'game_type' => $gameType]);
+            return $statement->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
 }

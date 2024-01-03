@@ -15,6 +15,7 @@ use app\controllers\api\Dialogues as DialoguesController;
 use app\controllers\games\Games as GamesController;
 use app\controllers\api\Hint as HintController;
 use app\controllers\errors\Errors as ErrorsController;
+use app\controllers\games\Result as ResultController;
 
 use app\services\Localization;
 
@@ -74,6 +75,10 @@ try {
 
         if (isset($_POST['create-game'])) {
             (new AdminController())->createGame($_POST, $_FILES);
+        }
+
+        if (isset($_POST['answer'])) {
+            (new ResultController())->execute($_POST);
         }
 
         // TODO - refactor this
