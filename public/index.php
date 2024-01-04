@@ -5,10 +5,8 @@ use app\controllers\connections\Login as LoginController;
 use app\controllers\connections\Logout as LogoutController;
 use app\controllers\connections\Recovery as RecoveryController;
 use app\controllers\connections\Signup as SignupController;
-//use app\controllers\Dialogue as DialogueController;
 use app\controllers\home\Home as HomeController;
 use app\controllers\Intro\Intro as IntroController;
-use app\controllers\VerifDeepFake as VerifDeepFakeController;
 use app\controllers\welcome\Welcome as WelcomeController;
 use app\controllers\young\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
@@ -25,28 +23,8 @@ session_start();
 
 (new Localization());
 
-// Tout les dialogues du jeu en FR (à mettre dans un fichier à part)
-// TODO - refactor this
-//$Q_young = (new Localization())->getText('dialogues', ['young', 'question']);
-//$A_young = (new Localization())->getText('dialogues', ['young', 'answer']);
-//$E_young = (new Localization())->getText('dialogues', ['young', 'end']);
-//// ---
-//$Q_adult = (new Localization())->getText('dialogues', ['adult', 'question']);
-//$A_adult = (new Localization())->getText('dialogues', ['adult', 'answer']);
-//$E_adult = (new Localization())->getText('dialogues', ['adult', 'end']);
-//// ---
-//$Q_old = (new Localization())->getText('dialogues', ['old', 'question']);
-//$A_old = (new Localization())->getText('dialogues', ['old', 'answer']);
-//$E_old = (new Localization())->getText('dialogues', ['old', 'end']);
-// ----------------------------------------------------------------
-
 try {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-        if (isset($_POST['reponse'])) {
-            $_SESSION['verificationDeepfake'] = true;
-            (new VerifDeepFakeController())->verifyDeepFake($_POST);
-        }
-
         if (isset($_POST['email_verification'])) {
             (new SignupController())->sendVerificationURL($_POST);
         }

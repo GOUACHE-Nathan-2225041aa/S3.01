@@ -4,7 +4,7 @@ namespace app\views\layouts;
 
 use app\views\partials\Header as HeaderView;
 
-class Layout
+class Layout // TODO - add scripts there and remove them from the views
 {
     public function __construct(private string $title, private string $content, private string $stylesheet = '') {}
     public function show(): void

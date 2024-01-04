@@ -4,7 +4,7 @@ namespace app\views\home;
 
 use app\views\layouts\Layout;
 
-class Home
+class Home // TODO = refactor this for better semantic
 {
     public function show($characterState): void
     {
