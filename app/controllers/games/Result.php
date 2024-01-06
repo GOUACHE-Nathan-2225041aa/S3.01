@@ -30,11 +30,11 @@ class Result
         }
 
         if ($game['game_type'] === 'deep-fake') {
-            $this->resultDeepFakeGame($game, $refererSlug);
+            $this->resultDeepFakeGame($game, $refererSlug, $postData);
         }
     }
 
-    private function resultDeepFakeGame($game, $currentGameSlug): void
+    private function resultDeepFakeGame($game, $currentGameSlug, $postData): void
     {
         $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
 
@@ -42,10 +42,15 @@ class Result
 
         $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($currentGameSlug, $game['game_type']);
 
+        // TODO - maybe make the redirection based in progress and not last game (redirection to end dialogue)
+        if ($nextGameSlug === '') {
+            $_SESSION['young'] = 'end';
+        }
+
         $data = [
             'source' => $gameData['source'],
             'image' => base64_encode($gameData['image']),
-            'userAnswer' => intval(htmlspecialchars($_POST['answer'])),
+            'userAnswer' => intval(htmlspecialchars($postData['answer'])),
             'correctAnswer' => intval($gameData['answer']),
             'description' => $localizationData['description'],
             'nextGameSlug' => $nextGameSlug,

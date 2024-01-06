@@ -15,7 +15,7 @@ fetch(`/api/dialogues`, {
     .then(response => response.json())
     .then(data => {
         dialogues = data['dialogues']
-        game = data['game']
+        game = data.hasOwnProperty('game') ? data['game'] : null;
 
         showDialogue(dialogues[currentDialogueIndex])
     })
@@ -37,12 +37,10 @@ function showDialogue(dialogue) {
 document.getElementById('btn-dialogue').addEventListener('click', nextDialogue)
 
 function nextDialogue() {
-    currentDialogueIndex++
-    if (currentDialogueIndex < dialogues.length) {
-        showDialogue(dialogues[currentDialogueIndex])
-    } else {
-        window.location.href = `/games/${game}`
-    }
+    currentDialogueIndex++;
+    if (currentDialogueIndex < dialogues.length) return showDialogue(dialogues[currentDialogueIndex]);
+    if (game === null) return window.location.href = `/home`;
+    window.location.href = `/games/${game}`;
 }
 
 function buildText(element, text) {

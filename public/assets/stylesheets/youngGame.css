@@ -70,6 +70,7 @@ body,html{
 #ImageOnTheSide{
     border: 3px solid;
     border-radius: 35px;
+    width: 25%; /* TODO - change it after tests */
 }
 
 #Answer{

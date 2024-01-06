@@ -28,14 +28,24 @@ class Dialogues
             exit();
         }
 
+        if (!isset($_SESSION[$npc]) || $_SESSION[$npc] !== 'end') {
+            $data = [
+                'dialogues' => [
+                    (new Localization())->getArray('dialogues', [$npc, 'question']),
+                    (new Localization())->getArray('dialogues', [$npc, 'answer']),
+                ],
+                'game' => (new GamesModel($this->GamePDO))->getFirstGameSlugByType('deep-fake'), // TODO - detect the game type
+            ];
+            echo json_encode($data);
+            exit();
+        }
+
         $data = [
             'dialogues' => [
-                (new Localization())->getArray('dialogues', [$npc, 'question']),
-                (new Localization())->getArray('dialogues', [$npc, 'answer']),
+                (new Localization())->getArray('dialogues', [$npc, 'end']),
             ],
-            'game' => (new GamesModel($this->GamePDO))->getFirstGameSlugByType('deep-fake'),
         ];
-
+        unset($_SESSION[$npc]);
         echo json_encode($data);
     }
 }

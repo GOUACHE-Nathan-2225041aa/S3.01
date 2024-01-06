@@ -32,7 +32,7 @@ class Result
         </div>
 
         <div id="Next">
-            <button id="btn-hint" onclick="window.location.href='/games/<?= $data['nextGameSlug'] ?>'">J'ai tout compris!</button>
+            <button id="btn-hint" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/young' ?>'">J'ai tout compris!</button>
         </div>
 
     </div>

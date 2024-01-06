@@ -14,7 +14,8 @@ class Games
         try {
             $statement = $this->connection->prepare("SELECT * FROM games WHERE slug = :slug");
             $statement->execute(['slug' => $slug]);
-            return $statement->fetch(PDO::FETCH_ASSOC);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result === false ? null : $result;
         } catch (PDOException $e) {
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());
             return null;

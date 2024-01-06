@@ -131,6 +131,10 @@ try {
                     (new GamesController())->execute($route[1]);
                     break;
                 }
+                if (isset($route[1]) && isset($route[2]) && $route[2] === 'result') {
+                    header('Location: /games/' . $route[1]);
+                    break;
+                }
                 (new ErrorsController())->notFound();
                 break;
 
