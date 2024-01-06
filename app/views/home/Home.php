@@ -15,11 +15,11 @@ class Home // TODO = refactor this for better semantic
 
     <img id='bg' src="/assets/images/background/park.png">
 
-    <img id='old' onclick="window.location.href='./dialogue-Qo'" src="/assets/images/characters/old/<?= $characterState['old']?>">
+    <img id='old' onclick="window.location.href='/old'" src="/assets/images/characters/old/<?= $characterState['old']?>">
 
     <img id='young' onclick="window.location.href='/young'" src="/assets/images/characters/young/<?= $characterState['young']?>">
 
-    <img id='adult' onclick="window.location.href='./dialogue-Qa'" src="/assets/images/characters/adult/<?= $characterState['adult']?>">
+    <img id='adult' onclick="window.location.href='/adult'" src="/assets/images/characters/adult/<?= $characterState['adult']?>">
     
 </section>
 

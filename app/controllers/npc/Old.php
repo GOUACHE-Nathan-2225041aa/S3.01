@@ -1,14 +1,14 @@
 <?php
 
-namespace app\controllers\young;
+namespace app\controllers\npc;
 
-use app\views\young\Young as YoungView;
+use app\views\npc\Old as OldView;
 use config\DataBase;
 use PDO;
 
-class Young
+class Old
 {
-    private PDO $GamePDO;
+    private PDO $GamePDO; // TODO - remove if not used
 
     public function __construct()
     {
@@ -17,6 +17,6 @@ class Young
 
     public function execute(): void
     {
-        (new YoungView())->show();
+        (new OldView())->show();
     }
 }

@@ -8,12 +8,14 @@ use app\controllers\connections\Signup as SignupController;
 use app\controllers\home\Home as HomeController;
 use app\controllers\Intro\Intro as IntroController;
 use app\controllers\welcome\Welcome as WelcomeController;
-use app\controllers\young\Young as YoungController;
+use app\controllers\npc\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
 use app\controllers\games\Games as GamesController;
 use app\controllers\api\Hint as HintController;
 use app\controllers\errors\Errors as ErrorsController;
 use app\controllers\games\Result as ResultController;
+use app\controllers\npc\Old as OldController;
+use app\controllers\npc\Adult as AdultController;
 
 use app\services\Localization;
 
@@ -127,6 +129,14 @@ try {
 
             case 'young':
                 (new YoungController())->execute();
+                break;
+
+            case 'old':
+                (new OldController())->execute();
+                break;
+
+            case 'adult':
+                (new AdultController())->execute();
                 break;
 
             case 'games':

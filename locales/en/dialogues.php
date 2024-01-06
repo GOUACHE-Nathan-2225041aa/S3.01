@@ -22,13 +22,43 @@ return [
         ],
     ],
     'adult' => [
-        'question' => "Hey, <br> I got into the habit of reading the newspaper in the park after my job. <br> However, I recently noticed that more and more articles sounded 'fake' or unreliable. <br> Could you help me find them?",
-        'answer' => "Let me see these articles, I will explain which ones are fake and why!",
-        'end' => "Thank you! From now on I will think to check the sources.",
+        'question' => [
+            'speaker_name' => 'Thomas',
+            'speaker_img' => 'adult',
+            'display_character' => 'adult',
+            'text' => "Hey, <br> I got into the habit of reading the newspaper in the park after my job. <br> However, I recently noticed that more and more articles sounded 'fake' or unreliable. <br> Could you help me find them?",
+        ],
+        'answer' => [
+            'speaker_name' => 'Me',
+            'speaker_img' => 'me',
+            'display_character' => 'adult',
+            'text' => "Let me see these articles, I will explain which ones are fake and why!",
+        ],
+        'end' => [
+            'speaker_name' => 'Thomas',
+            'speaker_img' => 'adult',
+            'display_character' => 'adult',
+            'text' => "Thank you! From now on I will think to check the sources.",
+        ],
     ],
     'old' => [
-        'question' => "Hello, <br> ...",
-        'answer' => "...",
-        'end' => "Thank you! <br> ...",
+        'question' => [
+            'speaker_name' => 'Grandmother',
+            'speaker_img' => 'old',
+            'display_character' => 'old',
+            'text' => "Hello, <br> ...",
+        ],
+        'answer' => [
+            'speaker_name' => 'Me',
+            'speaker_img' => 'me',
+            'display_character' => 'old',
+            'text' => "...",
+        ],
+        'end' => [
+            'speaker_name' => 'Grandmother',
+            'speaker_img' => 'old',
+            'display_character' => 'old',
+            'text' => "Thank you! <br> ...",
+        ],
     ],
 ];
