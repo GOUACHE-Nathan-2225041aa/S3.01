@@ -56,7 +56,10 @@ try {
         }
 
         if (isset($_POST['answer'])) {
-            (new ResultController())->execute($_POST);
+            $_SESSION['answer_form_submitted'] = true;
+            $_SESSION['answer_form_data'] = $_POST;
+            header('Location: /games/' . $_SESSION['current_game'] . '/result');
+            exit;
         }
 
         // TODO - refactor this
@@ -132,7 +135,7 @@ try {
                     break;
                 }
                 if (isset($route[1]) && isset($route[2]) && $route[2] === 'result') {
-                    header('Location: /games/' . $route[1]);
+                    (new ResultController())->execute();
                     break;
                 }
                 (new ErrorsController())->notFound();

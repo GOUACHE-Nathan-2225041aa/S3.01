@@ -26,6 +26,8 @@ class Games
             exit();
         }
 
+        $this->gameProgress($game['slug']);
+
         if ($game['game_type'] === 'deep-fake') {
            $this->showDeepFakeGame($game, htmlspecialchars($slug));
         }
@@ -54,5 +56,11 @@ class Games
             }
         }
         return $result;
+    }
+
+    private function gameProgress($newGameSlug): void // TODO - maybe add next game slug here
+    {
+        if (isset($_SESSION['current_game'])) $_SESSION['last_game'] = $_SESSION['current_game'];
+        $_SESSION['current_game'] = $newGameSlug;
     }
 }

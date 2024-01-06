@@ -22,7 +22,7 @@ class DeepFake
             <div id="DeepFakePicture">
                 <img src="data:image/jpeg;base64,<?= $gameData['image'] ?>" alt="">
             </div>
-            <form id="BoutonsChoix" method="POST" action="/games/<?= $gameData['slug'] ?>/result">
+            <form id="BoutonsChoix" method="POST" action="">
                 <button type="submit" name="answer" value="1" id="BoutonReel">Réel</button>
                 <span>OU</span>
                 <button type="submit" name="answer" value="0" id="BoutonFake">Fake</button>

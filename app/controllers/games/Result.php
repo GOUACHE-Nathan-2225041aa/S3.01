@@ -17,30 +17,37 @@ class Result
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute($postData): void
+    public function execute(): void
     {
-        $referer = htmlspecialchars($_SERVER['HTTP_REFERER']);
-        $refererSlug = explode('/', $referer)[4];
+        if (!isset($_SESSION['answer_form_submitted']) || !$_SESSION['answer_form_submitted']) {
+            isset($_SESSION['current_game']) ? header('Location: /games/' . $_SESSION['current_game']) : header('Location: /home');
+            exit();
+        }
 
-        $game = (new GamesModel($this->GamePDO))->getGameBySlug($refererSlug);
+        unset($_SESSION['answer_form_submitted']);
+        unset($_SESSION['answer_form_data']);
+
+        $postData = $_SESSION['answer_form_data'];
+
+        $game = (new GamesModel($this->GamePDO))->getGameBySlug($_SESSION['current_game']);
 
         if ($game === null) {
-            header('Location: /');
+            header('Location: /home');
             exit();
         }
 
         if ($game['game_type'] === 'deep-fake') {
-            $this->resultDeepFakeGame($game, $refererSlug, $postData);
+            $this->resultDeepFakeGame($game, $postData);
         }
     }
 
-    private function resultDeepFakeGame($game, $currentGameSlug, $postData): void
+    private function resultDeepFakeGame($game, $postData): void
     {
         $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
 
-        $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($currentGameSlug, $game['game_type']);
+        $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($game['slug'], $game['game_type']);
 
         // TODO - maybe make the redirection based in progress and not last game (redirection to end dialogue)
         if ($nextGameSlug === '') {
