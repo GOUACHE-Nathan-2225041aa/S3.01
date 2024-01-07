@@ -5,7 +5,7 @@ namespace app\views\games;
 use app\views\layouts\Layout;
 use app\views\partials\Dialogue;
 
-class DeepFake
+class Games
 {
     public function show($gameData, $localizationData): void
     {
@@ -36,6 +36,6 @@ class DeepFake
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
-        (new Layout('FakeGame - DeepFake', ob_get_clean(), 'youngGame'))->show();
+        (new Layout('FakeGame - Games', ob_get_clean(), 'youngGame'))->show();
     }
 }

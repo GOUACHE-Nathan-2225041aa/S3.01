@@ -6,7 +6,7 @@ use app\views\layouts\Layout;
 
 class Result
 {
-    public function show($data): void
+    public function show($data, $npc): void
     {
         ob_start();
 ?>
@@ -32,7 +32,7 @@ class Result
         </div>
 
         <div id="Next">
-            <button id="btn-hint" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/young' ?>'">J'ai tout compris!</button>
+            <button id="btn-hint" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/' . $npc ?>'">J'ai tout compris!</button>
         </div>
 
     </div>

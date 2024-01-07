@@ -4,6 +4,7 @@ namespace app\controllers\games;
 
 use app\views\games\Result as ResultView;
 use app\models\games\DeepFake as DeepFakeModel;
+use app\models\games\Article as ArticleModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -36,14 +37,22 @@ class Result
             exit();
         }
 
-        if ($game['game_type'] === 'deep-fake') {
-            $this->resultDeepFakeGame($game, $postData);
-        }
+        $this->showGameResult($game, $postData);
     }
 
-    private function resultDeepFakeGame($game, $postData): void
+    private function showGameResult($game, $postData): void
     {
-        $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+        $gameData = null;
+        $npc = null;
+
+        if ($game['game_type'] === 'deep-fake') {
+            $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+            $npc = 'young';
+        }
+        if ($game['game_type'] === 'article') {
+            $gameData = (new ArticleModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+            $npc = 'old';
+        }
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
 
@@ -51,7 +60,7 @@ class Result
 
         // TODO - maybe make the redirection based in progress and not last game (redirection to end dialogue)
         if ($nextGameSlug === '') {
-            $_SESSION['young'] = 'end';
+            $_SESSION[$npc] = 'end';
         }
 
         $data = [
@@ -63,7 +72,7 @@ class Result
             'nextGameSlug' => $nextGameSlug,
         ];
 
-        (new ResultView())->show($data);
+        (new ResultView())->show($data, $npc);
     }
 
     private function getTextFromLocalData($localizationData, $language): array

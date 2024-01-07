@@ -2,8 +2,9 @@
 
 namespace app\controllers\games;
 
-use app\views\games\DeepFake as DeepFakeView;
+use app\views\games\Games as GamesView;
 use app\models\games\DeepFake as DeepFakeModel;
+use app\models\games\Article as ArticleModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -26,16 +27,17 @@ class Games
             exit();
         }
 
-        $this->gameProgress($game['slug']);
+        $this->gameProgress(htmlspecialchars($game['slug']));
 
-        if ($game['game_type'] === 'deep-fake') {
-           $this->showDeepFakeGame($game, htmlspecialchars($slug));
-        }
+        $this->showGame($game, htmlspecialchars($slug));
     }
 
-    private function showDeepFakeGame($game, $slug): void
+    private function showGame($game, $slug): void
     {
-        $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+        $gameData = null;
+
+        if ($game['game_type'] === 'deep-fake') $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+        if ($game['game_type'] === 'article') $gameData = (new ArticleModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
         $data = [
@@ -44,7 +46,7 @@ class Games
             'slug' => $slug,
         ];
 
-        (new DeepFakeView())->show($data, $localizationData);
+        (new GamesView())->show($data, $localizationData);
     }
 
     private function getTextFromLocalData($localizationData, $language): array

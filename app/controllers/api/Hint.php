@@ -2,7 +2,7 @@
 
 namespace app\controllers\api;
 
-use app\models\games\DeepFake as DeepFakeModel;
+use app\models\games\Localization as LocalizationModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -20,27 +20,21 @@ class Hint
     {
         header('Content-Type: application/json');
 
-        $gameSlug = null;
-        $referer = $_SERVER['HTTP_REFERER'] ?? null;
-
-        if ($referer !== null) {
-            $parts = explode('/', $referer);
-            $gameSlug = end($parts);
-        }
-
-        if ($gameSlug === null) {
+        if (!isset($_SESSION['current_game'])) {
             echo json_encode(['error' => 'Invalid request']);
             exit();
         }
 
-        $game = (new GamesModel($this->GamePDO))->getGameBySlug($gameSlug);
+        $game = (new GamesModel($this->GamePDO))->getGameBySlug(htmlspecialchars($_SESSION['current_game']));
 
-        if ($game['game_type'] === 'deep-fake') {
-            $hint = (new DeepFakeModel($this->GamePDO))->getHint($game['id'], $_SESSION['language']);
-            echo json_encode($hint);
+        $hint = (new LocalizationModel($this->GamePDO))->getHint($game['id'], $_SESSION['language']);
+
+        if ($hint === null) {
+            echo json_encode(['error' => 'Invalid request']);
             exit();
         }
 
-        echo json_encode(['error' => 'Invalid request']);
+        echo json_encode($hint);
+        exit();
     }
 }

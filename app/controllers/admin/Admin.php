@@ -5,7 +5,7 @@ namespace app\controllers\admin;
 use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
-use app\models\games\ArticleFake as ArticleFakeModel;
+use app\models\games\Article as ArticleFakeModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;

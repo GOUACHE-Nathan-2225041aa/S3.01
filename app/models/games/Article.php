@@ -5,7 +5,7 @@ namespace app\models\games;
 use PDO;
 use PDOException;
 
-class DeepFake // TODO - refactor duplications
+class Article // TODO - refactor duplications
 {
     public function __construct(private PDO $connection) {}
 
@@ -24,7 +24,7 @@ class DeepFake // TODO - refactor duplications
 
             $gameId = $gameData['id'];
 
-            $statement = $this->connection->prepare("INSERT INTO deep_fake_games (game_id, image, source, inserter_id, answer) VALUES (:game_id, :image, :source, :inserter_id, :answer)");
+            $statement = $this->connection->prepare("INSERT INTO article_fake_games (game_id, image, source, inserter_id, answer) VALUES (:game_id, :image, :source, :inserter_id, :answer)");
             $statement->execute([
                 'game_id' => $gameId,
                 'image' => $gameData['image'],
@@ -47,31 +47,10 @@ class DeepFake // TODO - refactor duplications
         }
     }
 
-    public function deleteGame(string $gameId): void
-    {
-        $this->connection->beginTransaction();
-
-        try {
-            $statement = $this->connection->prepare("DELETE FROM deep_fake_games WHERE game_id = :game_id");
-            $statement->execute(['game_id' => $gameId]);
-
-            $statement = $this->connection->prepare("DELETE FROM localization WHERE game_id = :game_id");
-            $statement->execute(['game_id' => $gameId]);
-
-            $statement = $this->connection->prepare("DELETE FROM games WHERE id = :id");
-            $statement->execute(['id' => $gameId]);
-
-            $this->connection->commit();
-        } catch (PDOException $e) {
-            $pdo->rollBack();
-            throw $e;
-        }
-    }
-
     public function getGame(string $gameId, string $language): ?array
     {
         try {
-            $statement = $this->connection->prepare("SELECT * FROM deep_fake_games WHERE game_id = :game_id");
+            $statement = $this->connection->prepare("SELECT * FROM article_fake_games WHERE game_id = :game_id");
             $statement->execute(['game_id' => $gameId]);
             $gameData = $statement->fetch(PDO::FETCH_ASSOC);
 
