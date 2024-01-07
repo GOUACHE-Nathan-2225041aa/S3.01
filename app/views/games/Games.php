@@ -22,6 +22,13 @@ class Games
             <div id="DeepFakePicture">
                 <img src="data:image/jpeg;base64,<?= $gameData['image'] ?>" alt="">
             </div>
+            <?php if (isset($gameData['audio'])): ?>
+                <div>
+                    <audio id="audio" controls onloadeddata="this.volume = 0.2">
+                        <source src="data:audio/mpeg;base64,<?= $gameData['audio'] ?>" type="audio/mpeg">
+                    </audio>
+                </div>
+            <?php endif; ?>
             <form id="BoutonsChoix" method="POST" action="">
                 <button type="submit" name="answer" value="1" id="BoutonReel">Réel</button>
                 <span>OU</span>

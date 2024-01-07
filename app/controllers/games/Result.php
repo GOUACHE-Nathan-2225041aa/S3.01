@@ -5,6 +5,7 @@ namespace app\controllers\games;
 use app\views\games\Result as ResultView;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Article as ArticleModel;
+use app\models\games\Audio as AudioModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -25,10 +26,10 @@ class Result
             exit();
         }
 
+        $postData = $_SESSION['answer_form_data'];
+
         unset($_SESSION['answer_form_submitted']);
         unset($_SESSION['answer_form_data']);
-
-        $postData = $_SESSION['answer_form_data'];
 
         $game = (new GamesModel($this->GamePDO))->getGameBySlug($_SESSION['current_game']);
 
@@ -44,6 +45,7 @@ class Result
     {
         $gameData = null;
         $npc = null;
+        $data = [];
 
         if ($game['game_type'] === 'deep-fake') {
             $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
@@ -52,6 +54,11 @@ class Result
         if ($game['game_type'] === 'article') {
             $gameData = (new ArticleModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
             $npc = 'old';
+        }
+        if ($game['game_type'] === 'audio') {
+            $gameData = (new AudioModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+            $data['audio'] = base64_encode($gameData['audio']);
+            $npc = 'adult';
         }
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
@@ -63,7 +70,7 @@ class Result
             $_SESSION[$npc] = 'end';
         }
 
-        $data = [
+        $data += [
             'source' => $gameData['source'],
             'image' => base64_encode($gameData['image']),
             'userAnswer' => intval(htmlspecialchars($postData['answer'])),

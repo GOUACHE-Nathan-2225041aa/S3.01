@@ -36,7 +36,7 @@ class Admin
             <input type="text" name="title" id="title" required>
 
             <label for="image">Image</label>
-            <input type="file" name="image" id="image" required>
+            <input type="file" name="image" id="image" accept="image/*" required>
 
             <label for="answer">Answer</label>
             <select name="answer" id="answer" required>
@@ -73,7 +73,47 @@ class Admin
             <input type="text" name="title" id="title" required>
 
             <label for="image">Image</label>
-            <input type="file" name="image" id="image" required>
+            <input type="file" name="image" id="image" accept="image/*" required>
+
+            <label for="answer">Answer</label>
+            <select name="answer" id="answer" required>
+                <option disabled selected>Select the answer</option>
+                <option value="1">True</option>
+                <option value="0">False</option>
+            </select>
+
+            <label for="hint">Hint</label>
+            <textarea name="hint" id="hint" cols="30" rows="10"></textarea>
+
+            <label for="description">Description</label>
+            <textarea name="description" id="description" cols="30" rows="10"></textarea>
+
+            <label for="source">Source</label>
+            <input type="text" name="source" id="source">
+
+            <label for="language">Language</label>
+            <select name="language" id="language" required>
+                <option disabled selected>Select the language</option>
+                <option value="fr">French</option>
+                <option value="en">English</option>
+            </select>
+
+            <button type="submit" name="create-game">Create</button>
+        </form>
+    </div>
+    <div>
+        <h1>Game: Audio</h1>
+        <form method="POST" action="" enctype="multipart/form-data">
+            <input type="hidden" name="game_type" value="audio">
+
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required>
+
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" accept="image/*" required>
+
+            <label for="audio">Audio</label>
+            <input type="file" name="audio" id="audio" accept="audio/*" required>
 
             <label for="answer">Answer</label>
             <select name="answer" id="answer" required>

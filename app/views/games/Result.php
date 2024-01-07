@@ -21,6 +21,13 @@ class Result
                 <?php if (isset($data['image'])): ?>
                     <img id="ImageOnTheSide" src="data:image/jpeg;base64,<?= $data['image'] ?>" alt="">
                 <?php endif; ?>
+                <?php if (isset($data['audio'])): ?>
+                    <div>
+                        <audio id="audio" controls onloadeddata="this.volume = 0.2">
+                            <source src="data:audio/mpeg;base64,<?= $data['audio'] ?>" type="audio/mpeg">
+                        </audio>
+                    </div>
+                <?php endif; ?>
                 <?php if (isset($data['source'])): ?>
                     <a id="Source" href="<?= $data['source'] ?>">Source</a>
                 <?php endif; ?>

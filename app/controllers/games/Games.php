@@ -5,6 +5,7 @@ namespace app\controllers\games;
 use app\views\games\Games as GamesView;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Article as ArticleModel;
+use app\models\games\Audio as AudioModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -35,12 +36,17 @@ class Games
     private function showGame($game, $slug): void
     {
         $gameData = null;
+        $data = [];
 
         if ($game['game_type'] === 'deep-fake') $gameData = (new DeepFakeModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
         if ($game['game_type'] === 'article') $gameData = (new ArticleModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+        if ($game['game_type'] === 'audio') {
+            $gameData = (new AudioModel($this->GamePDO))->getGame($game['id'], $_SESSION['language']);
+            $data['audio'] = base64_encode($gameData['audio']);
+        }
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
-        $data = [
+        $data += [
             'source' => $gameData['source'],
             'image' => base64_encode($gameData['image']),
             'slug' => $slug,

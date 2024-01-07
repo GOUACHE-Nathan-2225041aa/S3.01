@@ -6,6 +6,7 @@ use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Article as ArticleModel;
+use app\models\games\Audio as AudioModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -46,6 +47,10 @@ class Admin // TODO - refactor duplications
 
         if ($postData['game_type'] === 'article') {
             $this->gameArticle($postData, $fileData);
+        }
+
+        if ($postData['game_type'] === 'audio') {
+            $this->gameAudio($postData, $fileData);
         }
     }
 
@@ -211,6 +216,113 @@ class Admin // TODO - refactor duplications
 
         try {
             (new ArticleModel($this->GamePDO))->createGame($gameData, $localizationData);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $_SESSION['errorMessage'] = 'Error while creating game';
+            header('Location: /admin');
+            exit();
+        }
+
+        $_SESSION['errorMessage'] = 'Game created successfully';
+        header('Location: /admin');
+        exit();
+    }
+
+    private function gameAudio($postData, $fileData): void
+    {
+        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
+            $_SESSION['errorMessage'] = 'Missing image';
+            header('Location: /admin');
+            exit();
+        }
+
+        if (!is_uploaded_file($fileData['audio']['tmp_name'])) {
+            $_SESSION['errorMessage'] = 'Missing audio';
+            header('Location: /admin');
+            exit();
+        }
+
+        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
+            $_SESSION['errorMessage'] = 'Wrong image type';
+            header('Location: /admin');
+            exit();
+        }
+
+        if ($fileData['audio']['type'] != 'audio/mpeg') {
+            $_SESSION['errorMessage'] = 'Wrong audio type';
+            header('Location: /admin');
+            exit();
+        }
+
+        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
+            $_SESSION['errorMessage'] = 'Image too big';
+            header('Location: /admin');
+            exit();
+        }
+
+        if ($fileData['audio']['size'] > 5 * 1024 * 1024) {
+            $_SESSION['errorMessage'] = 'Audio too big';
+            header('Location: /admin');
+            exit();
+        }
+
+        $jpegImage = null;
+        $audio = file_get_contents($fileData['audio']['tmp_name']);
+
+        if ($fileData['image']['type'] == 'image/png') {
+            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
+            ob_start();
+            imagejpeg($sourceImage, null, 75);
+            $jpegImage = ob_get_clean();
+            imagedestroy($sourceImage);
+        } else {
+            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
+        }
+
+        $uuid = Uuid::uuid4()->toString();
+
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
+
+        if ($slug === null) {
+            $_SESSION['errorMessage'] = 'Error while generating game url';
+            header('Location: /admin');
+            exit();
+        }
+
+        $gameData = [
+            'id' => $uuid,
+            'game_type' => htmlspecialchars($postData['game_type']),
+            'creation_date' => date('Y-m-d H:i:s'),
+            'image' => $jpegImage,
+            'audio' => $audio,
+            'source' => htmlspecialchars($postData['source']),
+            'inserter_id' => $_SESSION['id'],
+            'slug' => $slug,
+            'answer' => (int)htmlspecialchars($postData['answer']),
+        ];
+
+        $language = htmlspecialchars($postData['language']);
+
+        $localizationData = [
+            [
+                'field' => 'title',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['title']),
+            ],
+            [
+                'field' => 'hint',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['hint']),
+            ],
+            [
+                'field' => 'description',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['description']),
+            ],
+        ];
+
+        try {
+            (new AudioModel($this->GamePDO))->createGame($gameData, $localizationData);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
