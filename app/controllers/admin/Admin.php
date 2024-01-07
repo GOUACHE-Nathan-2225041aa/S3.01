@@ -5,7 +5,7 @@ namespace app\controllers\admin;
 use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
-use app\models\games\Article as ArticleFakeModel;
+use app\models\games\Article as ArticleModel;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
@@ -210,7 +210,7 @@ class Admin // TODO - refactor duplications
         ];
 
         try {
-            (new ArticleFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+            (new ArticleModel($this->GamePDO))->createGame($gameData, $localizationData);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
