@@ -29,12 +29,23 @@ class Dialogues
         }
 
         if (!isset($_SESSION[$npc]) || $_SESSION[$npc] !== 'end') {
+            $npcToGameTypeMap = [
+                'young' => 'deep-fake',
+                'old' => 'article',
+                'adult' => 'audio',
+            ];
+
+            $firstGameSlug = null;
+            if (isset($npcToGameTypeMap[$npc])) {
+                $firstGameSlug = (new GamesModel($this->GamePDO))->getFirstGameSlugByType($npcToGameTypeMap[$npc]);
+            }
+
             $data = [
                 'dialogues' => [
                     (new Localization())->getArray('dialogues', [$npc, 'question']),
                     (new Localization())->getArray('dialogues', [$npc, 'answer']),
                 ],
-                'game' => (new GamesModel($this->GamePDO))->getFirstGameSlugByType('deep-fake'), // TODO - detect the game type
+                'game' => $firstGameSlug,
             ];
             echo json_encode($data);
             exit();

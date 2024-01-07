@@ -5,12 +5,14 @@ namespace app\controllers\admin;
 use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
+use app\models\games\ArticleFake as ArticleFakeModel;
+use app\models\games\Games as GamesModel;
 use config\DataBase;
 use PDO;
 use PDOException;
 use Ramsey\Uuid\Uuid;
 
-class Admin
+class Admin // TODO - refactor duplications
 {
     private PDO $AccountPDO;
     private PDO $GamePDO;
@@ -40,6 +42,10 @@ class Admin
 
         if ($postData['game_type'] === 'deep-fake') {
             $this->gameDeepFake($postData, $fileData);
+        }
+
+        if ($postData['game_type'] === 'article') {
+            $this->gameArticle($postData, $fileData);
         }
     }
 
@@ -77,7 +83,7 @@ class Admin
 
         $uuid = Uuid::uuid4()->toString();
 
-        $slug = $this->generateSlug(htmlspecialchars($postData['title']));
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
 
         if ($slug === null) {
             $_SESSION['errorMessage'] = 'Error while generating game url';
@@ -130,6 +136,93 @@ class Admin
         exit();
     }
 
+    private function gameArticle($postData, $fileData): void
+    {
+        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
+            $_SESSION['errorMessage'] = 'Missing image';
+            header('Location: /admin');
+            exit();
+        }
+
+        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
+            $_SESSION['errorMessage'] = 'Wrong image type';
+            header('Location: /admin');
+            exit();
+        }
+
+        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
+            $_SESSION['errorMessage'] = 'Image too big';
+            header('Location: /admin');
+            exit();
+        }
+
+        $jpegImage = null;
+
+        if ($fileData['image']['type'] == 'image/png') {
+            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
+            ob_start();
+            imagejpeg($sourceImage, null, 75);
+            $jpegImage = ob_get_clean();
+            imagedestroy($sourceImage);
+        } else {
+            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
+        }
+
+        $uuid = Uuid::uuid4()->toString();
+
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
+
+        if ($slug === null) {
+            $_SESSION['errorMessage'] = 'Error while generating game url';
+            header('Location: /admin');
+            exit();
+        }
+
+        $gameData = [
+            'id' => $uuid,
+            'game_type' => htmlspecialchars($postData['game_type']),
+            'creation_date' => date('Y-m-d H:i:s'),
+            'image' => $jpegImage,
+            'source' => htmlspecialchars($postData['source']),
+            'inserter_id' => $_SESSION['id'],
+            'slug' => $slug,
+            'answer' => (int)htmlspecialchars($postData['answer']),
+        ];
+
+        $language = htmlspecialchars($postData['language']);
+
+        $localizationData = [
+            [
+                'field' => 'title',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['title']),
+            ],
+            [
+                'field' => 'hint',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['hint']),
+            ],
+            [
+                'field' => 'description',
+                'language' => $language,
+                'text' => htmlspecialchars($postData['description']),
+            ],
+        ];
+
+        try {
+            (new ArticleFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $_SESSION['errorMessage'] = 'Error while creating game';
+            header('Location: /admin');
+            exit();
+        }
+
+        $_SESSION['errorMessage'] = 'Game created successfully';
+        header('Location: /admin');
+        exit();
+    }
+
     private function userAuth(): void
     {
         if (!isset($_SESSION['username'])) {
@@ -144,11 +237,11 @@ class Admin
         }
     }
 
-    private function generateSlug($title): ?string
+    private function generateSlug($title, $gameType): ?string
     {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
-        $existingGamesCount = (new DeepFakeModel($this->GamePDO))->getCountOfGamesBySlug($slug);
+        $existingGamesCount = (new GamesModel($this->GamePDO))->getCountOfGamesBySlug($slug, $gameType);
 
         if ($existingGamesCount === null) return null;
 
