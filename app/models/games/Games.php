@@ -62,4 +62,16 @@ class Games
             return null;
         }
     }
+
+    public function getTotalGamesCount(): ?int
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT COUNT(*) FROM games");
+            $statement->execute();
+            return $statement->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
 }

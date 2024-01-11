@@ -28,6 +28,9 @@ class Admin
         </ul>
     </div>
     <div>
+        <a href="/admin/localization">Localization</a>
+    </div>
+    <div>
         <h1>Game: Deep Fake</h1>
         <form method="POST" action="" enctype="multipart/form-data">
             <input type="hidden" name="game_type" value="deep-fake">

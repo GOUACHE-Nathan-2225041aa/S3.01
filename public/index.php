@@ -16,6 +16,7 @@ use app\controllers\errors\Errors as ErrorsController;
 use app\controllers\games\Result as ResultController;
 use app\controllers\npc\Old as OldController;
 use app\controllers\npc\Adult as AdultController;
+use app\controllers\admin\Localization as LocalizationController;
 
 use app\services\Localization;
 
@@ -57,6 +58,10 @@ try {
             (new AdminController())->createGame($_POST, $_FILES);
         }
 
+        if (isset($_POST['save-localization'])) {
+            (new LocalizationController())->save($_POST);
+        }
+
         if (isset($_POST['answer'])) {
             $_SESSION['answer_form_submitted'] = true;
             $_SESSION['answer_form_data'] = $_POST;
@@ -87,7 +92,13 @@ try {
     }
 
     if (isset($_SERVER['REQUEST_URI']) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
-        $route = ($_SERVER['REQUEST_URI'] === '/') ? '/' : explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+        $params = [];
+        $urlParts = parse_url($_SERVER['REQUEST_URI']);
+        $route = ($urlParts['path'] === '/') ? '/' : explode('/', trim($urlParts['path'], '/'));
+
+        if (isset($urlParts['query'])) {
+            parse_str($urlParts['query'], $params);
+        }
 
         switch ($route[0]) {
             case 'home':
@@ -115,10 +126,6 @@ try {
                 (new LogoutController())->execute();
                 break;
 
-            case 'admin':
-                (new AdminController())->execute();
-                break;
-
             case 'intro':
                 (new IntroController())->execute();
                 break;
@@ -137,6 +144,18 @@ try {
 
             case 'adult':
                 (new AdultController())->execute();
+                break;
+
+            case 'admin':
+                if (isset($route[1]) && $route[1] === 'localization') {
+                    (new LocalizationController())->execute($params);
+                    break;
+                }
+                if (count($route) > 1) {
+                    (new ErrorsController())->notFound();
+                    break;
+                }
+                (new AdminController())->execute();
                 break;
 
             case 'games':

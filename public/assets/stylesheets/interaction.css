@@ -2,7 +2,7 @@
 
 body,html{
     background-color: var(--BG-Color);
-    overflow: hidden;
+    /*overflow: hidden;*/
     height: 100%;
 }
 
