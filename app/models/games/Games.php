@@ -74,4 +74,47 @@ class Games
             return null;
         }
     }
+
+    public function getGames($nbGames, $offset): array
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM games ORDER BY creation_date DESC LIMIT :limit OFFSET :offset");
+            $statement->bindParam(':limit', $nbGames, PDO::PARAM_INT);
+            $statement->bindParam(':offset', $offset, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function deleteGameById(string $gameId, string $gameType): void
+    {
+        $gameQuery = [
+            'deep-fake' => "DELETE FROM deep_fake_games WHERE game_id = :game_id",
+            'audio' => "DELETE FROM audio_fake_games WHERE game_id = :game_id",
+            'article' => "DELETE FROM article_fake_games WHERE game_id = :game_id",
+        ];
+
+        $this->connection->beginTransaction();
+
+        try {
+            if (!isset($gameQuery[$gameType])) return;
+
+            $statement = $this->connection->prepare($gameQuery[$gameType]);
+            $statement->execute(['game_id' => $gameId]);
+
+            $statement = $this->connection->prepare("DELETE FROM localization WHERE game_id = :game_id");
+            $statement->execute(['game_id' => $gameId]);
+
+            $statement = $this->connection->prepare("DELETE FROM games WHERE id = :id");
+            $statement->execute(['id' => $gameId]);
+
+            $this->connection->commit();
+        } catch (PDOException $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
+    }
 }

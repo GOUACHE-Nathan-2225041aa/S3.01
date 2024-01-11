@@ -47,27 +47,6 @@ class DeepFake // TODO - refactor duplications
         }
     }
 
-    public function deleteGame(string $gameId): void
-    {
-        $this->connection->beginTransaction();
-
-        try {
-            $statement = $this->connection->prepare("DELETE FROM deep_fake_games WHERE game_id = :game_id");
-            $statement->execute(['game_id' => $gameId]);
-
-            $statement = $this->connection->prepare("DELETE FROM localization WHERE game_id = :game_id");
-            $statement->execute(['game_id' => $gameId]);
-
-            $statement = $this->connection->prepare("DELETE FROM games WHERE id = :id");
-            $statement->execute(['id' => $gameId]);
-
-            $this->connection->commit();
-        } catch (PDOException $e) {
-            $pdo->rollBack();
-            throw $e;
-        }
-    }
-
     public function getGame(string $gameId, string $language): ?array
     {
         try {

@@ -17,6 +17,8 @@ use app\controllers\games\Result as ResultController;
 use app\controllers\npc\Old as OldController;
 use app\controllers\npc\Adult as AdultController;
 use app\controllers\admin\Localization as LocalizationController;
+use app\controllers\admin\Games as AdminGamesController;
+use app\controllers\api\Games as ApiGamesController;
 
 use app\services\Localization;
 
@@ -89,6 +91,16 @@ try {
                 exit;
             }
         }
+
+        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/games') {
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                (new ApiGamesController())->execute();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                echo 'Access denied';
+                exit;
+            }
+        }
     }
 
     if (isset($_SERVER['REQUEST_URI']) && isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -149,6 +161,10 @@ try {
             case 'admin':
                 if (isset($route[1]) && $route[1] === 'localization') {
                     (new LocalizationController())->execute($params);
+                    break;
+                }
+                if (isset($route[1]) && $route[1] === 'games') {
+                    (new AdminGamesController())->execute($params);
                     break;
                 }
                 if (count($route) > 1) {

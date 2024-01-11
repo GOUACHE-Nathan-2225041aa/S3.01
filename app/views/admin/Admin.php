@@ -29,6 +29,7 @@ class Admin
     </div>
     <div>
         <a href="/admin/localization">Localization</a>
+        <a href="/admin/games">Games</a>
     </div>
     <div>
         <h1>Game: Deep Fake</h1>
