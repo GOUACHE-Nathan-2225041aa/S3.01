@@ -26,7 +26,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-(new Localization());
+(new Localization())->setLanguage("en");
 
 try {
     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {

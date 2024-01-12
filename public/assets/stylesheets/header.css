@@ -1,0 +1,11 @@
+nav{
+    display: flex;
+    justify-content: space-around;
+}
+
+a{
+    color: inherit;
+    text-decoration: none;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 25px;
+}
