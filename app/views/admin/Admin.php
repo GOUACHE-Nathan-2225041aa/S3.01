@@ -147,6 +147,6 @@ class Admin
     </div>
 </main>
 <?php
-        (new Layout('FakeGame - Admin', ob_get_clean()))->show();
+        (new Layout('FakeGame - Admin', ob_get_clean(), 'admin'))->show();
     }
 }
