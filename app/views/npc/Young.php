@@ -11,13 +11,14 @@ class Young
     {
         ob_start();
 ?>
-<script src="/assets/scripts/dialogue.js" defer></script>
-<main id="game_screen" data-npc="young">
-    <img id='bg' src="/assets/images/background/park.png">
+<main id="main" data-npc="young">
+    <div class="game">
+        <img id="young" src="/assets/images/characters/young/young.png" alt="Young character">
+    </div>
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
-        (new Layout('FakeGame - Young', ob_get_clean(), 'youngGame'))->show();
+        (new Layout('FakeGame - Young', ob_get_clean(), 'dialogue', ['dialogue', 'draggable']))->show();
     }
 }
 ?>

@@ -11,29 +11,37 @@ class Login
         ob_start();
 ?>
 <main>
-    <h1>Login</h1>
-    <form method="POST" action="" id="Login-Form">
+    <form class="login-form" method="POST" action="">
+        <div class="form-item flex-center">
+            <h1 class="title">Login</h1>
+        </div>
         <?php if (isset($_SESSION['errorMessage'])): ?>
-            <div class="errorMessage">
+            <div class="form-item errorMessage">
                 <?= $_SESSION['errorMessage'] ?>
             </div>
             <?php unset($_SESSION['errorMessage']); ?>
         <?php endif; ?>
 
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username">
+        <div class="form-item">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <div class="form-item">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
 
-        <button type="submit" name="login">Login</button>
-        <div id="div-signup-recovery">
+        <div class="form-item flex-center">
+            <button class="btn btn-primary" type="submit" name="login">Login</button>
+        </div>
+        <div class="form-item links flex-center">
             <a href="/signup">Create Account</a>
             <a href="/recovery">Forgot Password</a>
         </div>
     </form>
 </main>
 <?php
-        (new Layout('FakeGame - Login', ob_get_clean(), 'Login'))->show();
+        (new Layout('FakeGame - Login', ob_get_clean(), 'connection'))->show();
     }
 }

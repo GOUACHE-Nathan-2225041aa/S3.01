@@ -11,13 +11,14 @@ class Adult
     {
         ob_start();
 ?>
-<script src="/assets/scripts/dialogue.js" defer></script>
-<main id="game_screen" data-npc="adult">
-    <img id='bg' src="/assets/images/background/park.png">
+<main id="main" data-npc="adult">
+    <div class="game">
+        <img id="adult" src="/assets/images/characters/adult/adult.png" alt="Adult character">
+    </div>
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
-        (new Layout('FakeGame - Adult', ob_get_clean()))->show();
+        (new Layout('FakeGame - Adult', ob_get_clean(), 'dialogue', ['dialogue']))->show();
     }
 }
 ?>

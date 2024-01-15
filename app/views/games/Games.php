@@ -11,38 +11,30 @@ class Games
     {
         ob_start();
 ?>
-<script defer src="/assets/scripts/hint.js"></script>
-<main id="game_screen">
-    <div id="DeepFakeGUI">
-        <div id="Titre">
-            <h1><?= $localizationData['title'] ?></h1>
-        </div>
-
-        <div id="Contenu">
-            <div id="DeepFakePicture">
-                <img src="data:image/jpeg;base64,<?= $gameData['image'] ?>" alt="">
-            </div>
-            <?php if (isset($gameData['audio'])): ?>
+<main id="main">
+    <div class="game">
+        <h1 class="title"><?= $localizationData['title'] ?></h1>
+        <div class="middle-game">
+            <div class="left-container">
                 <div>
+                    <img data-src="data:image/jpeg;base64,<?= $gameData['image'] ?>" src="" alt="">
+                </div>
+                <?php if (isset($gameData['audio'])): ?>
                     <audio id="audio" controls onloadeddata="this.volume = 0.2">
                         <source src="data:audio/mpeg;base64,<?= $gameData['audio'] ?>" type="audio/mpeg">
                     </audio>
-                </div>
-            <?php endif; ?>
-            <form id="BoutonsChoix" method="POST" action="">
-                <button type="submit" name="answer" value="1" id="BoutonReel">Réel</button>
-                <span>OU</span>
-                <button type="submit" name="answer" value="0" id="BoutonFake">Fake</button>
+                <?php endif; ?>
+            </div>
+            <form class="answer-from" method="POST" action="">
+                <button class="btn btn-primary" type="submit" name="answer" value="1">True</button>
+                <button class="btn btn-danger" type="submit" name="answer" value="0">False</button>
             </form>
         </div>
-
-        <div id="Hint">
-            <button id="btn-hint">J'ai besoin d'un indice...</button>
-        </div>
+        <button class="btn btn-danger" id="btn-hint">Hint</button>
     </div>
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
-        (new Layout('FakeGame - Games', ob_get_clean(), 'youngGame'))->show();
+        (new Layout('FakeGame - Games', ob_get_clean(), 'game', ['hint', 'draggable', 'image']))->show();
     }
 }

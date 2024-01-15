@@ -4,6 +4,7 @@ namespace app\services;
 
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
+use config\EmailConfig;
 
 class EmailService
 {
@@ -13,7 +14,11 @@ class EmailService
     public function __construct()
     {
         $this->mailer = new PHPMailer(true);
-        $this->init();
+        try {
+            $this->init();
+        } catch (Exception $e) {
+            throw new Exception('EmailService init failed: ' . $e->getMessage());
+        }
     }
 
     public static function getInstance(): EmailService
@@ -27,10 +32,7 @@ class EmailService
 
     private function init(): void
     {
-        $config = parse_ini_file('email.ini');
-        if ($config === false) {
-            throw new Exception("Error loading configuration file.");
-        }
+        $config = EmailConfig::getInstance()->getConfig();
         try {
             $this->mailer->isSMTP();
             $this->mailer->Host = $config['host'];

@@ -21,15 +21,15 @@ function requestHint() {
 }
 
 document.getElementById('btn-hint').addEventListener('click', showHint)
-document.getElementById('btn-dialogue').addEventListener('click', closeHint)
+document.getElementById('dialogue').addEventListener('click', closeHint)
 
 function showHint() {
     if (hint === '') requestHint()
-    let hintElement = document.getElementById('bas')
-    hintElement.style.display = 'flex'
+    let hintElement = document.getElementById('dialogue')
+    hintElement.style.display = 'grid'
 }
 
 function closeHint() {
-    let hintElement = document.getElementById('bas')
+    let hintElement = document.getElementById('dialogue')
     hintElement.style.display = 'none'
 }

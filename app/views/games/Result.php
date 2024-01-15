@@ -10,42 +10,32 @@ class Result
     {
         ob_start();
 ?>
-<main id="game_screen">
-    <div id="DeepFakeGUI">
-        <div id="Answer">
-            <h1><?= $data['userAnswer'] === $data['correctAnswer'] ? 'Correct Answer' : 'Wrong Answer' ?></h1>
-        </div>
-
-        <div id="Frame">
-            <div id="DFP">
+<main id="main">
+    <div class="game">
+        <h1 class="title <?= $data['userAnswer'] === $data['correctAnswer'] ? 'correct' : 'wrong'?>"><?= $data['userAnswer'] === $data['correctAnswer'] ? 'Correct Answer' : 'Wrong Answer' ?></h1>
+        <div class="middle-game">
+            <div class="left-container">
                 <?php if (isset($data['image'])): ?>
-                    <img id="ImageOnTheSide" src="data:image/jpeg;base64,<?= $data['image'] ?>" alt="">
+                <div>
+                    <img data-src="data:image/jpeg;base64,<?= $data['image'] ?>" src="" alt="">
+                </div>
                 <?php endif; ?>
                 <?php if (isset($data['audio'])): ?>
-                    <div>
-                        <audio id="audio" controls onloadeddata="this.volume = 0.2">
-                            <source src="data:audio/mpeg;base64,<?= $data['audio'] ?>" type="audio/mpeg">
-                        </audio>
-                    </div>
+                    <audio controls onloadeddata="this.volume = 0.2">
+                        <source src="data:audio/mpeg;base64,<?= $data['audio'] ?>" type="audio/mpeg">
+                    </audio>
                 <?php endif; ?>
                 <?php if (isset($data['source'])): ?>
-                    <a id="Source" href="<?= $data['source'] ?>">Source</a>
+                    <a class="source" href="<?= $data['source'] ?>" target="_blank">Source</a>
                 <?php endif; ?>
             </div>
-
-            <div id="Explications">
-                <p><?= $data['description'] ?></p>
-            </div>
+            <p class="description"><?= $data['description'] ?></p>
         </div>
-
-        <div id="Next">
-            <button id="btn-hint" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/' . $npc ?>'">J'ai tout compris!</button>
-        </div>
-
+        <button class="btn btn-primary" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/' . $npc ?>'">Understood!</button>
     </div>
 </main>
 <?php
-        (new Layout('FakeGame - Result', ob_get_clean(), 'youngGame'))->show();
+        (new Layout('FakeGame - Result', ob_get_clean(), 'result', ['draggable', 'image']))->show();
     }
 }
 ?>

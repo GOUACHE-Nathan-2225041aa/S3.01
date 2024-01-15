@@ -11,13 +11,14 @@ class Old
     {
         ob_start();
 ?>
-<script src="/assets/scripts/dialogue.js" defer></script>
-<main id="game_screen" data-npc="old">
-    <img id='bg' src="/assets/images/background/park.png">
+<main id="main" data-npc="old">
+    <div class="game">
+        <img id="old" src="/assets/images/characters/old/old.png" alt="Old character">
+    </div>
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>
 <?php
-        (new Layout('FakeGame - Old', ob_get_clean()))->show();
+        (new Layout('FakeGame - Old', ob_get_clean(), 'dialogue', ['dialogue']))->show();
     }
 }
 ?>

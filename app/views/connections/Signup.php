@@ -11,36 +11,51 @@ class Signup
         ob_start();
 ?>
 <main>
-    <form method="POST" action="">
+    <form class="login-form" method="POST" action="">
+        <div class="form-item flex-center">
+            <h1 class="title">Create Account</h1>
+        </div>
         <?php if (isset($_SESSION['errorMessage'])): ?>
-            <div class="errorMessage">
+            <div class="form-item errorMessage">
                 <?= $_SESSION['errorMessage'] ?>
             </div>
             <?php unset($_SESSION['errorMessage']); ?>
         <?php endif; ?>
 
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" <?php if ($email !== '') { echo 'value="' . $email . '"'; echo ' readonly'; } ?>>
+        <div class="form-item">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" <?php if ($email !== '') { echo 'value="' . $email . '"'; echo ' readonly'; } ?>>
+        </div>
 
         <?php if ($isEmailVerified): ?>
 
-        <label for="username">Username</label>
-        <input type="text" name="username" id="username">
+        <div class="form-item">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <div class="form-item">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+        </div>
 
-        <label for="passwordConfirmation">Confirm Password</label>
-        <input type="password" name="passwordConfirmation" id="passwordConfirmation">
+        <div class="form-item">
+            <label for="passwordConfirmation">Confirm Password</label>
+            <input type="password" name="passwordConfirmation" id="passwordConfirmation">
+        </div>
 
         <?php endif; ?>
 
-        <a href="/login">Already have an account</a>
+        <div class="form-item flex-center">
+            <button class="btn btn-primary" type="submit" name="<?= $isEmailVerified ? 'signup' : 'email_verification'; ?>">Signup</button>
+        </div>
 
-        <button type="submit" name="<?= $isEmailVerified ? 'signup' : 'email_verification'; ?>">Signup</button>
+        <div class="form-item links flex-center">
+            <a href="/login">Log In</a>
+        </div>
     </form>
 </main>
 <?php
-        (new Layout('FakeGame - Signup', ob_get_clean()))->show();
+        (new Layout('FakeGame - Signup', ob_get_clean(), 'connection'))->show();
     }
 }

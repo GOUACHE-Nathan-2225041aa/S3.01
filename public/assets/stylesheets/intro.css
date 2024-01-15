@@ -1,5 +1,1 @@
-@import 'dialogue.css';
-
-body{
-    background-color: var(--BG-Color);
-}
+@import 'shared/dialogue.css';

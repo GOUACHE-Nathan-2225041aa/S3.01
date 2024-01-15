@@ -1,0 +1,89 @@
+@import "shared/buttons.css";
+@import "shared/dialogue.css";
+
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 5vh;
+}
+
+.game {
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-light);
+    width: 80vw;
+    height: 80vh;
+    border-radius: 25px;
+    /*border: 3px solid var(--border-color-dark);*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.left-container {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    flex-direction: column;
+}
+
+.vertical {
+    max-width: 30vw;
+    max-height: 39.84vh;
+}
+
+.horizontal {
+    max-width: 35vw;
+    max-height: 40vw;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.middle-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.middle-game img {
+    border-radius: 25px;
+}
+
+.answer-from {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.btn {
+    font-size: 1.5rem;
+    min-width: 10rem;
+    height: 4.5rem;
+    padding: 1.5rem;
+}
+
+#btn-hint {
+    background-color: var(--accent-color);
+}
+
+#btn-hint:hover {
+    background-color: var(--btn-danger-color-dark);
+}
+
+#dialogue {
+    display: none;
+}
+
+audio {
+    border-radius: 25px;
+}

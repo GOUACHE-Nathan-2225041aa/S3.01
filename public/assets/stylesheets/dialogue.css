@@ -1,81 +1,27 @@
-#bas{
-    display: flex;
-    justify-content: space-around;
-    align-items: end;
-    position: absolute;
-    width: 100%;
-    padding-bottom: 20px;
-    bottom: 0;
-    z-index: 1;
-    color: inherit;
+@import "shared/game.css";
+@import "shared/dialogue.css";
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
-/* --- Les bulles --- */
-#bulle_texte{
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 25px;
-    background-color: white;
-    border: 3px solid;
-    border-radius: 35px;
-    margin: 20px;
-    padding: 16px;
-    width: 85%;
-    height: 175px;
-    z-index: 1;
-}
-#bulle_nom{
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    background-color: white;
-    border: 3px solid;
-    border-radius: 35px;
-    text-align: center;
-    margin: 20px;
-    padding: 10px;
-    height: 50px;
-    width: 225px;
-    z-index: 1;
-}
-#bulle_image{
-    background-color: white;
-    border: 3px solid;
-    border-radius: 35px;
-    margin-left: 20px;
-    height: 225px;
-    width: 225px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-}
-/* --- fin des bulles --- */
-
-#listener {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-    height: 300%;
+.game {
+    background-image: url('/assets/images/background/park.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 1s ease-in-out;
 }
 
-/*.text_dialogue{
-    overflow: hidden;
-    white-space: nowrap;
-    animation:
-            typing 3.5s steps(40, end),
-            blink-caret .75s step-end infinite;
+#old, #adult {
+    height: 70%;
 }
 
-/* The typing effect */
-/*@keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-}*/
+#young {
+    height: 50%;
+}
 
-#nextDialogue{
-    width: 75px;
-    height: 75px;
-    position: absolute;
-    top: 67%;
-    left: 93%;
+#head {
+    width: 50%;
 }

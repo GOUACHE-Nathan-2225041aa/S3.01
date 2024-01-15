@@ -11,7 +11,6 @@ class Games
         ob_start();
 ?>
 <main>
-    <script src="/assets/scripts/deletegame.js" defer></script>
     <h1>Games</h1>
     <?php if (isset($_SESSION['errorMessage'])): ?>
         <div class="errorMessage">
@@ -29,7 +28,7 @@ class Games
     </div>
 </main>
 <?php
-        (new Layout('FakeGame - Games', ob_get_clean()))->show();
+        (new Layout('FakeGame - Games', ob_get_clean(), '', ['deletegame']))->show();
     }
 
     private function game($gameData): string

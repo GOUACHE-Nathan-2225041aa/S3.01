@@ -1,34 +1,26 @@
-@import 'dialogue.css';
+@import "shared/game.css";
 
-body,html{
-    background-color: var(--BG-Color);
-    height: 100%;
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
 }
 
-#game_screen{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.game {
+    background-image: url('/assets/images/background/park.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 1s ease-in-out;
 }
 
-#bg{
-    height: 95%;
-    border: 3px solid;
-    border-radius: 35px;
+img:hover {
+    cursor: pointer;
 }
 
-#old{
-    position:fixed;
+#old, #adult {
     height: 70%;
-    left: 15%;
 }
-#young{
-    position:fixed;
+
+#young {
     height: 50%;
-}
-#adult{
-    position:fixed;
-    height: 70%;
-    right: 15%;
 }

@@ -1,4 +1,4 @@
-const npc = document.getElementById('game_screen').dataset.npc
+const npc = document.getElementById('main').dataset.npc
 let dialogues = []
 let game
 
@@ -18,6 +18,7 @@ fetch(`/api/dialogues`, {
         game = data.hasOwnProperty('game') ? data['game'] : null;
 
         showDialogue(dialogues[currentDialogueIndex])
+        document.getElementById('dialogue').addEventListener('click', nextDialogue)
     })
     .catch((error) => {
         console.log('Error:', error)
@@ -29,27 +30,38 @@ function showDialogue(dialogue) {
     buildText(document.getElementById('dialogue-text'), dialogue.text)
     document.getElementById('head').src = `/assets/images/characters/${dialogue['speaker_img']}/${dialogue['speaker_img']}_head.png`
     document.getElementById('name').textContent = dialogue['speaker_name']
-    if (!dialogue.hasOwnProperty('display_character')) return
-    document.getElementById('character-full-body').style.display = 'block'
-    document.getElementById('listener').src = `/assets/images/characters/${dialogue['display_character']}/${dialogue['display_character']}.png`
 }
 
-document.getElementById('btn-dialogue').addEventListener('click', nextDialogue)
-
 function nextDialogue() {
-    currentDialogueIndex++;
-    if (currentDialogueIndex < dialogues.length) return showDialogue(dialogues[currentDialogueIndex]);
-    if (game === null) return window.location.href = `/home`;
-    window.location.href = `/games/${game}`;
+    currentDialogueIndex++
+    if (currentDialogueIndex < dialogues.length) return showDialogue(dialogues[currentDialogueIndex])
+    if (game === null) return window.location.href = `/home`
+    window.location.href = `/games/${game}`
 }
 
 function buildText(element, text) {
-    element.textContent = ''
-    let lines = text.split('<br>')
-    lines.forEach((line, index) => {
-        element.appendChild(document.createTextNode(line))
-        if (index !== lines.length - 1) {
-            element.appendChild(document.createElement('br'))
+    let timeout = 25
+    element.textContent = '';
+    let lines = text.split('<br>');
+    let charIndex = 0;
+    let lineIndex = 0;
+    let textNode = document.createTextNode('')
+
+    function typeLine() {
+        if (lineIndex < lines.length) {
+            if (textNode.length === 0) element.appendChild(textNode)
+            if (charIndex <= lines[lineIndex].length) {
+                textNode.textContent += lines[lineIndex].charAt(charIndex)
+                charIndex++
+                setTimeout(typeLine, timeout)
+            } else {
+                textNode = document.createTextNode('')
+                element.appendChild(document.createElement('br'))
+                charIndex = 0
+                lineIndex++
+                setTimeout(typeLine, timeout)
+            }
         }
-    })
+    }
+    typeLine()
 }

@@ -1,0 +1,73 @@
+#dialogue {
+    position: absolute;
+    width: 95vw;
+    height: 30vh;
+    bottom: 5vh;
+    cursor: pointer;
+    display: grid;
+    grid-gap: 5%;
+    grid-template-columns: 15% 80%;
+    align-items: end;
+}
+
+.speaker {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+    justify-content: end;
+}
+
+.dialogue-text {
+    background-color: var(--bg-color-light);
+    width: 100%;
+    /*height: 50%;*/
+    min-height: 50%;
+    border-radius: 25px;
+    border: 3px solid var(--border-color-dark);
+}
+
+.head, .name {
+    border-radius: 25px;
+    border: 3px solid var(--border-color-dark);
+    background-color: var(--bg-color-light);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.head {
+    padding-top: .5rem;
+    height: 20vh;
+    overflow: hidden;
+    align-items: end;
+}
+
+.name {
+    padding: .5rem;
+    height: 8vh;
+    align-items: center;
+}
+
+#name, #dialogue-text {
+    font-size: 1.5rem;
+    color: var(--text-color-dark);
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+#dialogue-text {
+    padding: 1rem;
+}
+
+#name, #head {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}

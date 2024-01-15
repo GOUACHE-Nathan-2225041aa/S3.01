@@ -65,6 +65,11 @@ class Signup
         $email = null;
 
         if (isset($postData['email'])) {
+            if ($postData['email'] === '') {
+                $_SESSION['errorMessage'] = 'Email is required!';
+                header('Location: /signup');
+                exit();
+            }
             $isAccountExist = $user->isUserEmailExist(htmlspecialchars($postData['email']));
             $email = $emailVerification->getEmail(htmlspecialchars($postData['email']));
 
