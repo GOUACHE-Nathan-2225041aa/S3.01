@@ -20,6 +20,13 @@ class Header
         <a href="/signup"><?= $loc['signup'] ?></a>
         <a href="/admin"><?= $loc['admin'] ?></a>
         <a href="/about"><?= $loc['about'] ?></a>
+        <div>
+            <label for="language-selector"><?= $loc['language'] ?></label>
+            <select id="language-selector">
+                <option <?= $_SESSION['language'] === 'fr' ? 'selected' : ''?> value="fr"><?= $loc['fr'] ?></option>
+                <option <?= $_SESSION['language'] === 'en' ? 'selected' : ''?> value="en"><?= $loc['en'] ?></option>
+            </select>
+        </div>
     </nav>
 </header>
 <?php

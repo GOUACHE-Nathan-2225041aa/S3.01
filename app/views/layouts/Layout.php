@@ -23,6 +23,7 @@ class Layout
     <?php if ($this->stylesheet !== '') { ?>
     <link rel="stylesheet" href="/assets/stylesheets/<?= $this->stylesheet ?>.css">
     <?php } ?>
+    <script defer src="/assets/scripts/lang.js"></script>
     <?php foreach ($this->scripts as $script) { ?>
     <script defer src="/assets/scripts/<?= $script ?>.js"></script>
     <?php } ?>

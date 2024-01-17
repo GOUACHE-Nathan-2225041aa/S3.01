@@ -19,6 +19,7 @@ use app\controllers\npc\Adult as AdultController;
 use app\controllers\admin\Localization as LocalizationController;
 use app\controllers\admin\Games as AdminGamesController;
 use app\controllers\api\Games as ApiGamesController;
+use app\controllers\api\Language as ApiLanguageController;
 
 use app\services\Localization;
 
@@ -95,6 +96,16 @@ try {
         if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/games') {
             if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                 (new ApiGamesController())->execute();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                echo 'Access denied';
+                exit;
+            }
+        }
+
+        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/language') {
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                (new ApiLanguageController())->execute();
             } else {
                 header('HTTP/1.0 403 Forbidden');
                 echo 'Access denied';

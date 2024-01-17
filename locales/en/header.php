@@ -8,4 +8,7 @@ return [
     'signup' => 'Signup',
     'admin' => 'Admin',
     'about' => 'About',
+    'language' => 'Language',
+    'en' => 'English',
+    'fr' => 'French',
 ];

@@ -9,14 +9,15 @@ header {
 
 .navbar {
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
     justify-content: center;
-    gap: 5%;
+    gap: 3%;
     align-items: center;
     margin: .5rem 0;
 }
 
-a {
+a, .navbar label {
     color: var(--text-color-dark);
     text-decoration: none;
     font-size: 1.5rem;
@@ -26,4 +27,24 @@ a {
 
 a:hover {
     color: var(--text-color-light);
+}
+
+#language-selector {
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-dark);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#language-selector:hover {
+    background-color: var(--bg-color-light);
+}
+
+#language-selector option {
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-dark);
 }
