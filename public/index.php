@@ -149,12 +149,8 @@ try {
                 (new LogoutController())->execute();
                 break;
 
-            case 'intro':
-                (new IntroController())->execute();
-                break;
-
             case '/':
-                (new WelcomeController())->execute();
+                (new IntroController())->execute();
                 break;
 
             case 'young':

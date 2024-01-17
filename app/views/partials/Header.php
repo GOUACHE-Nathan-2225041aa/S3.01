@@ -13,8 +13,7 @@ class Header
 ?>
 <header>
     <nav class="navbar">
-        <a href="/"><?= $loc['welcome'] ?></a>
-        <a href="/intro"><?= $loc['intro'] ?></a>
+        <a href="/"><?= $loc['intro'] ?></a>
         <a href="/home"><?= $loc['home'] ?></a>
         <a href="/login"><?= $loc['login'] ?></a>
         <a href="/signup"><?= $loc['signup'] ?></a>
