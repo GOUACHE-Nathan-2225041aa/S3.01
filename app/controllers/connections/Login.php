@@ -46,7 +46,7 @@ class Login
 
         $user = $user->getUserByUsername(htmlspecialchars(strtolower($postData['username'])));
 
-        if ($user === null || !password_verify($postData['password'], htmlspecialchars($user['password']))) {
+        if ($user === null || !password_verify(htmlspecialchars($postData['password']), htmlspecialchars($user['password']))) {
             $_SESSION['errorMessage'] = 'Nom d\'utilisateur ou mot de passe incorrect';
             header('Location: /login');
             exit();
