@@ -5,6 +5,7 @@ namespace app\controllers\connections;
 use app\models\EmailVerification as EmailVerificationModel;
 use app\models\User as UserModel;
 use app\services\EmailService;
+use app\services\Localization as LocalizationService;
 use app\views\connections\Signup as SignupView;
 use config\DataBase;
 use PDO;
@@ -26,7 +27,8 @@ class Signup
             header('Location: /home');
             exit();
         }
-        (new SignupView())->show();
+        $loc = (new LocalizationService())->getArray('signup');
+        (new SignupView())->show($loc);
     }
 
     public function verificationURL($url): void
@@ -53,7 +55,8 @@ class Signup
             exit();
         }
 
-        (new SignupView())->show(true, $emailData['email']);
+        $loc = (new LocalizationService())->getArray('signup');
+        (new SignupView())->show($loc, true, $emailData['email']);
     }
 
     public function sendVerificationURL($postData): void

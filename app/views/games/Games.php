@@ -7,7 +7,7 @@ use app\views\partials\Dialogue;
 
 class Games
 {
-    public function show($gameData, $localizationData): void
+    public function show($loc, $gameData, $localizationData): void
     {
         ob_start();
 ?>
@@ -26,11 +26,11 @@ class Games
                 <?php endif; ?>
             </div>
             <form class="answer-from" method="POST" action="">
-                <button class="btn btn-primary" type="submit" name="answer" value="1">True</button>
-                <button class="btn btn-danger" type="submit" name="answer" value="0">False</button>
+                <button class="btn btn-primary" type="submit" name="answer" value="1"><?= $loc['true'] ?></button>
+                <button class="btn btn-danger" type="submit" name="answer" value="0"><?= $loc['false'] ?></button>
             </form>
         </div>
-        <button class="btn btn-danger" id="btn-hint">Hint</button>
+        <button class="btn btn-danger" id="btn-hint"><?= $loc['hint'] ?></button>
     </div>
     <?= (new Dialogue())->getDialogueTemplate() ?>
 </main>

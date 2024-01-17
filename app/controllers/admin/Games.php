@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\services\Localization as LocalizationService;
 use app\views\admin\Games as AdminGamesView;
 use app\models\games\Games as GamesModel;
 use config\DataBase;
@@ -39,7 +40,8 @@ class Games
 
         $pagesCount = ceil($totalGamesCount / $gamesPerPageCount);
 
-        (new AdminGamesView())->show($games, $pagesCount);
+        $loc = (new LocalizationService())->getArray('games');
+        (new AdminGamesView())->show($loc, $games, $pagesCount);
     }
 
     private function userAuth(): void

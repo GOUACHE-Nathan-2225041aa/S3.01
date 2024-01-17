@@ -6,13 +6,13 @@ use app\views\layouts\Layout;
 
 class Result
 {
-    public function show($data, $npc): void
+    public function show($loc, $data, $npc): void
     {
         ob_start();
 ?>
 <main id="main">
     <div class="game">
-        <h1 class="title <?= $data['userAnswer'] === $data['correctAnswer'] ? 'correct' : 'wrong'?>"><?= $data['userAnswer'] === $data['correctAnswer'] ? 'Correct Answer' : 'Wrong Answer' ?></h1>
+        <h1 class="title <?= $data['userAnswer'] === $data['correctAnswer'] ? 'correct' : 'wrong'?>"><?= $data['userAnswer'] === $data['correctAnswer'] ? $loc['correct'] : $loc['wrong'] ?></h1>
         <div class="middle-game">
             <div class="left-container">
                 <?php if (isset($data['image'])): ?>
@@ -26,12 +26,12 @@ class Result
                     </audio>
                 <?php endif; ?>
                 <?php if (isset($data['source'])): ?>
-                    <a class="source" href="<?= $data['source'] ?>" target="_blank">Source</a>
+                    <a class="source" href="<?= $data['source'] ?>" target="_blank"><?= $loc['source'] ?></a>
                 <?php endif; ?>
             </div>
             <p class="description"><?= $data['description'] ?></p>
         </div>
-        <button class="btn btn-primary" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/' . $npc ?>'">Understood!</button>
+        <button class="btn btn-primary" onclick="window.location.href='<?= $data['nextGameSlug'] !== '' ? '/games/' . $data['nextGameSlug'] : '/' . $npc ?>'"><?= $loc['understood'] ?></button>
     </div>
 </main>
 <?php

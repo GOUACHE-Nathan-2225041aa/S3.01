@@ -70,7 +70,7 @@ class Localization // TODO - add default language which must be up to date to wo
         return $value;
     }
 
-    public function getArray($file, array $keys): ?array
+    public function getArray($file, array $keys = []): ?array
     {
         if (!in_array($file, $this->config['allowed_files'])) {
             error_log("File not found: $file");
@@ -78,6 +78,10 @@ class Localization // TODO - add default language which must be up to date to wo
         }
 
         $translations = require __DIR__ . "/../../locales/$this->lang/$file.php";
+
+        if (empty($keys)) {
+            return $translations;
+        }
 
         $value = $translations;
         foreach ($keys as $key) {

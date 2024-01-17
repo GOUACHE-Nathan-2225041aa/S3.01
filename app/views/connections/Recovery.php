@@ -6,14 +6,14 @@ use app\views\layouts\Layout;
 
 class Recovery
 {
-    public function show(bool $isEmailVerified = false, string $email = ''): void
+    public function show($loc, bool $isEmailVerified = false, string $email = ''): void
     {
         ob_start();
 ?>
 <main>
     <form class="login-form" method="POST" action="">
         <div class="form-item flex-center">
-            <h1 class="title">Recovery</h1>
+            <h1 class="title"><?= $loc['recovery'] ?></h1>
         </div>
         <?php if (isset($_SESSION['errorMessage'])): ?>
             <div class="form-item errorMessage">
@@ -22,25 +22,25 @@ class Recovery
             <?php unset($_SESSION['errorMessage']); ?>
         <?php endif; ?>
         <div class="form-item">
-            <label for="email">Email</label>
+            <label for="email"><?= $loc['email'] ?></label>
             <input type="email" name="email" id="email" <?php if ($email !== '') { echo 'value="' . $email . '"'; echo 'readonly'; } ?>>
         </div>
         <?php if ($isEmailVerified): ?>
         <div class="form-item">
-            <label for="password">New Password</label>
+            <label for="password"><?= $loc['password'] ?></label>
             <input type="password" name="password" id="password">
         </div>
         <div class="form-item">
-            <label for="passwordConfirmation">Confirm New Password</label>
+            <label for="passwordConfirmation"><?= $loc['passwordConfirmation'] ?></label>
             <input type="password" name="passwordConfirmation" id="passwordConfirmation">
         </div>
         <?php endif; ?>
         <div class="form-item flex-center">
-            <button class="btn btn-primary" type="submit" name="<?= $isEmailVerified ? 'recovery' : 'recovery_email_verification'; ?>">Reset Password</button>
+            <button class="btn btn-primary" type="submit" name="<?= $isEmailVerified ? 'recovery' : 'recovery_email_verification'; ?>"><?= $loc['resetPassword'] ?></button>
         </div>
         <div class="form-item links flex-center">
-            <a href="/login">Log In</a>
-            <a href="/signup">Create Account</a>
+            <a href="/login"><?= $loc['login'] ?></a>
+            <a href="/signup"><?= $loc['signup'] ?></a>
         </div>
     </form>
 </main>

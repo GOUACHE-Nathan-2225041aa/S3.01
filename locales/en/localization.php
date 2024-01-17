@@ -2,11 +2,10 @@
 
 return [
     'title' => 'Title',
-    'image' => 'Image',
-    'answer' => 'Answer',
     'hint' => 'Hint',
     'description' => 'Description',
-    'source' => 'Source',
+    'localization' => 'Localization',
+    'game' => 'Game',
+    'save' => 'Save',
     'language' => 'Language',
-    'audio' => 'Audio',
 ];

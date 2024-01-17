@@ -6,12 +6,12 @@ use app\views\layouts\Layout;
 
 class Localization
 {
-    public function show(array $gameLocals, int $totalGamesCount, int $gamesPerPageCount): void
+    public function show(array $loc, array $gameLocals, int $totalGamesCount, int $gamesPerPageCount): void
     {
         ob_start();
 ?>
 <main>
-    <h1>Localization</h1>
+    <h1><?= $loc['localization'] ?></h1>
     <?php if (isset($_SESSION['errorMessage'])): ?>
         <div class="errorMessage">
             <?= $_SESSION['errorMessage'] ?>
@@ -20,9 +20,9 @@ class Localization
     <?php endif; ?>
     <?php foreach ($gameLocals as $gameData): ?>
         <div>
-            <h1>Game: <?= $gameData['game_id'] ?></h1>
-            <?= $this->localizationForm($gameData, 'en') ?>
-            <?= $this->localizationForm($gameData, 'fr') ?>
+            <h1><?= $loc['game'] ?>: <?= $gameData['game_id'] ?></h1>
+            <?= $this->localizationForm($loc, $gameData, 'en') ?>
+            <?= $this->localizationForm($loc, $gameData, 'fr') ?>
         </div>
     <?php endforeach; ?>
     <div>
@@ -35,25 +35,25 @@ class Localization
         (new Layout('FakeGame - Localization', ob_get_clean(), 'Localization'))->show();
     }
 
-    private function localizationForm($gameData, $lang): string
+    private function localizationForm($loc, $gameData, $lang): string
     {
         ob_start();
 ?>
-<h2>Language : <?= $lang ?></h2>
+<h2><?= $loc['language'] ?> : <?= $lang ?></h2>
 <form method="POST" action="">
     <input type="hidden" name="game_id" value="<?= $gameData['game_id'] ?>">
     <input type="hidden" name="language" value="<?= $lang ?>">
 
-    <label for="title">Title</label>
+    <label for="title"><?= $loc['title'] ?></label>
     <input type="text" name="title" id="title" value="<?= $gameData['title-' . $lang] ?? '' ?>">
 
-    <label for="hint">Hint</label>
+    <label for="hint"><?= $loc['hint'] ?></label>
     <textarea name="hint" id="hint" cols="30" rows="10"><?= $gameData['hint-' . $lang] ?? '' ?></textarea>
 
-    <label for="description">Description</label>
+    <label for="description"><?= $loc['description'] ?></label>
     <textarea name="description" id="description" cols="30" rows="10"><?= $gameData['description-' . $lang] ?? '' ?></textarea>
 
-    <button type="submit" name="save-localization">Save</button>
+    <button type="submit" name="save-localization"><?= $loc['save'] ?></button>
 </form>
 <?php
         return ob_get_clean();

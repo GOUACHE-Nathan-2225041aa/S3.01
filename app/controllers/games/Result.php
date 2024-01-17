@@ -2,6 +2,7 @@
 
 namespace app\controllers\games;
 
+use app\services\Localization as LocalizationService;
 use app\views\games\Result as ResultView;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Article as ArticleModel;
@@ -79,7 +80,8 @@ class Result
             'nextGameSlug' => $nextGameSlug,
         ];
 
-        (new ResultView())->show($data, $npc);
+        $loc = (new LocalizationService())->getArray('result');
+        (new ResultView())->show($loc, $data, $npc);
     }
 
     private function getTextFromLocalData($localizationData, $language): array

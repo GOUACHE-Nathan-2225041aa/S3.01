@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\services\Localization as LocalizationService;
 use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
 use app\models\games\DeepFake as DeepFakeModel;
@@ -28,7 +29,9 @@ class Admin // TODO - refactor duplications
     {
         // TODO - refactor this
         $this->userAuth();
-        (new AdminView())->show((new UserModel($this->AccountPDO))->getUserByUsername($_SESSION['username']));
+        $loc = (new LocalizationService())->getArray('admin');
+        $user = (new UserModel($this->AccountPDO))->getUserByUsername($_SESSION['username']);
+        (new AdminView())->show($loc, $user);
     }
 
     public function createGame($postData, $fileData): void

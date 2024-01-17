@@ -5,6 +5,7 @@ namespace app\controllers\connections;
 use app\models\EmailVerification as EmailVerificationModel;
 use app\models\User as UserModel;
 use app\services\EmailService;
+use app\services\Localization as LocalizationService;
 use app\views\connections\Recovery as RecoveryView;
 use config\DataBase;
 use PDO;
@@ -21,7 +22,8 @@ class Recovery
 
     public function execute(): void
     {
-        (new RecoveryView())->show();
+        $loc = (new LocalizationService())->getArray('recovery');
+        (new RecoveryView())->show($loc);
     }
 
     public function recovery($postData, $url): void
@@ -97,7 +99,8 @@ class Recovery
             exit();
         }
 
-        (new RecoveryView())->show(true, $emailData['email']);
+        $loc = (new LocalizationService())->getArray('recovery');
+        (new RecoveryView())->show($loc, true, $emailData['email']);
     }
 
     public function sendVerificationURL($postData): void

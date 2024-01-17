@@ -6,6 +6,7 @@ use app\models\User as UserModel;
 use app\views\connections\Login as LoginView;
 use config\DataBase;
 use PDO;
+use app\services\Localization as LocalizationService;
 
 class Login
 {
@@ -22,7 +23,8 @@ class Login
             header('Location: /home');
             exit();
         }
-        (new LoginView())->show();
+        $loc = (new LocalizationService())->getArray('login');
+        (new LoginView())->show($loc);
     }
 
     public function login(array $postData): void

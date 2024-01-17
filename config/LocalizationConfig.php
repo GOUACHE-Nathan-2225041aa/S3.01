@@ -7,5 +7,14 @@ return [
     ],
     'allowed_files' => [
         'dialogues',
+        'login',
+        'signup',
+        'recovery',
+        'admin',
+        'localization',
+        'games',
+        'game',
+        'result',
+        'header',
     ],
 ];

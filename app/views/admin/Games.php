@@ -6,12 +6,12 @@ use app\views\layouts\Layout;
 
 class Games
 {
-    public function show(array $games, int $pagesCount): void
+    public function show(array $loc, array $games, int $pagesCount): void
     {
         ob_start();
 ?>
 <main>
-    <h1>Games</h1>
+    <h1><?= $loc['games'] ?></h1>
     <?php if (isset($_SESSION['errorMessage'])): ?>
         <div class="errorMessage">
             <?= $_SESSION['errorMessage'] ?>
@@ -19,7 +19,7 @@ class Games
         <?php unset($_SESSION['errorMessage']); ?>
     <?php endif; ?>
     <?php foreach ($games as $gameData): ?>
-        <?= $this->game($gameData) ?>
+        <?= $this->game($loc, $gameData) ?>
     <?php endforeach; ?>
     <div>
         <?php for ($i = 1; $i <= $pagesCount; $i++): ?>
@@ -31,18 +31,18 @@ class Games
         (new Layout('FakeGame - Games', ob_get_clean(), '', ['deletegame']))->show();
     }
 
-    private function game($gameData): string
+    private function game($loc, $gameData): string
     {
         ob_start();
 ?>
 <div>
     <ul>
-        <li>Game URL: <a href="/games/<?= $gameData['slug'] ?>"><?= $gameData['slug'] ?></a></li>
-        <li>Game ID: <?= $gameData['id'] ?></li>
-        <li>Game Type: <?= $gameData['game_type'] ?></li>
-        <li>Game Creation Date: <?= $gameData['creation_date'] ?></li>
+        <li><?= $loc['gameUrl'] ?>: <a href="/games/<?= $gameData['slug'] ?>"><?= $gameData['slug'] ?></a></li>
+        <li><?= $loc['gameId'] ?>: <?= $gameData['id'] ?></li>
+        <li><?= $loc['gameType'] ?>: <?= $gameData['game_type'] ?></li>
+        <li><?= $loc['gameCreationDate'] ?>: <?= $gameData['creation_date'] ?></li>
     </ul>
-    <button class="btn-delete" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>">Delete</button>
+    <button class="btn-delete" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['delete'] ?></button>
 </div>
 <?php
         return ob_get_clean();

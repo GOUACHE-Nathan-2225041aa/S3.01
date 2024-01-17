@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\services\Localization as LocalizationService;
 use app\views\admin\Localization as LocalizationView;
 use app\models\games\Localization as LocalizationModel;
 use app\models\games\Games as GamesModel;
@@ -39,7 +40,8 @@ class Localization
 
         $games = $this->mergeGameLocals($games);
 
-        (new LocalizationView())->show($games, $totalGamesCount, $gamesPerPageCount);
+        $loc = (new LocalizationService())->getArray('localization');
+        (new LocalizationView())->show($loc, $games, $totalGamesCount, $gamesPerPageCount);
     }
 
     public function save($postData): void

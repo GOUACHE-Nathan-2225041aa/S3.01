@@ -4,7 +4,7 @@ namespace app\controllers\home;
 
 use app\views\home\Home as HomeView;
 
-class Home // TODO - rework this class
+class Home
 {
     public function execute(): void
     {

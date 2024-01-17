@@ -2,6 +2,7 @@
 
 namespace app\controllers\games;
 
+use app\services\Localization as LocalizationService;
 use app\views\games\Games as GamesView;
 use app\models\games\DeepFake as DeepFakeModel;
 use app\models\games\Article as ArticleModel;
@@ -52,7 +53,8 @@ class Games
             'slug' => $slug,
         ];
 
-        (new GamesView())->show($data, $localizationData);
+        $loc = (new LocalizationService())->getArray('game');
+        (new GamesView())->show($loc, $data, $localizationData);
     }
 
     private function getTextFromLocalData($localizationData, $language): array
