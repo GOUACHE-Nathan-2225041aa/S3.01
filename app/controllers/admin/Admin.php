@@ -356,7 +356,7 @@ class Admin // TODO - refactor duplications
     {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
-        $existingGamesCount = (new GamesModel($this->GamePDO))->getCountOfGamesBySlug($slug, $gameType);
+        $existingGamesCount = (new GamesModel($this->GamePDO))->getCountOfGamesBySlug($slug);
 
         if ($existingGamesCount === null) return null;
 

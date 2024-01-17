@@ -50,12 +50,11 @@ class Games
         }
     }
 
-    public function getCountOfGamesBySlug(string $slug, string $gameType): ?int
+    public function getCountOfGamesBySlug(string $slug): ?int
     {
         try {
-            $statement = $this->connection->prepare("SELECT COUNT(*) FROM games WHERE slug LIKE :slug AND game_type = :game_type");
-            $statement->execute(['slug' => $slug . '%',
-                                 'game_type' => $gameType]);
+            $statement = $this->connection->prepare("SELECT COUNT(*) FROM games WHERE slug LIKE :slug");
+            $statement->execute(['slug' => $slug . '%']);
             return $statement->fetchColumn();
         } catch (PDOException $e) {
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());
