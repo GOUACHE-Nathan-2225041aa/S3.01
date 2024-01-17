@@ -50,6 +50,39 @@ class Games
         }
     }
 
+    public function getFirstRandomGameSlugByType(string $gameType): ?string
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT slug FROM games WHERE game_type = :game_type ORDER BY RAND() LIMIT 1");
+            $statement->execute(['game_type' => $gameType]);
+            return $statement->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    public function getNextRandomGameSlug(string $currentGameSlug, string $gameType): ?string
+    {
+        try {
+            $playedGames = $_SESSION['games'] ?? [];
+            $namedParameters = array_map(function($key) { return ":param$key"; }, array_keys($playedGames));
+            $placeholders = implode(',', $namedParameters);
+
+            $statement = $this->connection->prepare("SELECT slug FROM games WHERE slug != :current_game_slug AND game_type = :game_type AND slug NOT IN ($placeholders) ORDER BY RAND() LIMIT 1");
+
+            $params = array_combine($namedParameters, $playedGames);
+            $params[':current_game_slug'] = $currentGameSlug;
+            $params[':game_type'] = $gameType;
+
+            $statement->execute($params);
+            return $statement->fetchColumn();
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
+
     public function getCountOfGamesBySlug(string $slug): ?int
     {
         try {
@@ -114,6 +147,20 @@ class Games
         } catch (PDOException $e) {
             $pdo->rollBack();
             throw $e;
+        }
+    }
+
+    public function getRandomGames($nbGames, $gameType): array
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM games WHERE game_type = :game_type ORDER BY RAND() LIMIT :limit");
+            $statement->bindParam(':limit', $nbGames, PDO::PARAM_INT);
+            $statement->bindParam(':game_type', $gameType, PDO::PARAM_STR);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return [];
         }
     }
 }

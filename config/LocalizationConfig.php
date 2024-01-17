@@ -16,5 +16,6 @@ return [
         'game',
         'result',
         'header',
+        'npc',
     ],
 ];

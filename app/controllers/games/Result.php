@@ -22,8 +22,12 @@ class Result
 
     public function execute(): void
     {
+        $currentGameIndex = $_SESSION['current_game']['index'];
+        $currentGameType = $_SESSION['current_game']['type'];
+        $currentGameSlug = $_SESSION['games'][$currentGameType][$currentGameIndex]['slug'];
+
         if (!isset($_SESSION['answer_form_submitted']) || !$_SESSION['answer_form_submitted']) {
-            isset($_SESSION['current_game']) ? header('Location: /games/' . $_SESSION['current_game']) : header('Location: /home');
+            isset($_SESSION['current_game']) ? header('Location: /games/' . $currentGameSlug) : header('Location: /home');
             exit();
         }
 
@@ -32,7 +36,7 @@ class Result
         unset($_SESSION['answer_form_submitted']);
         unset($_SESSION['answer_form_data']);
 
-        $game = (new GamesModel($this->GamePDO))->getGameBySlug($_SESSION['current_game']);
+        $game = (new GamesModel($this->GamePDO))->getGameBySlug($currentGameSlug);
 
         if ($game === null) {
             header('Location: /home');
@@ -64,7 +68,15 @@ class Result
 
         $localizationData = $this->getTextFromLocalData($gameData['localization'], $_SESSION['language']);
 
-        $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($game['slug'], $game['game_type']);
+        $currentGameIndex = $_SESSION['current_game']['index'];
+        $currentGameType = $_SESSION['current_game']['type'];
+
+        $nextGameSlug = '';
+        if ($_SESSION['progress'][$currentGameType]['gamesDone'] < 5) {
+            $nextGameSlug = $_SESSION['games'][$currentGameType][$currentGameIndex + 1]['slug'] ?? '';
+        }
+
+//        $nextGameSlug = (new GamesModel($this->GamePDO))->getNextGameSlug($game['slug'], $game['game_type']);
 
         // TODO - maybe make the redirection based in progress and not last game (redirection to end dialogue)
         if ($nextGameSlug === '') {
@@ -79,6 +91,16 @@ class Result
             'description' => $localizationData['description'],
             'nextGameSlug' => $nextGameSlug,
         ];
+
+        $_SESSION['games'][$currentGameType][$currentGameIndex]['done'] = true;
+        $_SESSION['games'][$currentGameType][$currentGameIndex]['points'] += $data['userAnswer'] === $data['correctAnswer'] ? 1 : 0;
+        $_SESSION['progress'][$currentGameType]['gamesDone'] += 1;
+        $_SESSION['progress'][$currentGameType]['totalPoints'] += $_SESSION['games'][$currentGameType][$currentGameIndex]['points'];
+
+        $_SESSION['current_game']['type'] = $currentGameType;
+        $_SESSION['current_game']['index'] = $currentGameIndex + 1;
+
+        $_SESSION['checkpoints'][$currentGameType]['index'] = $currentGameIndex + 1;
 
         $loc = (new LocalizationService())->getArray('result');
         (new ResultView())->show($loc, $data, $npc);
