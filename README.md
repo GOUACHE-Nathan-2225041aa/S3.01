@@ -24,3 +24,14 @@ English :
 <a href="http://sae-marsactu-serious-gam.alwaysdata.net/"> Play the english version </a>
 
 ___
+
+### Installation
+
+Add ``db.ini`` and ``email.ini`` configuration files to ``/config/``
+
+```bash
+composer install
+cd public
+php -S localhost:8080
+```
+
