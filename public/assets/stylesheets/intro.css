@@ -1,1 +1,6 @@
 @import 'shared/dialogue.css';
+
+main {
+    display: flex;
+    justify-content: center;
+}

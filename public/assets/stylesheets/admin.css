@@ -1,1 +1,129 @@
+@import "shared/buttons.css";
 
+.profile {
+    padding: 2.5rem;
+    background-color: var(--bg-color-dark);
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.profile li {
+    list-style: none;
+    margin-bottom: .5rem;
+}
+
+.profile h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.game-form {
+    padding: 2.5rem;
+    background-color: var(--bg-color-dark);
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.game-form form input:focus {
+    border-bottom: solid var(--accent-color) 2px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.btn {
+    padding: 1rem 3rem;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.form-item label {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.form-item input {
+    height: 2rem;
+    width: 100%;
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: solid var(--bg-color-dark) 2px;
+    background-color: var(--bg-color);
+    color: var(--text-color-dark);
+    outline: none;
+    transition: .3s;
+}
+
+.form-item input:focus {
+    border-bottom: solid var(--accent-color) 2px;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.links {
+    background-color: var(--bg-color-dark);
+    padding: 2.5rem;
+}
+
+form select {
+    width: 100%;
+    height: 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: solid var(--bg-color-dark) 2px;
+    background-color: var(--bg-color);
+    color: var(--text-color-dark);
+    outline: none;
+    transition: .3s;
+    border-radius: 25px;
+    padding-left: .5rem;
+}
+
+form textarea {
+    width: 100%;
+    height: 10rem;
+    font-size: 1.2rem;
+    border: none;
+    border-bottom: solid var(--bg-color-dark) 2px;
+    background-color: var(--bg-color);
+    color: var(--text-color-dark);
+    outline: none;
+    transition: .3s;
+    border-radius: 25px;
+    padding-top: .5rem;
+    padding-left: 1rem;
+    resize: none;
+}
+
+form input[type="file"] {
+    display: inline-block;
+    color: var(--text-color-dark);
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color .3s;
+}
