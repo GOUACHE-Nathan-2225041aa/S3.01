@@ -35,9 +35,59 @@ class Dialogues
                 'adult' => 'audio',
             ];
 
-            $firstGameSlug = null;
-            if (isset($npcToGameTypeMap[$npc])) {
-                $firstGameSlug = (new GamesModel($this->GamePDO))->getFirstGameSlugByType($npcToGameTypeMap[$npc]);
+//            $firstGameSlug = null;
+//            if (isset($npcToGameTypeMap[$npc])) {
+//                $firstGameSlug = (new GamesModel($this->GamePDO))->getFirstGameSlugByType($npcToGameTypeMap[$npc]);
+//            }
+
+//            $firstGameSlug = (new GamesModel($this->GamePDO))->getFirstRandomGameSlugByType($npcToGameTypeMap[$npc]);
+
+            $firstGameSlug = '';
+            $reset = false;
+
+            $currentGameType = $npcToGameTypeMap[$npc];
+
+            if (isset($_SESSION['progress'][$currentGameType]) && $_SESSION['progress'][$currentGameType]['gamesDone'] === 5) {
+                $reset = true;
+            }
+
+            if (!isset($_SESSION['games'][$currentGameType]) || $reset) {
+                $games = (new GamesModel($this->GamePDO))->getRandomGames(5, $currentGameType);
+                $_SESSION['games'][$currentGameType] = [];
+                $_SESSION['progress'] = [
+                    $currentGameType => [
+                        'gamesDone' => 0,
+                        'totalPoints' => 0,
+                    ],
+                ];
+
+                foreach ($games as $game) {
+                    $_SESSION['games'][$currentGameType][] = [
+                        'slug' => $game['slug'],
+                        'points' => 0,
+                        'done' => false,
+                        'hint' => false,
+                    ];
+                }
+
+                $_SESSION['checkpoints'][$currentGameType] = [
+                    'index' => 0,
+                ];
+
+                $_SESSION['current_game'] = [
+                    'index' => 0,
+                    'type' => $currentGameType,
+                ];
+                $firstGameSlug = $_SESSION['games'][$currentGameType][0]['slug'];
+            } else {
+                $checkpoint = $_SESSION['checkpoints'][$currentGameType]['index'];
+
+                $_SESSION['current_game'] = [
+                    'index' => $checkpoint,
+                    'type' => $currentGameType,
+                ];
+
+                $firstGameSlug = $_SESSION['games'][$currentGameType][$checkpoint]['slug'];
             }
 
             $data = [

@@ -29,7 +29,7 @@ class Games
             exit();
         }
 
-        $this->gameProgress(htmlspecialchars($game['slug']));
+//        $this->gameProgress(htmlspecialchars($game['slug']));
 
         $this->showGame($game, htmlspecialchars($slug));
     }
@@ -68,9 +68,18 @@ class Games
         return $result;
     }
 
-    private function gameProgress($newGameSlug): void // TODO - maybe add next game slug here
+    private function gameProgress($currentGameSlug): void
     {
-        if (isset($_SESSION['current_game'])) $_SESSION['last_game'] = $_SESSION['current_game'];
-        $_SESSION['current_game'] = $newGameSlug;
+//        if (isset($_SESSION['story_mode']) && $_SESSION['story_mode'] === true) {
+//            for ($i = 0; $i < count($_SESSION['games']); $i++) {
+//                if (isset($_SESSION['games'][$i][$currentGameSlug])) {
+//                    $_SESSION['current_game'] = $i;
+//                    break;
+//                }
+//            }
+            return;
+//        }
+//        if (isset($_SESSION['current_game'])) $_SESSION['last_game'] = $_SESSION['current_game'];
+//        $_SESSION['current_game'] = $currentGameSlug;
     }
 }

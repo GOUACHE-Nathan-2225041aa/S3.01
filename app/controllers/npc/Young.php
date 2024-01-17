@@ -2,6 +2,7 @@
 
 namespace app\controllers\npc;
 
+use app\services\Localization as LocalizationService;
 use app\views\npc\Young as YoungView;
 use config\DataBase;
 use PDO;
@@ -17,6 +18,7 @@ class Young
 
     public function execute(): void
     {
-        (new YoungView())->show();
+        $loc = (new LocalizationService())->getArray('npc');
+        (new YoungView())->show($loc);
     }
 }

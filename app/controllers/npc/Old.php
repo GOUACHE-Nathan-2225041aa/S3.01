@@ -2,6 +2,7 @@
 
 namespace app\controllers\npc;
 
+use app\services\Localization as LocalizationService;
 use app\views\npc\Old as OldView;
 use config\DataBase;
 use PDO;
@@ -17,6 +18,7 @@ class Old
 
     public function execute(): void
     {
-        (new OldView())->show();
+        $loc = (new LocalizationService())->getArray('npc');
+        (new OldView())->show($loc);
     }
 }
