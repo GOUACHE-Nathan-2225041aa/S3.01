@@ -21,6 +21,11 @@ class Dialogues
         header('Content-Type: application/json');
         $postData = json_decode(file_get_contents('php://input'), true);
 
+        if (isset($postData['npc']) && $postData['npc'] === 'intro') {
+            $this->sendIntro();
+            exit();
+        }
+
         $npc = htmlspecialchars($postData['npc']) ?? null;
 
         if ($npc === null) {
@@ -108,5 +113,18 @@ class Dialogues
         ];
         unset($_SESSION[$npc]);
         echo json_encode($data);
+    }
+
+    private function sendIntro(): void
+    {
+        $data = [
+            'dialogues' => [
+                (new Localization())->getArray('intro', ['intro', 'first']),
+                (new Localization())->getArray('intro', ['intro', 'second']),
+            ],
+        ];
+
+        echo json_encode($data);
+        exit();
     }
 }

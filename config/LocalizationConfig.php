@@ -17,5 +17,6 @@ return [
         'result',
         'header',
         'npc',
+        'intro',
     ],
 ];

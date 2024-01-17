@@ -1,6 +1,13 @@
-const npc = document.getElementById('main').dataset.npc
+let url = new URL(window.location.href)
 let dialogues = []
 let game
+let npc
+
+if (url.pathname === '/') {
+    npc = 'intro'
+} else {
+    npc = document.getElementById('main').dataset.npc
+}
 
 fetch(`/api/dialogues`, {
     method: 'POST',
