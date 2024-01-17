@@ -7,7 +7,6 @@ use app\controllers\connections\Recovery as RecoveryController;
 use app\controllers\connections\Signup as SignupController;
 use app\controllers\home\Home as HomeController;
 use app\controllers\Intro\Intro as IntroController;
-use app\controllers\welcome\Welcome as WelcomeController;
 use app\controllers\npc\Young as YoungController;
 use app\controllers\api\Dialogues as DialoguesController;
 use app\controllers\games\Games as GamesController;
@@ -20,6 +19,7 @@ use app\controllers\admin\Localization as LocalizationController;
 use app\controllers\admin\Games as AdminGamesController;
 use app\controllers\api\Games as ApiGamesController;
 use app\controllers\api\Language as ApiLanguageController;
+use app\controllers\api\Progress as ProgressController;
 
 use app\services\Localization;
 
@@ -107,6 +107,16 @@ try {
         if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/language') {
             if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
                 (new ApiLanguageController())->execute();
+            } else {
+                header('HTTP/1.0 403 Forbidden');
+                echo 'Access denied';
+                exit;
+            }
+        }
+
+        if (isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] === '/api/progress') {
+            if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                (new ProgressController())->execute();
             } else {
                 header('HTTP/1.0 403 Forbidden');
                 echo 'Access denied';
