@@ -126,7 +126,7 @@ class Progress
         }
 
         foreach ($data['checkpoints'] as $checkpoint) {
-            $_SESSION['checkpoints'][$checkpoint['type']][$checkpoint['checkpoint_index']] = true;
+            $_SESSION['checkpoints'][$checkpoint['type']]['index'] = $checkpoint['checkpoint_index'];
         }
     }
 }
