@@ -48,3 +48,18 @@ a:hover {
     color: var(--text-color-dark);
     background-color: var(--bg-color-dark);
 }
+
+#save-progress {
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-color-dark);
+    background-color: var(--bg-color-dark);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#save-progress:hover {
+    background-color: var(--bg-color-light);
+}

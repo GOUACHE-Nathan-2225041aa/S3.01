@@ -11,4 +11,5 @@ return [
     'language' => 'Language',
     'en' => 'English',
     'fr' => 'French',
+    'saveProgress' => 'Save',
 ];

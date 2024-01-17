@@ -7,6 +7,7 @@ use app\views\connections\Login as LoginView;
 use config\DataBase;
 use PDO;
 use app\services\Localization as LocalizationService;
+use app\models\games\Progress as ProgressModel;
 
 class Login
 {
@@ -55,7 +56,43 @@ class Login
         $_SESSION['admin'] = $user['admin'];
         $_SESSION['id'] = $user['id'];
 
+        $this->loadSaveData();
+
         header('Location: /home');
         exit();
+    }
+
+    public function loadSaveData(): void
+    {
+        $data = (new ProgressModel($this->PDO))->getProgress($_SESSION['id']);
+
+        if ($data === []) {
+            header('Location: /home');
+            exit();
+        }
+
+        $_SESSION['games'] = [];
+        $_SESSION['progress'] = [];
+        $_SESSION['checkpoints'] = [];
+
+        foreach ($data['games'] as $game) {
+            $_SESSION['games'][$game['type']][$game['game_index']] = [
+                'done' => $game['done'],
+                'hint' => $game['hint'],
+                'points' => $game['points'],
+                'slug' => $game['slug'],
+            ];
+        }
+
+        foreach ($data['progress'] as $progress) {
+            $_SESSION['progress'][$progress['type']] = [
+                'gamesDone' => $progress['games_done'],
+                'totalPoints' => $progress['total_points'],
+            ];
+        }
+
+        foreach ($data['checkpoints'] as $checkpoint) {
+            $_SESSION['checkpoints'][$checkpoint['type']][$checkpoint['checkpoint_index']] = true;
+        }
     }
 }

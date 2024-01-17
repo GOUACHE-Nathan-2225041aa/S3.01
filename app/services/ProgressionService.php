@@ -21,7 +21,7 @@ class ProgressionService
 
     public function refreshProgression(): void
     {
-        if (isset($_SESSION['games']['deep-fake']) !== null) {
+        if (isset($_SESSION['games']['deep-fake'])) {
             $_SESSION['progress']['deep-fake']['gamesDone'] = 0;
             $_SESSION['progress']['deep-fake']['totalPoints'] = 0;
             foreach ($_SESSION['games']['deep-fake'] as $game) {
@@ -29,7 +29,7 @@ class ProgressionService
                 $_SESSION['progress']['deep-fake']['totalPoints'] += $game['points'];
             }
         }
-        if (isset($_SESSION['games']['audio']) !== null) {
+        if (isset($_SESSION['games']['audio'])) {
             $_SESSION['progress']['audio']['gamesDone'] = 0;
             $_SESSION['progress']['audio']['totalPoints'] = 0;
             foreach ($_SESSION['games']['audio'] as $game) {
@@ -37,7 +37,7 @@ class ProgressionService
                 $_SESSION['progress']['audio']['totalPoints'] += $game['points'];
             }
         }
-        if (isset($_SESSION['games']['article']) !== null) {
+        if (isset($_SESSION['games']['article'])) {
             $_SESSION['progress']['article']['gamesDone'] = 0;
             $_SESSION['progress']['article']['totalPoints'] = 0;
             foreach ($_SESSION['games']['article'] as $game) {
