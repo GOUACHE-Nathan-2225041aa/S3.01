@@ -23,7 +23,7 @@ return [
     ],
     'adult' => [
         'question' => [
-            'speaker_name' => 'Thomas',
+            'speaker_name' => 'Chiara',
             'speaker_img' => 'adult',
             'display_character' => 'adult',
             'text' => "Hello, <br> I've heard some rumors recently, but I feel like some of them are false... The voices don't seem natural; can you help me find out which ones are true and which ones are false, please?",
@@ -35,7 +35,7 @@ return [
             'text' => "Of course! AIs that replicate voices can be trained as long as one wants, making some very difficult to detect! <br> But don't worry, I'll help you!",
         ],
         'end' => [
-            'speaker_name' => 'Thomas',
+            'speaker_name' => 'Chiara',
             'speaker_img' => 'adult',
             'display_character' => 'adult',
             'text' => "Thank you! I'll pay attention to imperfections when I have doubts now!",

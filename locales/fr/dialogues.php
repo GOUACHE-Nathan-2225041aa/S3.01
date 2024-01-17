@@ -23,7 +23,7 @@ return [
     ],
     'adult' => [
         'question' => [
-            'speaker_name' => 'Thomas',
+            'speaker_name' => 'Chiara',
             'speaker_img' => 'adult',
             'display_character' => 'adult',
             'text' => "Hey, <br> J'ai entendu des rumeurs récemment, mais j'ai l'impression que certaines sont fausses... Les voix ne paraissent pas naturelles, peux-tu m'aider à trouver lesquelles sont vraies et lesquelles sont fausses s'il te plaît ?",
@@ -35,7 +35,7 @@ return [
             'text' => "Bien sûr ! Les IA qui reproduisent les voix peuvent être entraînés aussi longtemps que l'on veut ce qui rend certaine très difficiles à déceler ! <br> Mais ne t'en fait pas, je vais t'aider !",
         ],
         'end' => [
-            'speaker_name' => 'Thomas',
+            'speaker_name' => 'Chiara',
             'speaker_img' => 'adult',
             'display_character' => 'adult',
             'text' => "Merci ! Je ferais bien attention aux imperfections quand j'aurais un doute maintenant !",
