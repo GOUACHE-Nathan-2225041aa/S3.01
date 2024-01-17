@@ -53,17 +53,17 @@ class Localization
 
         <div class="form-item">
             <label for="title"><?= $loc['title'] ?></label>
-            <input type="text" name="title" id="title" value="<?= $gameData['title-' . $lang] ?? '' ?>">
+            <input type="text" name="title" id="title" value="<?= html_entity_decode($gameData['title-' . $lang]) ?? '' ?>">
         </div>
 
         <div class="form-item">
             <label for="hint"><?= $loc['hint'] ?></label>
-            <textarea name="hint" id="hint" cols="30" rows="10"><?= $gameData['hint-' . $lang] ?? '' ?></textarea>
+            <textarea name="hint" id="hint" cols="30" rows="10"><?= html_entity_decode($gameData['hint-' . $lang]) ?? '' ?></textarea>
         </div>
 
         <div class="form-item">
             <label for="description"><?= $loc['description'] ?></label>
-            <textarea name="description" id="description" cols="30" rows="10"><?= $gameData['description-' . $lang] ?? '' ?></textarea>
+            <textarea name="description" id="description" cols="30" rows="10"><?= html_entity_decode($gameData['description-' . $lang]) ?? '' ?></textarea>
         </div>
 
         <div class="form-item">
