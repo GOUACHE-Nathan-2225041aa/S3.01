@@ -28,6 +28,7 @@ class Header
         <div>
             <button id="save-progress"><?= $loc['saveProgress'] ?></button>
         </div>
+        <button id="load-progress"><?= $loc['loadProgress'] ?></button>
     </nav>
 </header>
 <?php

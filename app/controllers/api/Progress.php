@@ -18,6 +18,13 @@ class Progress
     public function execute(): void
     {
         header('Content-Type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+
+        if (isset($data['saveClient']) && $data['saveClient']) {
+            $this->loadSaveData($data);
+            echo json_encode(['success' => 'Progress loaded']);
+            exit();
+        }
 
         $this->userAuth();
 
@@ -69,7 +76,7 @@ class Progress
             ];
         }
 
-        $data['user_id'] = $_SESSION['id'];
+        if (isset($_SESSION['id'])) $data['user_id'] = $_SESSION['id'];
 
         return $data;
     }
@@ -77,8 +84,49 @@ class Progress
     private function userAuth(): void
     {
         if (!isset($_SESSION['username']) || !isset($_SESSION['id'])) {
-            echo json_encode(['error' => 'Invalid request']);
+            $this->saveToClient();
+        }
+    }
+
+    private function saveToClient(): void
+    {
+        $data = $this->prepareData();
+
+        $data['saveClient'] = true;
+
+        echo json_encode($data);
+        exit();
+    }
+
+    public function loadSaveData($data): void
+    {
+        if ($data === []) {
+            header('Location: /home');
             exit();
+        }
+
+        $_SESSION['games'] = [];
+        $_SESSION['progress'] = [];
+        $_SESSION['checkpoints'] = [];
+
+        foreach ($data['games'] as $game) {
+            $_SESSION['games'][$game['type']][$game['game_index']] = [
+                'done' => $game['done'],
+                'hint' => $game['hint'],
+                'points' => $game['points'],
+                'slug' => $game['slug'],
+            ];
+        }
+
+        foreach ($data['progress'] as $progress) {
+            $_SESSION['progress'][$progress['type']] = [
+                'gamesDone' => $progress['games_done'],
+                'totalPoints' => $progress['total_points'],
+            ];
+        }
+
+        foreach ($data['checkpoints'] as $checkpoint) {
+            $_SESSION['checkpoints'][$checkpoint['type']][$checkpoint['checkpoint_index']] = true;
         }
     }
 }

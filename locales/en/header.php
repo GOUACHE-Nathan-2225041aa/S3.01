@@ -12,4 +12,5 @@ return [
     'en' => 'English',
     'fr' => 'French',
     'saveProgress' => 'Save',
+    'loadProgress' => 'Load',
 ];
