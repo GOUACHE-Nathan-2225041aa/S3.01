@@ -68,7 +68,7 @@ try {
         if (isset($_POST['answer'])) {
             $_SESSION['answer_form_submitted'] = true;
             $_SESSION['answer_form_data'] = $_POST;
-            $currentGame = array_key_first($_SESSION['games'][$_SESSION['current_game']['type']][$_SESSION['current_game']['index']]);
+            $currentGame = $_SESSION['games'][$_SESSION['current_game']['type']][$_SESSION['current_game']['index']]['slug'];
             header('Location: /games/' . $currentGame . '/result');
             exit;
         }
