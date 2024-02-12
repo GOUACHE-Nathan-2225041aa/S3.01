@@ -91,7 +91,10 @@ main {
 }
 
 .source {
+    border: none;
+    border-radius: 20px;
     color: var(--text-color-dark);
+    background-color: #FFE4C9;
 }
 
 .source:hover {
