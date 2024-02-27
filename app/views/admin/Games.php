@@ -46,7 +46,10 @@ class Games
         <li><?= $loc['gameType'] ?>: <?= $gameData['game_type'] ?></li>
         <li><?= $loc['gameCreationDate'] ?>: <?= $gameData['creation_date'] ?></li>
     </ul>
-    <button class="btn btn-danger btn-delete" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['delete'] ?></button>
+    <div>
+        <button class="btn btn-danger btn-delete" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['delete'] ?></button>
+        <button class="btn btn-primary btn-update" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['update'] ?></button>
+    </div>
 </div>
 <?php
         return ob_get_clean();

@@ -8,4 +8,5 @@ return [
     'gameType' => 'Game Type',
     'gameCreationDate' => 'Game Creation Date',
     'delete' => 'Delete',
+    'update' => 'Update',
 ];

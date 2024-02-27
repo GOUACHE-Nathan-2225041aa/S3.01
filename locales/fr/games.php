@@ -8,4 +8,5 @@ return [
     'gameType' => 'Type de jeu',
     'gameCreationDate' => 'Date de création du jeu',
     'delete' => 'Supprimer',
+    'update' => 'Mettre à jour',
 ];
