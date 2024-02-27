@@ -163,4 +163,17 @@ class Games
             return [];
         }
     }
+
+    public function getGameDataById(string $gameId, string $gameType): ?array
+    {
+        try {
+            $statement = $this->connection->prepare("SELECT * FROM games WHERE id = :game_id AND game_type = :game_type");
+            $statement->execute(['game_id' => $gameId, 'game_type' => $gameType]);
+            $result = $statement->fetch(PDO::FETCH_ASSOC);
+            return $result ? $result : null;
+        } catch (PDOException $e) {
+            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
+            return null;
+        }
+    }
 }

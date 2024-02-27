@@ -38,6 +38,19 @@ class Games
             }
         }
 
+        if ($param === 'update' && $gameId !== null) {
+            try {
+                $gameData = (new GamesModel($this->GamePDO))->getGameDataById($gameId, $gameType);
+                error_log(print_r($gameData, true));
+                $_SESSION['update_game_data'] = $gameData;
+                header('Location: /admin');
+                exit();
+            } catch (PDOException $e) {
+                echo json_encode(['error' => 'Invalid request']);
+                exit();
+            }
+        }
+
         echo json_encode(['error' => 'Invalid request']);
         exit();
     }

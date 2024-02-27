@@ -32,7 +32,7 @@ class Games
     </div>
 </main>
 <?php
-        (new Layout('FakeGame - Games', ob_get_clean(), 'admingames', ['deletegame']))->show();
+        (new Layout('FakeGame - Games', ob_get_clean(), 'admingames', ['deletegame', 'updategame']))->show();
     }
 
     private function game($loc, $gameData): string
