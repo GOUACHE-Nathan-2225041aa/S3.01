@@ -23,4 +23,5 @@ return [
     'fr' => 'Français',
     'en' => 'Anglais',
     'create' => 'Créer',
+    'update' => 'Mettre à jour'
 ];

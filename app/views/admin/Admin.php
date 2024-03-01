@@ -34,7 +34,7 @@ class Admin
     <?php if ($updateGameData): ?>
         <?php $gameType = $updateGameData['game_type']; ?>
         <div class="game-form">
-            <h1 class="title"><?= $loc['game'] ?>: <?= ucfirst($gameType) ?></h1>
+            <h1 class="title">UPDATING - <?= $loc['game'] ?>: <?= ucfirst($gameType) ?></h1>
             <form method="POST" action="" enctype="multipart/form-data">
                 <input type="hidden" name="game_type" value="<?= $gameType ?>">
 
@@ -66,7 +66,6 @@ class Admin
                             <label for="hint"><?= $loc['hint'] ?></label>
                             <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
                         </div>
-                        <!-- Add more fields as needed -->
                         <?php break;
                     case 'article': ?>
                         <!-- Article form fields -->
@@ -94,7 +93,6 @@ class Admin
                             <label for="hint"><?= $loc['hint'] ?></label>
                             <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
                         </div>
-                        <!-- Add more fields as needed -->
                         <?php break;
                     case 'audio': ?>
                         <!-- Audio form fields -->
@@ -130,8 +128,6 @@ class Admin
                         <!-- Add more fields as needed -->
                         <?php break;
                     default: ?>
-                        <!-- Default case -->
-                        <!-- You can add a default form here if needed -->
                     <?php endswitch; ?>
 
                 <div class="form-item">

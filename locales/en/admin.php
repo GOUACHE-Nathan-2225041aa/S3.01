@@ -23,4 +23,5 @@ return [
     'fr' => 'French',
     'en' => 'English',
     'create' => 'Create',
+    'update' => 'Update'
 ];
