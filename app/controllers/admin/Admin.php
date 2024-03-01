@@ -31,7 +31,8 @@ class Admin // TODO - refactor duplications
         $this->userAuth();
         $loc = (new LocalizationService())->getArray('admin');
         $user = (new UserModel($this->AccountPDO))->getUserByUsername($_SESSION['username']);
-        (new AdminView())->show($loc, $user);
+        $updateGameData = $_SESSION['update_game_data'] ?? null;
+        (new AdminView())->show($loc, $user, $updateGameData);
     }
 
     public function createGame($postData, $fileData): void

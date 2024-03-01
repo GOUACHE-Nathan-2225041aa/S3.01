@@ -41,8 +41,10 @@ class Games
         if ($param === 'update' && $gameId !== null) {
             try {
                 $gameData = (new GamesModel($this->GamePDO))->getGameDataById($gameId, $gameType);
-                error_log(print_r($gameData, true));
-                $_SESSION['update_game_data'] = $gameData;
+                $gameDetails = (new GamesModel($this->GamePDO))->getGameDetailsById($gameData['id'], $gameType);
+                $AllGameInfo = array_merge($gameData, $gameDetails);
+                error_log(print_r($AllGameInfo, true));
+                $_SESSION['update_game_data'] = $AllGameInfo;
                 header('Location: /admin');
                 exit();
             } catch (PDOException $e) {

@@ -15,5 +15,6 @@ document.querySelectorAll('.btn-update').forEach(btn => {
                 param: 'update',
             }),
         })
+        window.location.href = '/admin';
     });
 });
