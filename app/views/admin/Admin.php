@@ -37,108 +37,32 @@ class Admin
             <h1 class="title">UPDATING - <?= $loc['game'] ?>: <?= ucfirst($gameType) ?></h1>
             <form method="POST" action="" enctype="multipart/form-data">
                 <input type="hidden" name="game_type" value="<?= $gameType ?>">
+                <!-- Title -->
+                <div class="form-item">
+                    <label for="title"><?= $loc['title'] ?></label>
+                    <input type="text" name="title" id="title" value="<?= $updateGameData['title'] ?? '' ?>" required>
+                </div>
 
                 <!-- Fill in the form fields based on the game type -->
                 <?php switch ($gameType):
                     case 'deep-fake': ?>
                         <!-- Deep Fake form fields -->
-                        <!-- Title -->
-                        <div class="form-item">
-                            <label for="title"><?= $loc['title'] ?></label>
-                            <input type="text" name="title" id="title" value="<?= $updateGameData['title'] ?? '' ?>" required>
-                        </div>
                         <!-- Image -->
                         <div class="form-item">
                             <label for="image"><?= $loc['image'] ?></label>
                             <input type="file" name="image" id="image" accept="image/*" required>
-                        </div>
-                        <!-- Answer -->
-                        <div class="form-item">
-                            <label for="answer"><?= $loc['answer'] ?></label>
-                            <select name="answer" id="answer" required>
-                                <option disabled selected><?= $loc['selectAnswer'] ?></option>
-                                <option value="1" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
-                                <option value="0" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
-                            </select>
-                        </div>
-                        <!-- Hint -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['hint'] ?></label>
-                            <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Description -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['description'] ?></label>
-                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Source -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['source'] ?></label>
-                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Langue -->
-                        <div class="form-item">
-                            <label for="language"><?= $loc['language'] ?></label>
-                            <select name="language id="language" required>
-                                <option disabled selected><?= $loc['selectLanguage'] ?></option>
-                                <option value="1"><?= $loc['fr'] ?></option>
-                                <option value="0" selected><?= $loc['en'] ?></option>
-                            </select>
                         </div>
                         <?php break;
                     case 'article': ?>
                         <!-- Article form fields -->
-                        <!-- Title -->
-                        <div class="form-item">
-                            <label for="title"><?= $loc['title'] ?></label>
-                            <input type="text" name="title" id="title" value="<?= $updateGameData['title'] ?? '' ?>" required>
-                        </div>
                         <!-- Image -->
                         <div class="form-item">
                             <label for="image"><?= $loc['image'] ?></label>
                             <input type="file" name="image" id="image" accept="image/*" required>
                         </div>
-                        <!-- Answer -->
-                        <div class="form-item">
-                            <label for="answer"><?= $loc['answer'] ?></label>
-                            <select name="answer" id="answer" required>
-                                <option disabled selected><?= $loc['selectAnswer'] ?></option>
-                                <option value="1" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
-                                <option value="0" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
-                            </select>
-                        </div>
-                        <!-- Hint -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['hint'] ?></label>
-                            <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Description -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['description'] ?></label>
-                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Source -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['source'] ?></label>
-                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Langue -->
-                        <div class="form-item">
-                            <label for="language"><?= $loc['language'] ?></label>
-                            <select name="language id="language" required>
-                            <option disabled selected><?= $loc['selectLanguage'] ?></option>
-                            <option value="1"><?= $loc['fr'] ?></option>
-                            <option value="0" selected><?= $loc['en'] ?></option>
-                            </select>
-                        </div>
                         <?php break;
                     case 'audio': ?>
                         <!-- Audio form fields -->
-                        <!-- Title -->
-                        <div class="form-item">
-                            <label for="title"><?= $loc['title'] ?></label>
-                            <input type="text" name="title" id="title" value="<?= $updateGameData['title'] ?? '' ?>" required>
-                        </div>
                         <!-- Image -->
                         <div class="form-item">
                             <label for="image"><?= $loc['image'] ?></label>
@@ -149,43 +73,42 @@ class Admin
                             <label for="audio"><?= $loc['audio'] ?></label>
                             <input type="file" name="audio" id="audio" accept="audio/*" required>
                         </div>
-                        <!-- Answer -->
-                        <div class="form-item">
-                            <label for="answer"><?= $loc['answer'] ?></label>
-                            <select name="answer" id="answer" required>
-                                <option disabled selected><?= $loc['selectAnswer'] ?></option>
-                                <option value="1" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
-                                <option value="0" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
-                            </select>
-                        </div>
-                        <!-- Hint -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['hint'] ?></label>
-                            <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Description -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['description'] ?></label>
-                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Source -->
-                        <div class="form-item">
-                            <label for="hint"><?= $loc['source'] ?></label>
-                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
-                        </div>
-                        <!-- Langue -->
-                        <div class="form-item">
-                            <label for="language"><?= $loc['language'] ?></label>
-                            <select name="language id="language" required>
-                            <option disabled selected><?= $loc['selectLanguage'] ?></option>
-                            <option value="1"><?= $loc['fr'] ?></option>
-                            <option value="0" selected><?= $loc['en'] ?></option>
-                            </select>
-                        </div>
-                        <!-- Add more fields as needed -->
                         <?php break;
                     default: ?>
                     <?php endswitch; ?>
+                <!-- Answer -->
+                <div class="form-item">
+                    <label for="answer"><?= $loc['answer'] ?></label>
+                    <select name="answer" id="answer" required>
+                        <option disabled selected><?= $loc['selectAnswer'] ?></option>
+                        <option value="1" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
+                        <option value="0" <?= isset($updateGameData['answer']) && $updateGameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
+                    </select>
+                </div>
+                <!-- Hint -->
+                <div class="form-item">
+                    <label for="hint"><?= $loc['hint'] ?></label>
+                    <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
+                </div>
+                <!-- Description -->
+                <div class="form-item">
+                    <label for="hint"><?= $loc['description'] ?></label>
+                    <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
+                </div>
+                <!-- Source -->
+                <div class="form-item">
+                    <label for="hint"><?= $loc['source'] ?></label>
+                    <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
+                </div>
+                <!-- Langue -->
+                <div class="form-item">
+                    <label for="language"><?= $loc['language'] ?></label>
+                    <select name="language id="language" required>
+                    <option disabled selected><?= $loc['selectLanguage'] ?></option>
+                    <option value="1"><?= $loc['fr'] ?></option>
+                    <option value="0" selected><?= $loc['en'] ?></option>
+                    </select>
+                </div>
 
                 <div class="form-item">
                     <button class="btn btn-primary" type="submit" name="update-game"><?= $loc['update'] ?></button>
