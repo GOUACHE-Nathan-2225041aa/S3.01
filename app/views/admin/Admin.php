@@ -66,6 +66,25 @@ class Admin
                             <label for="hint"><?= $loc['hint'] ?></label>
                             <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
                         </div>
+                        <!-- Description -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['description'] ?></label>
+                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Source -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['source'] ?></label>
+                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Langue -->
+                        <div class="form-item">
+                            <label for="language"><?= $loc['language'] ?></label>
+                            <select name="language id="language" required>
+                                <option disabled selected><?= $loc['selectLanguage'] ?></option>
+                                <option value="1"><?= $loc['fr'] ?></option>
+                                <option value="0" selected><?= $loc['en'] ?></option>
+                            </select>
+                        </div>
                         <?php break;
                     case 'article': ?>
                         <!-- Article form fields -->
@@ -92,6 +111,25 @@ class Admin
                         <div class="form-item">
                             <label for="hint"><?= $loc['hint'] ?></label>
                             <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Description -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['description'] ?></label>
+                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Source -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['source'] ?></label>
+                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Langue -->
+                        <div class="form-item">
+                            <label for="language"><?= $loc['language'] ?></label>
+                            <select name="language id="language" required>
+                            <option disabled selected><?= $loc['selectLanguage'] ?></option>
+                            <option value="1"><?= $loc['fr'] ?></option>
+                            <option value="0" selected><?= $loc['en'] ?></option>
+                            </select>
                         </div>
                         <?php break;
                     case 'audio': ?>
@@ -124,6 +162,25 @@ class Admin
                         <div class="form-item">
                             <label for="hint"><?= $loc['hint'] ?></label>
                             <textarea name="hint" id="hint" cols="30" rows="10"><?= $updateGameData['hint'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Description -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['description'] ?></label>
+                            <textarea name="description" id="description" cols="30" rows="10"><?= $updateGameData['description'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Source -->
+                        <div class="form-item">
+                            <label for="hint"><?= $loc['source'] ?></label>
+                            <textarea name="source" id="source" cols="30" rows="10"><?= $updateGameData['source'] ?? '' ?></textarea>
+                        </div>
+                        <!-- Langue -->
+                        <div class="form-item">
+                            <label for="language"><?= $loc['language'] ?></label>
+                            <select name="language id="language" required>
+                            <option disabled selected><?= $loc['selectLanguage'] ?></option>
+                            <option value="1"><?= $loc['fr'] ?></option>
+                            <option value="0" selected><?= $loc['en'] ?></option>
+                            </select>
                         </div>
                         <!-- Add more fields as needed -->
                         <?php break;
