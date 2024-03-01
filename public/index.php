@@ -58,7 +58,11 @@ try {
         }
 
         if (isset($_POST['create-game'])) {
-            (new AdminController())->createGame($_POST, $_FILES);
+            (new AdminController())->createGame($_POST, $_FILES, false);
+        }
+
+        if (isset($_POST['update-game'])) {
+            (new AdminController())->createGame($_POST, $_FILES, true);
         }
 
         if (isset($_POST['save-localization'])) {

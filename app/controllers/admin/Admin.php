@@ -35,7 +35,7 @@ class Admin // TODO - refactor duplications
         (new AdminView())->show($loc, $user, $updateGameData);
     }
 
-    public function createGame($postData, $fileData): void
+    public function createGame($postData, $fileData, $isUpdate = false): void
     {
         $this->userAuth();
 
@@ -45,20 +45,24 @@ class Admin // TODO - refactor duplications
             exit();
         }
 
-        if ($postData['game_type'] === 'deep-fake') {
-            $this->gameDeepFake($postData, $fileData);
-        }
-
-        if ($postData['game_type'] === 'article') {
-            $this->gameArticle($postData, $fileData);
-        }
-
-        if ($postData['game_type'] === 'audio') {
-            $this->gameAudio($postData, $fileData);
+        switch ($postData['game_type']) {
+            case 'deep-fake':
+                $this->handleDeepFakeGame($postData, $fileData, $isUpdate);
+                break;
+            case 'article':
+                $this->handleArticleGame($postData, $fileData, $isUpdate);
+                break;
+            case 'audio':
+                $this->handleAudioGame($postData, $fileData, $isUpdate);
+                break;
+            default:
+                $_SESSION['errorMessage'] = 'Invalid game type';
+                header('Location: /admin');
+                exit();
         }
     }
 
-    private function gameDeepFake($postData, $fileData): void
+    private function handleDeepFakeGame($postData, $fileData, $isUpdate): void
     {
         if (!is_uploaded_file($fileData['image']['tmp_name'])) {
             $_SESSION['errorMessage'] = 'Missing image';
@@ -132,7 +136,12 @@ class Admin // TODO - refactor duplications
         ];
 
         try {
-            (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+            if($isUpdate) {
+                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
+            }
+            else {
+                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+            }
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
@@ -145,7 +154,7 @@ class Admin // TODO - refactor duplications
         exit();
     }
 
-    private function gameArticle($postData, $fileData): void
+    private function handleArticleGame($postData, $fileData, $isUpdate): void
     {
         if (!is_uploaded_file($fileData['image']['tmp_name'])) {
             $_SESSION['errorMessage'] = 'Missing image';
@@ -219,7 +228,12 @@ class Admin // TODO - refactor duplications
         ];
 
         try {
-            (new ArticleModel($this->GamePDO))->createGame($gameData, $localizationData);
+            if($isUpdate) {
+                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
+            }
+            else {
+                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+            }
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
@@ -232,7 +246,7 @@ class Admin // TODO - refactor duplications
         exit();
     }
 
-    private function gameAudio($postData, $fileData): void
+    private function handleAudioGame($postData, $fileData, $isUpdate): void
     {
         if (!is_uploaded_file($fileData['image']['tmp_name'])) {
             $_SESSION['errorMessage'] = 'Missing image';
@@ -326,7 +340,12 @@ class Admin // TODO - refactor duplications
         ];
 
         try {
-            (new AudioModel($this->GamePDO))->createGame($gameData, $localizationData);
+            if($isUpdate) {
+                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
+            }
+            else {
+                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
+            }
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';

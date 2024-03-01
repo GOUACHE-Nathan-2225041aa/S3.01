@@ -47,6 +47,45 @@ class DeepFake // TODO - refactor duplications
         }
     }
 
+    public function updateGame(array $gameData, array $localizationData): void
+    {
+        $this->connection->beginTransaction();
+
+        try {
+            $this->updateGameData($gameData);
+            $this->updateLocalizationData($localizationData, $gameData['id']);
+
+            $this->connection->commit();
+        } catch (PDOException $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
+
+    private function updateGameData(array $gameData): void
+    {
+        $statement = $this->connection->prepare("UPDATE games SET slug = :slug, game_type = :game_type, creation_date = :creation_date WHERE id = :id");
+        $statement->execute([
+            'id' => $gameData['id'],
+            'slug' => $gameData['slug'],
+            'game_type' => $gameData['game_type'],
+            'creation_date' => $gameData['creation_date']
+        ]);
+    }
+
+    private function updateLocalizationData(array $localizationData, string $gameId): void
+    {
+        $deleteStatement = $this->connection->prepare("DELETE FROM localization WHERE game_id = :game_id");
+        $deleteStatement->execute(['game_id' => $gameId]);
+
+        $insertStatement = $this->connection->prepare("INSERT INTO localization (game_id, field, language, text) VALUES (:game_id, :field, :language, :text)");
+
+        foreach ($localizationData as $localization) {
+            $localization['game_id'] = $gameId;
+            $insertStatement->execute($localization);
+        }
+    }
+
     public function getGame(string $gameId, string $language): ?array
     {
         try {
