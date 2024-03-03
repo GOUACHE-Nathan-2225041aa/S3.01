@@ -31,13 +31,20 @@ class Signup
         (new SignupView())->show($loc);
     }
 
-    public function verificationURL($url): void
+    public function verificationURL(array $data): void
     {
+        $path = $data['path'];
+        $url = null;
+
+        if (preg_match('/\/signup\/([^\/]+)$/', $path, $matches)) {
+            $url = $matches[1];
+        }
+
         $emailVerification = new EmailVerificationModel($this->PDO);
         $emailData = null;
         $isExpired = null;
 
-        if (isset($url)) {
+        if ($url !== null) {
             $emailData = $emailVerification->getEmailByURL(htmlspecialchars($url));
         }
 
@@ -59,8 +66,9 @@ class Signup
         (new SignupView())->show($loc, true, $emailData['email']);
     }
 
-    public function sendVerificationURL($postData): void
+    public function sendVerificationURL(array $data): void
     {
+        $postData = $data['post'];
         $user = new UserModel($this->PDO);
         $emailVerification = new EmailVerificationModel($this->PDO);
         $isAccountExist = null;
@@ -136,8 +144,11 @@ class Signup
     }
 
     // TODO - refactor this method
-    public function signup($postData, $url): void
+    public function signup(array $data): void
     {
+        $parts = explode('/', $data['path']);
+        $url = end($parts);
+        $postData = $data['post'];
         $user = new UserModel($this->PDO);
         $isUsernameTaken = null;
         $emailVerification = new EmailVerificationModel($this->PDO);

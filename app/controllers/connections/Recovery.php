@@ -26,8 +26,11 @@ class Recovery
         (new RecoveryView())->show($loc);
     }
 
-    public function recovery($postData, $url): void
+    public function recovery(array $data): void
     {
+        $parts = explode('/', $data['path']);
+        $url = end($parts);
+        $postData = $data['post'];
         $user = new UserModel($this->PDO);
         $emailVerification = new EmailVerificationModel($this->PDO);
         $isLinkExpired = null;
@@ -75,13 +78,20 @@ class Recovery
         exit();
     }
 
-    public function verificationURL($url): void
+    public function verificationURL(array $data): void
     {
+        $path = $data['path'];
+        $url = null;
+
+        if (preg_match('/\/recovery\/([^\/]+)$/', $path, $matches)) {
+            $url = $matches[1];
+        }
+
         $emailVerification = new EmailVerificationModel($this->PDO);
         $emailData = null;
         $isExpired = null;
 
-        if (isset($url)) {
+        if ($url !== null) {
             $emailData = $emailVerification->getEmailByURL(htmlspecialchars($url));
         }
 
@@ -103,8 +113,9 @@ class Recovery
         (new RecoveryView())->show($loc, true, $emailData['email']);
     }
 
-    public function sendVerificationURL($postData): void
+    public function sendVerificationURL(array $data): void
     {
+        $postData = $data['post'];
         $user = new UserModel($this->PDO);
         $emailVerification = new EmailVerificationModel($this->PDO);
         $isAccountExist = null;

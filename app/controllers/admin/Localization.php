@@ -19,8 +19,10 @@ class Localization
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute($params): void
+    public function execute(array $data): void
     {
+        $params = $data['query'];
+
         $this->userAuth();
         $totalGamesCount = (new GamesModel($this->GamePDO))->getTotalGamesCount();
         $gamesPerPageCount = 5;
@@ -44,8 +46,10 @@ class Localization
         (new LocalizationView())->show($loc, $games, $totalGamesCount, $gamesPerPageCount);
     }
 
-    public function save($postData): void
+    public function save(array $data): void
     {
+        $postData = $data['post'];
+
         $this->userAuth();
 
         $gameId = htmlspecialchars($postData['game_id']);

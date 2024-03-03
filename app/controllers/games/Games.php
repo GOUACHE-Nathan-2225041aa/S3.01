@@ -20,8 +20,20 @@ class Games
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute($slug): void
+    public function execute(array $data): void
     {
+        $path = $data['path'];
+        $slug = null;
+
+        if (preg_match('/\/games\/([^\/]+)$/', $path, $matches)) {
+            $slug = $matches[1];
+        }
+
+        if ($slug === null) {
+            header('Location: /');
+            exit();
+        }
+
         $game = (new GamesModel($this->GamePDO))->getGameBySlug(htmlspecialchars($slug));
 
         if ($game === null) {

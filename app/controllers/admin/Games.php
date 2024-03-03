@@ -17,8 +17,10 @@ class Games
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute($params): void
+    public function execute(array $data): void
     {
+        $params = $data['query'];
+
         $this->userAuth();
         $totalGamesCount = (new GamesModel($this->GamePDO))->getTotalGamesCount();
         $gamesPerPageCount = 10;

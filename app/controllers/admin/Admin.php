@@ -35,8 +35,11 @@ class Admin // TODO - refactor duplications
         (new AdminView())->show($loc, $user, $updateGameData);
     }
 
-    public function createGame($postData, $fileData, $isUpdate = false): void
+    public function createGame(array $data, $isUpdate = false): void
     {
+        $postData = $data['post'];
+        $fileData = $data['files'];
+
         $this->userAuth();
 
         if (!isset($postData['game_type'])) {

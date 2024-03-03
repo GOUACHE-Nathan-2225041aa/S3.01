@@ -28,8 +28,9 @@ class Login
         (new LoginView())->show($loc);
     }
 
-    public function login(array $postData): void
+    public function login(array $data): void
     {
+        $postData = $data['post'];
         $user = new UserModel($this->PDO);
 
         if (!isset($postData['username'])) {

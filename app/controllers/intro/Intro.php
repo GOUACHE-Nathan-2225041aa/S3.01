@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers\Intro;
+namespace app\controllers\intro;
 
 use app\views\intro\Intro as IntroView;
 
-class Intro // TODO - complete the class
+class Intro
 {
     public function execute(): void
     {

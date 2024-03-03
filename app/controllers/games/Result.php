@@ -46,6 +46,15 @@ class Result
         $this->showGameResult($game, $postData);
     }
 
+    public function redirect(array $data): void
+    {
+        $_SESSION['answer_form_submitted'] = true;
+        $_SESSION['answer_form_data'] = $data['post'];
+        $currentGame = $_SESSION['games'][$_SESSION['current_game']['type']][$_SESSION['current_game']['index']]['slug'];
+        header('Location: /games/' . $currentGame . '/result');
+        exit;
+    }
+
     private function showGameResult($game, $postData): void
     {
         $gameData = null;
