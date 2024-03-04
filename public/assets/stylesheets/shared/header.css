@@ -17,7 +17,7 @@ header {
     margin: .5rem 0;
 }
 
-a, .navbar label {
+a, .navbar label, button, #language-selector {
     color: var(--text-color-dark);
     text-decoration: none;
     font-size: 1.5rem;
@@ -30,8 +30,6 @@ a:hover {
 }
 
 #language-selector {
-    padding: 0.5rem;
-    font-size: 1rem;
     color: var(--text-color-dark);
     background-color: var(--bg-color-dark);
     border: none;
@@ -50,8 +48,6 @@ a:hover {
 }
 
 #save-progress {
-    padding: 0.5rem;
-    font-size: 1rem;
     color: var(--text-color-dark);
     background-color: var(--bg-color-dark);
     border: none;
@@ -64,9 +60,8 @@ a:hover {
     background-color: var(--bg-color-light);
 }
 
+
 #load-progress {
-    padding: 0.5rem;
-    font-size: 1rem;
     color: var(--text-color-dark);
     background-color: var(--bg-color-dark);
     border: none;
