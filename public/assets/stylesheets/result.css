@@ -91,14 +91,11 @@ main {
 }
 
 .source {
-    border: none;
+    border: solid;
     border-radius: 20px;
     color: var(--text-color-dark);
-    background-color: #FFE4C9;
-}
-
-.source:hover {
-    color: #492cff;
+    background-color: #FFFFFF;
+    border-color: var(--text-color-dark);;
 }
 
 audio {

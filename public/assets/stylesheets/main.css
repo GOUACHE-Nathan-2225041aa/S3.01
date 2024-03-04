@@ -1,11 +1,11 @@
 @import 'shared/header.css';
 
 :root {
-    --bg-color: #faefde;
+    --bg-color: #FFFFFF;
     --bg-color-light: #f5f5f5;
-    --bg-color-dark: #d4c7b8;
-    --text-color-light: #f5f5f5;
-    --text-color-dark: #1a1a1a;
+    --bg-color-dark: #F9F9F9;
+    --text-color-light: #40C4C9;
+    --text-color-dark: #223D54;
     --text-color-danger: #be1413;
     --btn-primary-color-light: #42c711;
     --btn-primary-color-dark: #329f0d;
@@ -13,7 +13,7 @@
     --btn-danger-color-dark: #850a09;
     --accent-color: #e59d9d;
     --link-color: #184798;
-    --border-color-dark: #1a1a1a;
+    --border-color-dark: #223D54;
     --border-color-light: #f5f5f5;
     --font-family: 'Helvetica', 'Arial';
 
