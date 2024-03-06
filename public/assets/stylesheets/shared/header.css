@@ -25,9 +25,10 @@ a, .navbar label, button, #language-selector {
     transition: .25s;
 }
 
-a:hover {
+a:hover, #save-progress:hover,  #load-progress:hover {
     color: var(--text-color-light);
 }
+
 
 #language-selector {
     color: var(--text-color-dark);
@@ -56,11 +57,6 @@ a:hover {
     transition: background-color 0.3s ease;
 }
 
-#save-progress:hover {
-    background-color: var(--bg-color-light);
-}
-
-
 #load-progress {
     color: var(--text-color-dark);
     background-color: var(--bg-color-dark);
@@ -70,6 +66,9 @@ a:hover {
     transition: background-color 0.3s ease;
 }
 
-#load-progress:hover {
-    background-color: var(--bg-color-light);
+#language-selector {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
 }
