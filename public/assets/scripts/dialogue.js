@@ -2,6 +2,8 @@ let url = new URL(window.location.href)
 let dialogues = []
 let game
 let npc
+let typing = false
+let timeout
 
 if (url.pathname === '/') {
     npc = 'intro'
@@ -25,7 +27,7 @@ fetch(`/api/dialogues`, {
         game = data.hasOwnProperty('game') ? data['game'] : null;
 
         showDialogue(dialogues[currentDialogueIndex])
-        document.getElementById('dialogue').addEventListener('click', nextDialogue)
+        document.getElementById('dialogue').addEventListener('click', skipDialogue)
     })
     .catch((error) => {
         console.log('Error:', error)
@@ -46,8 +48,16 @@ function nextDialogue() {
     window.location.href = `/games/${game}`
 }
 
+function skipDialogue(){
+    if (typing == true){
+        timeout = null;
+    }else{
+        nextDialogue();
+    }
+}
+
 function buildText(element, text) {
-    let timeout = 25
+    timeout = 25
     element.textContent = '';
     let lines = text.split('<br>');
     let charIndex = 0;
@@ -55,6 +65,7 @@ function buildText(element, text) {
     let textNode = document.createTextNode('')
 
     function typeLine() {
+        typing = true
         if (lineIndex < lines.length) {
             if (textNode.length === 0) element.appendChild(textNode)
             if (charIndex <= lines[lineIndex].length) {
@@ -68,6 +79,8 @@ function buildText(element, text) {
                 lineIndex++
                 setTimeout(typeLine, timeout)
             }
+        } else {
+            typing = false
         }
     }
     typeLine()
