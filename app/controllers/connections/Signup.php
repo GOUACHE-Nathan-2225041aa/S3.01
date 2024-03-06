@@ -143,7 +143,6 @@ class Signup
         return rtrim(strtr(base64_encode(random_bytes(16)), '+/', '-_'), '=');
     }
 
-    // TODO - refactor this method
     public function signup(array $data): void
     {
         $parts = explode('/', $data['path']);
@@ -159,58 +158,44 @@ class Signup
 
         if (!isset($postData['password'])) {
             $_SESSION['errorMessage'] = 'Password is required!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
         }
-
-        if (!isset($postData['passwordConfirmation'])) {
+        else if (!isset($postData['passwordConfirmation'])) {
             $_SESSION['errorMessage'] = 'Password confirmation is required!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
         }
-
-        if ($postData['password'] !== $postData['passwordConfirmation']) {
+        else if ($postData['password'] !== $postData['passwordConfirmation']) {
             $_SESSION['errorMessage'] = 'Passwords do not match!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
         }
-
-        if ($isUsernameTaken) {
+        else if ($isUsernameTaken) {
             $_SESSION['errorMessage'] = 'Account with this username already exist!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
         }
-
-        if (!isset($postData['email'])) {
+        else if (!isset($postData['email'])) {
             $_SESSION['errorMessage'] = 'Email is required!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
-            exit();
         }
-
-        if (!isset($postData['username'])) {
+        else if (!isset($postData['username'])) {
             $_SESSION['errorMessage'] = 'Username is required!';
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+        }
+        else {
+            $email = $emailVerification->getEmailByURL(htmlspecialchars($url));
+
+            if ($email === null) {
+                $_SESSION['errorMessage'] = 'The verification link is invalid!';
+                header('Location: /signup');
+                exit();
+            }
+
+            $data = [
+                'username' => strtolower(htmlspecialchars($postData['username'])),
+                'password' => password_hash(htmlspecialchars($postData['password']), PASSWORD_DEFAULT),
+                'email' => $email['email'],
+                'ip' => $_SERVER['REMOTE_ADDR'],
+            ];
+
+            $user->finalizeUserAccountCreation($data);
+            $emailVerification->deleteEmail(htmlspecialchars($postData['email']));
+            header('Location: /login');
             exit();
         }
-
-        $email = $emailVerification->getEmailByURL(htmlspecialchars($url));
-
-        if ($email === null) {
-            $_SESSION['errorMessage'] = 'The verification link is invalid!';
-            header('Location: /signup');
-            exit();
-        }
-
-        $data = [
-            'username' => strtolower(htmlspecialchars($postData['username'])),
-            'password' => password_hash(htmlspecialchars($postData['password']), PASSWORD_DEFAULT),
-            'email' => $email['email'],
-            'ip' => $_SERVER['REMOTE_ADDR'],
-        ];
-
-        $user->finalizeUserAccountCreation($data);
-        $emailVerification->deleteEmail(htmlspecialchars($postData['email']));
-        header('Location: /login');
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
         exit();
     }
 }
