@@ -9,11 +9,9 @@ use PDO;
 
 class Young
 {
-    private PDO $GamePDO; // TODO - remove if not used
 
     public function __construct()
     {
-        $this->GamePDO = DataBase::getConnectionGame();
     }
 
     public function execute(): void
