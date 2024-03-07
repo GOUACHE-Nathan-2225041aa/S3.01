@@ -22,7 +22,7 @@ class Header
         <?php endif; ?>
         <button id="save-progress"><?= $loc['saveProgress'] ?></button>
         <button id="load-progress"><?= $loc['loadProgress'] ?></button>
-        <?php if (isset($_SESSION['admin']) || $_SESSION['admin']): ?>
+        <?php if (isset($_SESSION['admin']) && $_SESSION['admin']): ?>
         <a href="/admin"><?= $loc['admin'] ?></a>
         <?php endif; ?>
         <select id="language-selector">
