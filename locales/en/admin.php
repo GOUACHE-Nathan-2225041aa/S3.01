@@ -23,5 +23,11 @@ return [
     'fr' => 'French',
     'en' => 'English',
     'create' => 'Create',
-    'update' => 'Update'
+    'update' => 'Update',
+    'gameType' => 'Game type',
+    'selectGameType' => 'Select the game type',
+    'deepFake' => 'Deep Fake',
+    'article' => 'Article',
+    'createGame' => 'Create a game',
+    'updateGame' => 'Update a game',
 ];

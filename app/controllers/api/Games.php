@@ -38,20 +38,20 @@ class Games
             }
         }
 
-        if ($param === 'update' && $gameId !== null) {
-            try {
-                $gameData = (new GamesModel($this->GamePDO))->getGameDataById($gameId, $gameType);
-                $gameDetails = (new GamesModel($this->GamePDO))->getGameDetailsById($gameData['id'], $gameType);
-                $AllGameInfo = array_merge($gameData, $gameDetails);
-                error_log(print_r($AllGameInfo, true));
-                $_SESSION['update_game_data'] = $AllGameInfo;
-                header('Location: /admin');
-                exit();
-            } catch (PDOException $e) {
-                echo json_encode(['error' => 'Invalid request']);
-                exit();
-            }
-        }
+//        if ($param === 'update' && $gameId !== null) { // TODO - remove
+//            try {
+//                $gameData = (new GamesModel($this->GamePDO))->getGameDataById($gameId, $gameType);
+//                $gameDetails = (new GamesModel($this->GamePDO))->getGameDetailsById($gameData['id'], $gameType);
+//                $AllGameInfo = array_merge($gameData, $gameDetails);
+//                error_log(print_r($AllGameInfo, true));
+//                $_SESSION['update_game_data'] = $AllGameInfo;
+//                header('Location: /admin');
+//                exit();
+//            } catch (PDOException $e) {
+//                echo json_encode(['error' => 'Invalid request']);
+//                exit();
+//            }
+//        }
 
         echo json_encode(['error' => 'Invalid request']);
         exit();

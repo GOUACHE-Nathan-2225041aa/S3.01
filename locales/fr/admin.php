@@ -23,5 +23,11 @@ return [
     'fr' => 'Français',
     'en' => 'Anglais',
     'create' => 'Créer',
-    'update' => 'Mettre à jour'
+    'update' => 'Mettre à jour',
+    'gameType' => 'Type de jeu',
+    'selectGameType' => 'Sélectionnez le type de jeu',
+    'deepFake' => 'Deep Fake',
+    'article' => 'Article',
+    'createGame' => 'Créer un jeu',
+    'updateGame' => 'Mettre à jour un jeu',
 ];

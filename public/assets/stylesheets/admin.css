@@ -42,12 +42,6 @@
     padding: 1rem 3rem;
 }
 
-.form-item {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-}
-
 .form-item label {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
@@ -81,6 +75,7 @@ form {
     width: 50%;
     align-items: center;
     gap: 1.2rem;
+    margin-top: 2rem;
 }
 
 .links {
@@ -126,4 +121,26 @@ form input[type="file"] {
     border-radius: 25px;
     cursor: pointer;
     transition: background-color .3s;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+.form-column {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.2rem;
+    width: 100%;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    width: 60%;
 }

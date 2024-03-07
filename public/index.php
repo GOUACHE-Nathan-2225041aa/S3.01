@@ -17,7 +17,7 @@ $routes = [
         'recovery' => [c\connections\Recovery::class, 'recovery'],
         'recovery_email_verification' => [c\connections\Recovery::class, 'sendVerificationURL'],
         'create-game' => [c\admin\Admin::class, 'createGame'],
-//        'update-game' => [c\admin\Admin::class, 'updateGame'], // TODO - WIP - post, files
+        'update-game' => [c\admin\Admin::class, 'updateGame'],
         'save-localization' => [c\admin\Localization::class, 'save'],
         'answer' => [c\games\Result::class, 'redirect'],
     ],
@@ -36,7 +36,6 @@ $routes = [
         '/admin' => [c\admin\Admin::class, 'execute'],
         '/admin/localization' => [c\admin\Localization::class, 'execute'],
         '/admin/games' => [c\admin\Games::class, 'execute'],
-//        '/games' => [c\games\Games::class, 'execute'], TODO - WIP - provide access to all games
         '/games/([^/]+)' => [c\games\Games::class, 'execute'],
         '/games/([^/]+)/result' => [c\games\Result::class, 'execute'],
     ],

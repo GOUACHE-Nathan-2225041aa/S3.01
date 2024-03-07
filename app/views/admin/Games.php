@@ -18,7 +18,7 @@ class Games
         <?php unset($_SESSION['errorMessage']); ?>
     <?php endif; ?>
     <div class="games">
-    <h1 class="title"><?= $loc['games'] ?></h1>
+        <h1 class="title"><?= $loc['games'] ?></h1>
     <?php foreach ($games as $gameData): ?>
         <?= $this->game($loc, $gameData) ?>
     <?php endforeach; ?>
@@ -32,7 +32,7 @@ class Games
     </div>
 </main>
 <?php
-        (new Layout('FakeGame - Games', ob_get_clean(), 'admingames', ['deletegame', 'updategame']))->show();
+        (new Layout('FakeGame - Games', ob_get_clean(), 'admingames', ['deletegame']))->show();
     }
 
     private function game($loc, $gameData): string
@@ -48,7 +48,7 @@ class Games
     </ul>
     <div>
         <button class="btn btn-danger btn-delete" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['delete'] ?></button>
-        <button class="btn btn-primary btn-update" data-game-id="<?= $gameData['id'] ?>" data-game-type="<?= $gameData['game_type'] ?>"><?= $loc['update'] ?></button>
+        <a class="btn btn-primary btn-update" href="/admin?update=<?= $gameData['id'] ?>&type=<?= $gameData['game_type'] ?>"><?= $loc['update'] ?></a>
     </div>
 </div>
 <?php

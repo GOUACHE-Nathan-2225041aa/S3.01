@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\services\FileService;
 use app\services\Localization as LocalizationService;
 use app\views\admin\Admin as AdminView;
 use app\models\User as UserModel;
@@ -13,6 +14,8 @@ use config\DataBase;
 use PDO;
 use PDOException;
 use Ramsey\Uuid\Uuid;
+use app\services\DataService;
+use app\models\games\Localization as LocalizationModel;
 
 class Admin // TODO - refactor duplications
 {
@@ -25,17 +28,103 @@ class Admin // TODO - refactor duplications
         $this->GamePDO = DataBase::getConnectionGame();
     }
 
-    public function execute(): void
+    public function execute(array $data): void
     {
-        // TODO - refactor this
         $this->userAuth();
+
+        $params = $data['query'] ?? [];
+        $gameData = null;
+
+        if (isset($params['update']) && isset($params['type'])) {
+            $gameId = htmlspecialchars($params['update']);
+            $gameType = htmlspecialchars($params['type']);
+            $gameData = (new GamesModel($this->GamePDO))->getGameDetailsById($gameId, $gameType);
+            $gameLocals = DataService::mergeGameLocals($gameData['localization']);
+            unset($gameData['localization']);
+            $gameData = array_merge($gameData, $gameLocals[$gameId]);
+            if (isset($gameData['image'])) $gameData['image'] = base64_encode($gameData['image']);
+            if (isset($gameData['audio'])) $gameData['audio'] = base64_encode($gameData['audio']);
+        }
+
         $loc = (new LocalizationService())->getArray('admin');
         $user = (new UserModel($this->AccountPDO))->getUserByUsername($_SESSION['username']);
-        $updateGameData = $_SESSION['update_game_data'] ?? null;
-        (new AdminView())->show($loc, $user, $updateGameData);
+        (new AdminView())->show($loc, $user, $gameData);
     }
 
-    public function createGame(array $data, $isUpdate = false): void
+    public function updateGame(array $data): void
+    {
+        $this->userAuth();
+
+        $postData = $data['post'];
+        $fileData = $data['files'];
+
+        if (!isset($postData['game_type'])) {
+            $_SESSION['errorMessage'] = 'Missing game type';
+            header('Location: /admin');
+            exit();
+        }
+
+        FileService::isImageValid($fileData);
+        $jpegImage = FileService::convertPngToJpg($fileData);
+        $gameData['image'] = $jpegImage;
+
+        if ($postData['game_type'] === 'audio') {
+            FileService::isAudioValid($fileData);
+            $audio = file_get_contents($fileData['audio']['tmp_name']);
+            $gameData['audio'] = $audio;
+        }
+
+        $slug = $this->generateSlug(htmlspecialchars($postData['title-en'] ?? $postData['title-fr']));
+
+        if ($slug === null) {
+            $_SESSION['errorMessage'] = 'Error while generating game url';
+            header('Location: /admin');
+            exit();
+        }
+
+        $gameData += [
+            'id' => htmlspecialchars($postData['game_id']),
+            'game_type' => htmlspecialchars($postData['game_type']),
+            'source' => htmlspecialchars($postData['source']),
+            'slug' => $slug,
+            'answer' => (int)htmlspecialchars($postData['answer']),
+            'inserter_id' => $_SESSION['id'],
+        ];
+
+        $localizationDataFr = DataService::buildLocalizationDataLang($postData, 'fr');
+        $localizationDataEn = DataService::buildLocalizationDataLang($postData, 'en');
+
+        try {
+            switch ($postData['game_type']) {
+                case 'deep-fake':
+                    (new DeepFakeModel($this->GamePDO))->updateGame($gameData);
+                    break;
+                case 'article':
+                    (new ArticleModel($this->GamePDO))->updateGame($gameData);
+                    break;
+                case 'audio':
+                    (new AudioModel($this->GamePDO))->updateGame($gameData);
+                    break;
+                default:
+                    $_SESSION['errorMessage'] = 'Invalid game type';
+                    header('Location: /admin');
+                    exit();
+            }
+            $localizationModel = new LocalizationModel($this->GamePDO);
+            $localizationModel->save($localizationDataFr, $gameData['id']);
+            $localizationModel->save($localizationDataEn, $gameData['id']);
+            $_SESSION['errorMessage'] = 'Game updated successfully';
+            header('Location: /admin');
+            exit();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $_SESSION['errorMessage'] = 'Error while updating game';
+            header('Location: /admin');
+            exit();
+        }
+    }
+
+    public function createGame(array $data): void
     {
         $postData = $data['post'];
         $fileData = $data['files'];
@@ -50,13 +139,13 @@ class Admin // TODO - refactor duplications
 
         switch ($postData['game_type']) {
             case 'deep-fake':
-                $this->handleDeepFakeGame($postData, $fileData, $isUpdate);
+                $this->handleDeepFakeGame($postData, $fileData);
                 break;
             case 'article':
-                $this->handleArticleGame($postData, $fileData, $isUpdate);
+                $this->handleArticleGame($postData, $fileData);
                 break;
             case 'audio':
-                $this->handleAudioGame($postData, $fileData, $isUpdate);
+                $this->handleAudioGame($postData, $fileData);
                 break;
             default:
                 $_SESSION['errorMessage'] = 'Invalid game type';
@@ -65,41 +154,15 @@ class Admin // TODO - refactor duplications
         }
     }
 
-    private function handleDeepFakeGame($postData, $fileData, $isUpdate): void
+    private function handleDeepFakeGame($postData, $fileData): void
     {
-        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
-            $_SESSION['errorMessage'] = 'Missing image';
-            header('Location: /admin');
-            exit();
-        }
+        FileService::isImageValid($fileData);
 
-        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
-            $_SESSION['errorMessage'] = 'Wrong image type';
-            header('Location: /admin');
-            exit();
-        }
-
-        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
-            $_SESSION['errorMessage'] = 'Image too big';
-            header('Location: /admin');
-            exit();
-        }
-
-        $jpegImage = null;
-
-        if ($fileData['image']['type'] == 'image/png') {
-            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
-            ob_start();
-            imagejpeg($sourceImage, null, 75);
-            $jpegImage = ob_get_clean();
-            imagedestroy($sourceImage);
-        } else {
-            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
-        }
+        $jpegImage = FileService::convertPngToJpg($fileData);
 
         $uuid = Uuid::uuid4()->toString();
 
-        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']));
 
         if ($slug === null) {
             $_SESSION['errorMessage'] = 'Error while generating game url';
@@ -118,33 +181,10 @@ class Admin // TODO - refactor duplications
             'answer' => (int)htmlspecialchars($postData['answer']),
         ];
 
-        $language = htmlspecialchars($postData['language']);
-
-        $localizationData = [
-            [
-                'field' => 'title',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['title']),
-            ],
-            [
-                'field' => 'hint',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['hint']),
-            ],
-            [
-                'field' => 'description',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['description']),
-            ],
-        ];
+        $localizationData = DataService::buildLocalizationData($postData);
 
         try {
-            if($isUpdate) {
-                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
-            }
-            else {
-                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
-            }
+            (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
@@ -157,41 +197,15 @@ class Admin // TODO - refactor duplications
         exit();
     }
 
-    private function handleArticleGame($postData, $fileData, $isUpdate): void
+    private function handleArticleGame($postData, $fileData): void
     {
-        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
-            $_SESSION['errorMessage'] = 'Missing image';
-            header('Location: /admin');
-            exit();
-        }
+        FileService::isImageValid($fileData);
 
-        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
-            $_SESSION['errorMessage'] = 'Wrong image type';
-            header('Location: /admin');
-            exit();
-        }
-
-        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
-            $_SESSION['errorMessage'] = 'Image too big';
-            header('Location: /admin');
-            exit();
-        }
-
-        $jpegImage = null;
-
-        if ($fileData['image']['type'] == 'image/png') {
-            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
-            ob_start();
-            imagejpeg($sourceImage, null, 75);
-            $jpegImage = ob_get_clean();
-            imagedestroy($sourceImage);
-        } else {
-            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
-        }
+        $jpegImage = FileService::convertPngToJpg($fileData);
 
         $uuid = Uuid::uuid4()->toString();
 
-        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']));
 
         if ($slug === null) {
             $_SESSION['errorMessage'] = 'Error while generating game url';
@@ -210,33 +224,10 @@ class Admin // TODO - refactor duplications
             'answer' => (int)htmlspecialchars($postData['answer']),
         ];
 
-        $language = htmlspecialchars($postData['language']);
-
-        $localizationData = [
-            [
-                'field' => 'title',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['title']),
-            ],
-            [
-                'field' => 'hint',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['hint']),
-            ],
-            [
-                'field' => 'description',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['description']),
-            ],
-        ];
+        $localizationData = DataService::buildLocalizationData($postData);
 
         try {
-            if($isUpdate) {
-                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
-            }
-            else {
-                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
-            }
+            (new ArticleModel($this->GamePDO))->createGame($gameData, $localizationData);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
@@ -249,60 +240,17 @@ class Admin // TODO - refactor duplications
         exit();
     }
 
-    private function handleAudioGame($postData, $fileData, $isUpdate): void
+    private function handleAudioGame($postData, $fileData): void
     {
-        if (!is_uploaded_file($fileData['image']['tmp_name'])) {
-            $_SESSION['errorMessage'] = 'Missing image';
-            header('Location: /admin');
-            exit();
-        }
+        FileService::isImageValid($fileData);
+        FileService::isAudioValid($fileData);
 
-        if (!is_uploaded_file($fileData['audio']['tmp_name'])) {
-            $_SESSION['errorMessage'] = 'Missing audio';
-            header('Location: /admin');
-            exit();
-        }
-
-        if (!in_array($fileData['image']['type'], ['image/jpeg', 'image/png', 'image/jpg'])) {
-            $_SESSION['errorMessage'] = 'Wrong image type';
-            header('Location: /admin');
-            exit();
-        }
-
-        if ($fileData['audio']['type'] != 'audio/mpeg') {
-            $_SESSION['errorMessage'] = 'Wrong audio type';
-            header('Location: /admin');
-            exit();
-        }
-
-        if ($fileData['image']['size'] > 5 * 1024 * 1024) {
-            $_SESSION['errorMessage'] = 'Image too big';
-            header('Location: /admin');
-            exit();
-        }
-
-        if ($fileData['audio']['size'] > 5 * 1024 * 1024) {
-            $_SESSION['errorMessage'] = 'Audio too big';
-            header('Location: /admin');
-            exit();
-        }
-
-        $jpegImage = null;
+        $jpegImage = FileService::convertPngToJpg($fileData);
         $audio = file_get_contents($fileData['audio']['tmp_name']);
 
-        if ($fileData['image']['type'] == 'image/png') {
-            $sourceImage = imagecreatefrompng($fileData['image']['tmp_name']);
-            ob_start();
-            imagejpeg($sourceImage, null, 75);
-            $jpegImage = ob_get_clean();
-            imagedestroy($sourceImage);
-        } else {
-            $jpegImage = file_get_contents($fileData['image']['tmp_name']);
-        }
-
         $uuid = Uuid::uuid4()->toString();
 
-        $slug = $this->generateSlug(htmlspecialchars($postData['title']), htmlspecialchars($postData['game_type']));
+        $slug = $this->generateSlug(htmlspecialchars($postData['title']));
 
         if ($slug === null) {
             $_SESSION['errorMessage'] = 'Error while generating game url';
@@ -322,33 +270,10 @@ class Admin // TODO - refactor duplications
             'answer' => (int)htmlspecialchars($postData['answer']),
         ];
 
-        $language = htmlspecialchars($postData['language']);
-
-        $localizationData = [
-            [
-                'field' => 'title',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['title']),
-            ],
-            [
-                'field' => 'hint',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['hint']),
-            ],
-            [
-                'field' => 'description',
-                'language' => $language,
-                'text' => htmlspecialchars($postData['description']),
-            ],
-        ];
+        $localizationData = DataService::buildLocalizationData($postData);
 
         try {
-            if($isUpdate) {
-                (new DeepFakeModel($this->GamePDO))->updateGame($gameData, $localizationData);
-            }
-            else {
-                (new DeepFakeModel($this->GamePDO))->createGame($gameData, $localizationData);
-            }
+            (new AudioModel($this->GamePDO))->createGame($gameData, $localizationData);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             $_SESSION['errorMessage'] = 'Error while creating game';
@@ -375,7 +300,7 @@ class Admin // TODO - refactor duplications
         }
     }
 
-    private function generateSlug($title, $gameType): ?string
+    private function generateSlug($title): ?string
     {
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
