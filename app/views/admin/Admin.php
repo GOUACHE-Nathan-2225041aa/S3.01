@@ -12,12 +12,6 @@ class Admin
         ob_start();
 ?>
 <main>
-    <?php if (isset($_SESSION['errorMessage'])): ?>
-        <div class="errorMessage">
-            <?= $_SESSION['errorMessage'] ?>
-        </div>
-        <?php unset($_SESSION['errorMessage']); ?>
-    <?php endif; ?>
     <div>
         <div class="profile">
             <ul>
@@ -34,6 +28,12 @@ class Admin
         </div>
     </div>
     <div class="game-form">
+        <?php if (isset($_SESSION['errorMessage'])): ?>
+            <div class="errorMessage">
+                <?= $_SESSION['errorMessage'] ?>
+            </div>
+            <?php unset($_SESSION['errorMessage']); ?>
+        <?php endif; ?>
         <?= $gameData ? (new GameForm())->getEditForm($loc, $gameData) : (new GameForm())->getNewForm($loc) ?>
     </div>
 </main>
