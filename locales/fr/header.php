@@ -11,4 +11,5 @@ return [
     'fr' => 'Français',
     'saveProgress' => 'Sauvegarder',
     'loadProgress' => 'Charger',
+    'logout' => 'Déconnexion',
 ];

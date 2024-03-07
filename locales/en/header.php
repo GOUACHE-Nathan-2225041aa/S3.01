@@ -11,4 +11,5 @@ return [
     'fr' => 'French',
     'saveProgress' => 'Save',
     'loadProgress' => 'Load',
+    'logout' => 'Logout',
 ];
