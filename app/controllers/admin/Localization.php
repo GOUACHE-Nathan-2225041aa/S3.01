@@ -2,6 +2,7 @@
 
 namespace app\controllers\admin;
 
+use app\services\DataService;
 use app\services\Localization as LocalizationService;
 use app\views\admin\Localization as LocalizationView;
 use app\models\games\Localization as LocalizationModel;
@@ -40,7 +41,7 @@ class Localization
             exit();
         }
 
-        $games = $this->mergeGameLocals($games);
+        $games = DataService::mergeGameLocals($games);
 
         $loc = (new LocalizationService())->getArray('localization');
         (new LocalizationView())->show($loc, $games, $totalGamesCount, $gamesPerPageCount);
@@ -99,15 +100,5 @@ class Localization
             header('Location: /');
             exit();
         }
-    }
-
-    private function mergeGameLocals(array $gameLocals): array
-    {
-        $gameData = [];
-        foreach ($gameLocals as $gameLocal) {
-            $gameData[$gameLocal['game_id']]['game_id'] = $gameLocal['game_id'];
-            $gameData[$gameLocal['game_id']][$gameLocal['field'] . '-' . $gameLocal['language']] = htmlspecialchars($gameLocal['text']);
-        }
-        return $gameData;
     }
 }
