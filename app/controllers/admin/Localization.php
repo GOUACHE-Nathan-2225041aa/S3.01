@@ -26,7 +26,7 @@ class Localization
 
         $this->userAuth();
         $totalGamesCount = (new GamesModel($this->GamePDO))->getTotalGamesCount();
-        $gamesPerPageCount = 5;
+        $gamesPerPageCount = 6;
         $page = 1;
 
         if (isset($params['page'])) {
@@ -44,7 +44,7 @@ class Localization
         $games = DataService::mergeGameLocals($games);
 
         $loc = (new LocalizationService())->getArray('localization');
-        (new LocalizationView())->show($loc, $games, $totalGamesCount, $gamesPerPageCount);
+        (new LocalizationView())->show($loc, $games, $totalGamesCount, $gamesPerPageCount, $page);
     }
 
     public function save(array $data): void

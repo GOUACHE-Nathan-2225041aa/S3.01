@@ -1,10 +1,17 @@
 @import "shared/buttons.css";
 
 .forms {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
     gap: 3rem;
-    padding: 3rem;
+}
+
+@media screen and (max-width: 1280px) {
+    .forms {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 .form {
@@ -83,6 +90,7 @@ form {
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
 .pages-content {
@@ -97,4 +105,21 @@ form {
 .form-item label {
     font-size: 1.2rem;
     font-weight: 700;
+}
+
+.current-page {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    background-color: var(--bg-color-dark);
+    padding: 1rem;
+    border-radius: 25px;
+    width: 35%;
+    margin: 2rem auto 2rem auto;
 }

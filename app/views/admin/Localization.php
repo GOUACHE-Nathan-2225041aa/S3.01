@@ -6,7 +6,7 @@ use app\views\layouts\Layout;
 
 class Localization
 {
-    public function show(array $loc, array $gameLocals, int $totalGamesCount, int $gamesPerPageCount): void
+    public function show(array $loc, array $gameLocals, int $totalGamesCount, int $gamesPerPageCount, int $currentPage): void
     {
         ob_start();
 ?>
@@ -17,10 +17,10 @@ class Localization
         </div>
         <?php unset($_SESSION['errorMessage']); ?>
     <?php endif; ?>
+    <h1 class="page-title"><?= $loc['localization'] ?></h1>
     <div class="forms">
-        <h1 class="title"><?= $loc['localization'] ?></h1>
         <?php foreach ($gameLocals as $gameData): ?>
-            <div>
+            <div class="form-container">
                 <h1 class="title"><?= $loc['game'] ?>: <?= $gameData['game_id'] ?></h1>
                 <div class="form">
                     <?= $this->localizationForm($loc, $gameData, 'en') ?>
@@ -32,7 +32,7 @@ class Localization
     <div class="pages">
         <div class="pages-content">
             <?php for ($i = 1; $i <= ceil($totalGamesCount / $gamesPerPageCount); $i++): ?>
-                <a href="/admin/localization?page=<?= $i ?>"><?= $i ?></a>
+                <a class="<?= $currentPage === $i ? 'current-page' : '' ?>" href="/admin/localization?page=<?= $i ?>"><?= $i ?></a>
             <?php endfor; ?>
         </div>
     </div>
