@@ -20,6 +20,9 @@ class Dialogue
     <div class="dialogue-text">
         <p id="dialogue-text"></p>
     </div>
+    <div>
+        <img id="click_me" src="/assets/images/divers/Click_me.png">
+    </div>
 </div>
 <?php
         return ob_get_clean();

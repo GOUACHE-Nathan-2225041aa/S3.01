@@ -71,3 +71,12 @@
     0% {opacity: 0;}
     100% {opacity: 1;}
 }
+
+
+#click_me{
+    position: absolute;
+    right: 0%;
+    bottom: 2%;
+    width: 75px;
+    z-index: 10;
+}
