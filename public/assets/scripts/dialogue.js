@@ -49,7 +49,7 @@ function nextDialogue() {
 }
 
 function skipDialogue(){
-    if (typing == true){
+    if (typing === true){
         timeout = null;
     }else{
         nextDialogue();

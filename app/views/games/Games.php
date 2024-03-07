@@ -16,8 +16,8 @@ class Games
         <h1 class="title"><?= $localizationData['title'] ?></h1>
         <div class="middle-game">
             <div class="left-container">
-                <div>
-                    <img data-src="data:image/jpeg;base64,<?= $gameData['image'] ?>" src="" alt="">
+                <div class="img-container">
+                    <img id="zoom-img" data-src="data:image/jpeg;base64,<?= $gameData['image'] ?>" src="" alt="">
                 </div>
                 <?php if (isset($gameData['audio'])): ?>
                     <audio id="audio" controls onloadeddata="this.volume = 0.2">
