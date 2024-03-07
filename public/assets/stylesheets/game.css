@@ -34,8 +34,8 @@ main {
 }
 
 .horizontal {
-    max-width: calc(35vw * 1.5);
-    max-height: calc(40vw * 1.5);
+    max-width: calc(35vw * 1.4);
+    max-height: calc(40vw * 1.4);
 }
 
 .square {
