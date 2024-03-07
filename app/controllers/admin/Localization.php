@@ -22,7 +22,7 @@ class Localization
 
     public function execute(array $data): void
     {
-        $params = $data['query'];
+        $params = $data['query'] ?? [];
 
         $this->userAuth();
         $totalGamesCount = (new GamesModel($this->GamePDO))->getTotalGamesCount();
