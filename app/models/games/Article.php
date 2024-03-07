@@ -64,4 +64,31 @@ class Article // TODO - refactor duplications
             return null;
         }
     }
+
+    public function updateGame(array $gameData): void
+    {
+        try {
+            $this->connection->beginTransaction();
+
+            $statement = $this->connection->prepare("UPDATE games SET slug = :slug WHERE id = :id");
+            $statement->execute([
+                'id' => $gameData['id'],
+                'slug' => $gameData['slug'],
+            ]);
+
+            $statement = $this->connection->prepare("UPDATE article_fake_games SET image = :image, source = :source, inserter_id = :inserter_id, answer = :answer WHERE game_id = :game_id");
+            $statement->execute([
+                'game_id' => $gameData['id'],
+                'image' => $gameData['image'],
+                'source' => $gameData['source'],
+                'inserter_id' => $gameData['inserter_id'],
+                'answer' => $gameData['answer'],
+            ]);
+
+            $this->connection->commit();
+        } catch (PDOException $e) {
+            $this->connection->rollBack();
+            throw $e;
+        }
+    }
 }

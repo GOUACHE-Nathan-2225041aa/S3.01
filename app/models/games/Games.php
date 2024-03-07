@@ -164,40 +164,48 @@ class Games
         }
     }
 
-    public function getGameDataById(string $gameId, string $gameType): ?array
-    {
-        try {
-            $statement = $this->connection->prepare("SELECT * FROM games WHERE id = :game_id AND game_type = :game_type");
-            $statement->execute(['game_id' => $gameId, 'game_type' => $gameType]);
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            return $result ? $result : null;
-        } catch (PDOException $e) {
-            error_log('Failed to prepare or execute statement: ' . $e->getMessage());
-            return null;
-        }
-    }
-
     public function getGameDetailsById(string $gameId, string $gameType): ?array
     {
+        $tableName = $gameType . '_fake_games';
+        if ($gameType === 'deep-fake') $tableName = 'deep_fake_games';
+
         try {
-            if ($gameType == 'deep-fake') {
-                $gameType = 'deep';
-            }
-            $tableName = $gameType . '_fake_games';
             $statement = $this->connection->prepare("
-            SELECT gf.source, gf.answer, l.text AS title, l2.text AS description, l3.text AS hint 
-            FROM {$tableName} AS gf
-            LEFT JOIN localization AS l ON gf.game_id = l.game_id AND l.field = 'title' AND l.language = 'en'
-            LEFT JOIN localization AS l2 ON gf.game_id = l2.game_id AND l2.field = 'description' AND l2.language = 'en'
-            LEFT JOIN localization AS l3 ON gf.game_id = l3.game_id AND l3.field = 'hint' AND l3.language = 'en'
-            WHERE gf.game_id = :game_id
-        ");
+                SELECT g.*, l.*
+                FROM {$tableName} AS g
+                LEFT JOIN localization AS l ON g.game_id = l.game_id
+                WHERE g.game_id = :game_id
+            ");
             $statement->execute(['game_id' => $gameId]);
-            $result = $statement->fetch(PDO::FETCH_ASSOC);
-            return $result ? $result : null;
+            $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+            $gameData = [];
+            $localizationData = [];
+
+            foreach ($result as $row) {
+                if (empty($gameData)) {
+                    $gameData = [
+                        'game_id' => $row['game_id'],
+                        'source' => $row['source'],
+                        'inserter_id' => $row['inserter_id'],
+                        'answer' => $row['answer'],
+                        'image' => $row['image'] ?? '',
+                        'audio' => $row['audio'] ?? '',
+                        'game_type' => $gameType,
+                    ];
+                }
+                $localizationData[] = [
+                    'game_id' => $row['game_id'],
+                    'field' => $row['field'],
+                    'language' => $row['language'],
+                    'text' => $row['text'],
+                ];
+            }
+
+            return array_merge($gameData, ['localization' => $localizationData]);
         } catch (PDOException $e) {
             error_log('Failed to prepare or execute statement: ' . $e->getMessage());
-            return null;
+            return [];
         }
     }
 
