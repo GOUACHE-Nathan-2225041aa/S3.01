@@ -30,4 +30,5 @@ return [
     'article' => 'Article',
     'createGame' => 'Créer un jeu',
     'updateGame' => 'Mettre à jour un jeu',
+    'chooseFile' => 'Choisir un fichier',
 ];

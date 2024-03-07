@@ -30,4 +30,5 @@ return [
     'article' => 'Article',
     'createGame' => 'Create a game',
     'updateGame' => 'Update a game',
+    'chooseFile' => 'Choose a file',
 ];

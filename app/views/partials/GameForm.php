@@ -62,37 +62,43 @@ class GameForm
     {
         ob_start();
 ?>
-<div class="form-item">
-    <label for="image"><?= $loc['image'] ?></label>
-    <input type="file" name="image" id="image" accept="image/*">
-    <?php if ($gameData !== null): ?>
-    <div>
-        <img data-src="data:image/jpeg;base64,<?= $gameData['image'] ?>" src="" alt="">
+<div class="form-row">
+    <div class="form-item">
+        <label for="image"><?= $loc['image'] ?></label>
+        <input type="file" name="image" id="image" accept="image/*">
+        <label for="image" id="image-input-label"><?= $loc['chooseFile'] ?></label>
+        <?php if ($gameData !== null): ?>
+            <div>
+                <img data-src="data:image/jpeg;base64,<?= $gameData['image'] ?>" src="" alt="">
+            </div>
+        <?php endif; ?>
     </div>
+    <?php if ($gameData === null || $gameData['game_type'] === 'audio'): ?>
+        <div class="form-item">
+            <label for="audio"><?= $loc['audio'] ?></label>
+            <input type="file" name="audio" id="audio" accept="audio/*">
+            <label for="audio" id="audio-input-label"><?= $loc['chooseFile'] ?></label>
+            <?php if ($gameData !== null): ?>
+                <audio id="audio" controls onloadeddata="this.volume = 0.2">
+                    <source src="data:audio/mpeg;base64,<?= $gameData['audio'] ?? '' ?>" type="audio/mpeg">
+                </audio>
+            <?php endif; ?>
+        </div>
     <?php endif; ?>
 </div>
-<?php if ($gameData === null || $gameData['game_type'] === 'audio'): ?>
-<div class="form-item">
-    <label for="audio"><?= $loc['audio'] ?></label>
-    <input type="file" name="audio" id="audio" accept="audio/*">
-    <?php if ($gameData !== null): ?>
-    <audio id="audio" controls onloadeddata="this.volume = 0.2">
-        <source src="data:audio/mpeg;base64,<?= $gameData['audio'] ?? '' ?>" type="audio/mpeg">
-    </audio>
-    <?php endif; ?>
-</div>
-<?php endif; ?>
-<div class="form-item">
-    <label for="answer"><?= $loc['answer'] ?></label>
-    <select name="answer" id="answer" required>
-        <option disabled selected><?= $loc['selectAnswer'] ?></option>
-        <option value="1" <?= isset($gameData['answer']) && $gameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
-        <option value="0" <?= isset($gameData['answer']) && $gameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
-    </select>
-</div>
-<div class="form-item">
-    <label for="source"><?= $loc['source'] ?></label>
-    <input type="text" name="source" id="source" value="<?= html_entity_decode($gameData['source'] ?? '') ?>">
+<div class="form-row">
+    <div class="form-item">
+        <label for="answer"><?= $loc['answer'] ?></label>
+        <select name="answer" id="answer" required>
+            <option disabled selected><?= $loc['selectAnswer'] ?></option>
+            <option value="1" <?= isset($gameData['answer']) && $gameData['answer'] == '1' ? 'selected' : '' ?>><?= $loc['true'] ?></option>
+            <option value="0" <?= isset($gameData['answer']) && $gameData['answer'] == '0' ? 'selected' : '' ?>><?= $loc['false'] ?></option>
+        </select>
+    </div>
+    <div class="form-item">
+        <label for="source"><?= $loc['source'] ?></label>
+        <input type="text" name="source" id="source" value="<?= html_entity_decode($gameData['source'] ?? '') ?>">
+    </div>
 </div>
 <?php
         return ob_get_clean();
