@@ -1,18 +1,20 @@
 @import "shared/buttons.css";
 
 .title {
+    text-align: center;
     font-size: 2.5rem;
     font-weight: bold;
-    margin-top: 2rem;
     background-color: var(--bg-color-dark);
     padding: 1rem;
     border-radius: 25px;
+    width: 20%;
+    margin: 2rem auto 2rem auto;
 }
 
 .games {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
     align-items: center;
     gap: 3rem;
 }
@@ -53,4 +55,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.current-page {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
 }

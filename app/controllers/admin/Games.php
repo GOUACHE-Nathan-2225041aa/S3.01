@@ -43,7 +43,7 @@ class Games
         $pagesCount = ceil($totalGamesCount / $gamesPerPageCount);
 
         $loc = (new LocalizationService())->getArray('games');
-        (new AdminGamesView())->show($loc, $games, $pagesCount);
+        (new AdminGamesView())->show($loc, $games, $pagesCount, $page);
     }
 
     private function userAuth(): void
